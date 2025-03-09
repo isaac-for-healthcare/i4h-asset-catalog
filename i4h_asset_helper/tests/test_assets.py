@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 import omni.client
 
-from i4h_asset_catalog.assets import (
+from i4h_asset_helper.assets import (
     get_i4h_asset_path,
     retrieve_asset,
     I4H_ASSET_ROOT,

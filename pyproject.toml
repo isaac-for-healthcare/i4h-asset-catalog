@@ -3,7 +3,7 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "i4h_asset_catalog"
+name = "i4h_asset_helper"
 version = "0.1.0"
 description = "Utility for managing the I4H asset catalog"
 requires-python = ">=3.10"
@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["i4h_asset_catalog"]
+packages = ["i4h_asset_helper"]
 
 
 
