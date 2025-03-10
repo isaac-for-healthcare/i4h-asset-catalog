@@ -1,7 +1,5 @@
 ## I4H Assets Catalog Helper
 
-Isaac4Health assets are stored in a zip file in the remote server path. We provide a helper to download the assets and extract them to the local directory.
-
 ### Installation
 
 ```bash
@@ -12,15 +10,19 @@ pip install -e .
 
 ### Usage
 
-We also provide a function to download the asset to a local directory (default is `~/.cache/i4h-assets/<_SHA256_HASH>`).
+To download the asset to a local directory (default is `~/.cache/i4h-assets/<_SHA256_HASH>`).
+
+NOTE: This is a blocking function and may cause hitches or hangs in the UI.
 
 ```python
 from isaacsim import SimulationApp
+from i4h_asset_helper import get_i4h_asset_path, retrieve_asset
+
 simulation_app = SimulationApp({"headless": True})
 
-from utils.assets import retrieve_asset
 local_asset_path = retrieve_asset()
-print(f"Asset downloaded to: {local_asset_path}")
+print(f"Asset downloaded to: {local_asset_path} from {get_i4h_asset_path()}")
+
 simulation_app.close()
 ```
 

@@ -63,9 +63,6 @@ def retrieve_asset(
     """
     Download the asset from the remote path to the download directory.
     """
-    if not os.path.exists(download_dir):
-        os.makedirs(download_dir)
-
     local_path = get_i4h_local_asset_path(version, download_dir)
 
     # If the asset hash is a folder in download_dir, skip the download
