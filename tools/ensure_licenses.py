@@ -50,8 +50,10 @@ def check_license_in_directory(directory):
     files_without_license = []
     git_ignore_patterns = []
     with open(".gitignore", "r", encoding="utf-8") as git_ignore_file:
-        git_ignore_patterns = [line.strip() for line in git_ignore_file.readlines() if line.strip() and not line.startswith('#')]
-    
+        git_ignore_patterns = [
+            line.strip() for line in git_ignore_file.readlines() if line.strip() and not line.startswith('#')
+        ]
+
     # Convert gitignore patterns to regex patterns
     regex_patterns = []
     for pattern in git_ignore_patterns:
@@ -64,22 +66,22 @@ def check_license_in_directory(directory):
         if not pattern.startswith('^'):
             pattern = '^' + pattern
         regex_patterns.append(re.compile(pattern))
-    
+
     for root, _, files in os.walk(directory):
         for file in files:
             full_path = os.path.join(root, file)
             relative_path = os.path.relpath(full_path, directory)
-            
+
             # Check if file matches any gitignore pattern
             should_ignore = False
             for pattern in regex_patterns:
                 if pattern.search(relative_path):
                     should_ignore = True
                     break
-                    
+
             if should_ignore:
                 continue
-                
+
             if any(file.endswith(ext) for ext in file_extensions):
                 if not check_license_in_file(full_path):
                     files_without_license.append(full_path)
