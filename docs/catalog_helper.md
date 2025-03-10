@@ -12,15 +12,16 @@ pip install -e .
 
 To download the asset to a local directory (default is `~/.cache/i4h-assets/<_SHA256_HASH>`).
 
-**NOTE/FIXME**:
-- You must have a display (either physical or virtual) to authenticate in the web browser for the Nucleus environment in the first run.
+#### CLI Usage
+
+- **NOTE**: You must have a display (either physical or virtual) to authenticate in the web browser for the Nucleus environment in the first run.
 
 ```bash
 i4h-asset-retrieve
 ```
 
+#### Python Usage
 
-You may also use the Python API to download the asset.
 - **NOTE**: This is a blocking function and may cause hitches or hangs in the UI.
 
 ```python
