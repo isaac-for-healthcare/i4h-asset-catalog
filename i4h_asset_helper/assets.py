@@ -5,35 +5,56 @@ import zipfile
 from typing import Literal
 import json
 
-try:
-    import omni.client
-except ImportError:
-    raise ImportError("isaacsim simulation is not started.")
 
-with open("assets_sha256.json", "r") as f:
-    SHA256_HASH = json.load(f)
+__all__ = [
+    "get_i4h_asset_path",
+    "get_i4h_local_asset_path",
+    "retrieve_asset",
+]
 
-I4H_ASSET_ROOT = {
+_I4H_ASSET_ROOT = {
     "nucleus": "https://isaac-dev.ov.nvidia.com/omni/web3/omniverse://isaac-dev.ov.nvidia.com",
     "staging": "",  # FIXME: Add staging asset root
     "production": "",  # FIXME: Add production asset root
 }
 
-DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
+_DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
+
+
+def _get_sha256_hash() -> dict[str, str]:
+    """Get the sha256 hash for the given version."""
+    with open(os.path.join(os.path.dirname(__file__), "assets_sha256.json"), "r") as f:
+        return json.load(f)
 
 
 def get_i4h_asset_path(version: Literal["0.1"] = "0.1") -> str:
     """
     Get the path to the i4h asset for the given version.
     """
-    asset_root = I4H_ASSET_ROOT.get(os.environ.get("ISAAC_ENV", "nucleus"))  # FIXME: Add production asset root
-    sha256_hash = SHA256_HASH.get(version, None)
-    if sha256_hash is None:
+    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("ISAAC_ENV", "nucleus"))  # FIXME: Add production asset root
+    hash = _get_sha256_hash().get(version, None)
+    if hash is None:
         raise ValueError(f"Invalid version: {version}")
-    remote_path = f"{asset_root}/Library/IsaacHealthcare/{version}/i4h-assets-v{version}-{sha256_hash}.zip"
-    if not omni.client.stat(remote_path)[0] == omni.client.Result.OK:
-        raise ValueError(f"Asset not found: {remote_path}")
+    remote_path = f"{asset_root}/Library/IsaacHealthcare/{version}/i4h-assets-v{version}-{hash}.zip"
+    try:
+        # Try to check if the asset exists if isaacsim simulation is started
+        import omni.client
+        if not omni.client.stat(remote_path)[0] == omni.client.Result.OK:
+            raise ValueError(f"Asset not found: {remote_path}")
+    except ImportError:
+        pass
+
     return remote_path
+
+
+def get_i4h_local_asset_path(version: Literal["0.1"] = "0.1", download_dir: str | None = None) -> str:
+    """
+    Get the path to the i4h asset for the given version.
+    """
+    if download_dir is None:
+        download_dir = _DEFAULT_DOWNLOAD_DIR
+    hash = _get_sha256_hash().get(version)
+    return os.path.join(download_dir, hash)
 
 
 def retrieve_asset(
@@ -42,17 +63,12 @@ def retrieve_asset(
     """
     Download the asset from the remote path to the download directory.
     """
-    if download_dir is None:
-        download_dir = DEFAULT_DOWNLOAD_DIR
-
     if not os.path.exists(download_dir):
         os.makedirs(download_dir)
 
-    remote_path = get_i4h_asset_path(version)
-    sha256_hash = SHA256_HASH.get(version)  # Already checked by get_i4h_asset_path
+    local_path = get_i4h_local_asset_path(version, download_dir)
 
     # If the asset hash is a folder in download_dir, skip the download
-    local_path = os.path.join(download_dir, sha256_hash)
     if os.path.exists(local_path) and not force_download:
         return local_path
 
@@ -62,6 +78,12 @@ def retrieve_asset(
 
     os.makedirs(local_path)
 
+    try:
+        import omni.client
+    except ImportError:
+        raise ImportError("isaacsim simulation is not started. It is required to download the asset.")
+
+    remote_path = get_i4h_asset_path(version)
     result, _, file_content = omni.client.read_file(remote_path)
 
     if result != omni.client.Result.OK:
@@ -69,10 +91,10 @@ def retrieve_asset(
 
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
-            with open(os.path.join(temp_dir, "i4h-assets-v{version}.zip"), "wb") as f:
+            with open(os.path.join(temp_dir, f"i4h-assets-v{version}.zip"), "wb") as f:
                 f.write(file_content)
             # TODO: Check sha256 hash
-            with zipfile.ZipFile(os.path.join(temp_dir, "i4h-assets-v{version}.zip"), "r") as zip_ref:
+            with zipfile.ZipFile(os.path.join(temp_dir, f"i4h-assets-v{version}.zip"), "r") as zip_ref:
                 zip_ref.extractall(local_path)
             return local_path
     except Exception as e:

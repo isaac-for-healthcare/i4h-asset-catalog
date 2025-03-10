@@ -17,6 +17,8 @@ dependencies = [
 packages = ["i4h_asset_helper"]
 
 
+[project.optional-dependencies]
+ci = ["pytest", "pytest-cov"]
 
 [tool.isort]
 

@@ -12,7 +12,7 @@ pip install -e .
 
 ### Usage
 
-We also provide a function to download the asset to a local directory (default is `~/.cache/i4h-assets/<sha256_hash>`).
+We also provide a function to download the asset to a local directory (default is `~/.cache/i4h-assets/<_SHA256_HASH>`).
 
 ```python
 from isaacsim import SimulationApp
