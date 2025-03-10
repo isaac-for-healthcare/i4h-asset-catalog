@@ -14,19 +14,12 @@ dependencies = [
 ]
 
 [tool.setuptools]
-
 packages = ["i4h_asset_helper"]
 
 [project.optional-dependencies]
-
 ci = ["pytest", "pytest-cov"]
 
-[tool.pip]
-
-extra-index-url = ["https://pypi.nvidia.com"]
-
 [tool.isort]
-
 multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
