@@ -19,6 +19,10 @@ packages = ["i4h_asset_helper"]
 [project.optional-dependencies]
 ci = ["pytest", "pytest-cov"]
 
+[project.scripts]
+i4h-asset-retrieve = "i4h_asset_helper.cli:retrieve_main"
+
+
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true

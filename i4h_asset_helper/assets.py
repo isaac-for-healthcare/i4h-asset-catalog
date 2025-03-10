@@ -76,8 +76,11 @@ def retrieve_asset(
 
     try:
         import omni.client
+        app = None
     except ImportError:
-        raise ImportError("isaacsim simulation is not started. It is required to download the asset.")
+        from isaacsim import SimulationApp
+        app = SimulationApp({"headless": True})
+        import omni.client
 
     remote_path = get_i4h_asset_path(version)
     result, _, file_content = omni.client.read_file(remote_path)
@@ -95,3 +98,6 @@ def retrieve_asset(
             return local_path
     except Exception as e:
         raise ValueError(f"Failed to extract asset: {remote_path}") from e
+    finally:
+        if app is not None:
+            app.close()
