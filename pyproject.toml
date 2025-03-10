@@ -14,11 +14,16 @@ dependencies = [
 ]
 
 [tool.setuptools]
+
 packages = ["i4h_asset_helper"]
 
-
 [project.optional-dependencies]
+
 ci = ["pytest", "pytest-cov"]
+
+[tool.pip]
+
+extra-index-url = ["https://pypi.nvidia.com"]
 
 [tool.isort]
 
