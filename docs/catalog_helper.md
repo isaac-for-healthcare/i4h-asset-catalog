@@ -8,6 +8,9 @@ cd i4h-asset-catalog
 pip install -e .
 ```
 
+**NOTE/FIXME**:
+You must have a display (either physical or virtual) to authenticate in the web browser for the Nucleus environment in the first run.
+
 ### Usage
 
 To download the asset to a local directory (default is `~/.cache/i4h-assets/<_SHA256_HASH>`).
