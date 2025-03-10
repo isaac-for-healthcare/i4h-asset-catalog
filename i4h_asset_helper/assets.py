@@ -1,10 +1,9 @@
+import json
 import os
 import shutil
 import tempfile
 import zipfile
 from typing import Literal
-import json
-
 
 __all__ = [
     "get_i4h_asset_path",
