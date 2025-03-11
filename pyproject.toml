@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "i4h_asset_helper"
+version = "0.1.0"
+description = "Utility for managing the I4H asset catalog"
+requires-python = ">=3.10"
+dependencies = [
+    "isaacsim>=4.1.0.0",
+    "isaacsim-extscache-kit>=4.1.0.0",
+    "isaacsim-extscache-kit-sdk>=4.1.0.0"
+]
+
+[tool.setuptools]
+packages = ["i4h_asset_helper"]
+
+[project.optional-dependencies]
+ci = ["pytest", "pytest-cov"]
+
+[project.scripts]
+i4h-asset-retrieve = "i4h_asset_helper.cli:retrieve_main"
+
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 120
+py_version = 310
+group_by_package = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-select = ["E501"]
