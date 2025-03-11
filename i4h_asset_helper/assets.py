@@ -100,15 +100,13 @@ def retrieve_asset(
     """
     local_path = get_i4h_local_asset_path(version, download_dir)
 
-    # If the asset hash is a folder in download_dir, skip the download
-    if os.path.exists(local_path) and not force_download:
+    # If the asset hash is a folder in download_dir and is not empty, skip the download
+    if os.path.exists(local_path) and not os.listdir(local_path) and not force_download:
         return local_path
 
-    # Force download
-    if os.path.exists(local_path):
+    # Force download or the folder is empty
+    if os.path.isdir(local_path):
         shutil.rmtree(local_path)
-
-    os.makedirs(local_path)
 
     try:
         import omni.client
@@ -130,7 +128,9 @@ def retrieve_asset(
                 f.write(file_content)
             # TODO: Check sha256 hash
             with zipfile.ZipFile(os.path.join(temp_dir, f"i4h-assets-v{version}.zip"), "r") as zip_ref:
+                os.makedirs(local_path, exist_ok=True)
                 zip_ref.extractall(local_path)
+                print(f"Assets downloaded to: {local_path}")
             return local_path
     except Exception as e:
         raise ValueError(f"Failed to extract asset: {remote_path}") from e

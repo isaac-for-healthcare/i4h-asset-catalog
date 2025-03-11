@@ -14,15 +14,25 @@ To download the asset to a local directory (default is `~/.cache/i4h-assets/<_SH
 
 #### CLI Usage
 
-- **NOTE**: You must have a display (either physical or virtual) to authenticate in the web browser for the Nucleus environment in the first run.
+- You must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run if you are using the Nucleus for development.
 
 ```bash
 i4h-asset-retrieve
 ```
 
-#### Python Usage
+- **NOTE**: This is a blocking function and may cause hitches or hangs in the UI. The following warning is expected:
 
-- **NOTE**: This is a blocking function and may cause hitches or hangs in the UI.
+```
+[108,322ms] [Warning] [omni.client.python] Detected a blocking function. This will cause hitches or hangs in the UI. Please switch to the async version:
+  File "<path>/bin/i4h-asset-retrieve", line 8, in <module>
+  File "<path>/i4h_asset_helper/cli.py", line 47, in retrieve_main
+  File "<path>/i4h_asset_helper/assets.py", line 120, in retrieve_asset
+  File "<path>/omni/extscore/omni.client/omni/client/__init__.py", line 610, in read_fil
+```
+
+
+
+#### Python Usage
 
 ```python
 from isaacsim import SimulationApp
