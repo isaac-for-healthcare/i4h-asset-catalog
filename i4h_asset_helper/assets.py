@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 _I4H_ASSET_ROOT = {
-    "nucleus": "https://isaac-dev.ov.nvidia.com/omni/web3/omniverse://isaac-dev.ov.nvidia.com",
+    "dev": "https://isaac-dev.ov.nvidia.com/omni/web3/omniverse://isaac-dev.ov.nvidia.com",
     "staging": "",  # FIXME: Add staging asset root
     "production": "",  # FIXME: Add production asset root
 }
@@ -51,7 +51,7 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1") -> str:
     Returns:
         The path to the i4h asset.
     """
-    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("ISAAC_ENV", "nucleus"))  # FIXME: Add production asset root
+    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("ISAAC_ENV", "dev"))  # FIXME: Add production asset root
     hash = _get_sha256_hash().get(version, None)
     if hash is None:
         raise ValueError(f"Invalid version: {version}")

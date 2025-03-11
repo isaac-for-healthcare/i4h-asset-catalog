@@ -14,7 +14,7 @@ To download the asset to a local directory (default is `~/.cache/i4h-assets/<_SH
 
 #### CLI Usage
 
-- You must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run if you are using the Nucleus for development.
+- You must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run if you are using the dev settings (currently default, FIXME: change to production).
 
 ```bash
 i4h-asset-retrieve
@@ -46,7 +46,16 @@ print(f"Asset downloaded to: {local_asset_path} from {get_i4h_asset_path()}")
 simulation_app.close()
 ```
 
-Alternatively, you can also use the `omni.client.read_file` or `omni.isaac.lab.utils.assets.retrieve_file_path` API to read or download the asset in `asset_path` manually.
+You can pass the `download_dir` argument to the `retrieve_asset` function to download the asset to a specific directory.
+
+```python
+local_asset_path = retrieve_asset(download_dir="~/Downloads")
+```
+
+It needs to be noted that the user needs to configure the asset path in applications accordingly if they want to use the local asset path other than the default one.
+
+
+If you want to use the native API to read or download the asset, you can use the `omni.client.read_file` or `omni.isaac.lab.utils.assets.retrieve_file_path` API.
 
 ```python
 from isaacsim import SimulationApp
