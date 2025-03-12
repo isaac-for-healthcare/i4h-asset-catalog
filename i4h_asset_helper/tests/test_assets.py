@@ -18,7 +18,7 @@ import os
 import pytest
 
 from i4h_asset_helper import get_i4h_asset_path, get_i4h_local_asset_path
-from i4h_asset_helper.assets import _I4H_ASSET_ROOT, _get_sha256_hash
+from i4h_asset_helper.assets import _I4H_ASSET_ROOT, _get_sha256_hash, retrieve_asset
 
 
 def test_get_i4h_asset_path_valid_version():
@@ -37,3 +37,15 @@ def test_get_i4h_local_asset_path():
     result = get_i4h_local_asset_path(version="0.1")
     expected_path = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets", _get_sha256_hash()["0.1"])
     assert result == expected_path
+
+def test_no_force_download():
+    local_path = get_i4h_local_asset_path(version="0.1")
+    # if the path not exists or is empty, create a folder and put a file in it
+    if not os.path.exists(local_path) or not os.listdir(local_path):
+        os.makedirs(local_path)
+        with open(os.path.join(local_path, "test.txt"), "w") as f:
+            f.write("test")
+    # check if retrieve_asset prints "Assets already downloaded to: <local_path>"
+    with pytest.raises(SystemExit) as e:
+        retrieve_asset(version="0.1", force_download=False)
+    assert str(e.value) == f"Assets already downloaded to: {local_path}"

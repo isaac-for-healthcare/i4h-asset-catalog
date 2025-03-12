@@ -101,7 +101,8 @@ def retrieve_asset(
     local_path = get_i4h_local_asset_path(version, download_dir)
 
     # If the asset hash is a folder in download_dir and is not empty, skip the download
-    if os.path.exists(local_path) and not os.listdir(local_path) and not force_download:
+    if os.path.exists(local_path) and len(os.listdir(local_path)) > 0 and not force_download:
+        print(f"Assets already downloaded to: {local_path}")
         return local_path
 
     # Force download or the folder is empty
