@@ -25,7 +25,7 @@ def test_get_i4h_asset_path_valid_version():
     # Test with valid version
     result = get_i4h_asset_path(version="0.1")
     hash = _get_sha256_hash()["0.1"]
-    expected_path = f"{_I4H_ASSET_ROOT['dev']}/Library/IsaacHealthcare/0.1/i4h-assets-v0.1-{hash}.zip"
+    expected_path = f"{_I4H_ASSET_ROOT['staging']}/0.1/i4h-assets-v0.1-{hash}.zip"
     assert result == expected_path
 
 def test_get_i4h_asset_path_invalid_version():
