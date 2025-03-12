@@ -18,7 +18,7 @@ import os
 import pytest
 
 from i4h_asset_helper import get_i4h_asset_path, get_i4h_local_asset_path
-from i4h_asset_helper.assets import _I4H_ASSET_ROOT, _get_sha256_hash, retrieve_asset
+from i4h_asset_helper.assets import _I4H_ASSET_ROOT, _get_sha256_hash
 
 
 def test_get_i4h_asset_path_valid_version():
