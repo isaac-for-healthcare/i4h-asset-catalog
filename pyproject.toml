@@ -15,6 +15,10 @@ dependencies = [
 
 [tool.setuptools]
 packages = ["i4h_asset_helper"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"i4h_asset_helper" = ["*.json"]
 
 [project.optional-dependencies]
 ci = ["pytest", "pytest-cov"]
