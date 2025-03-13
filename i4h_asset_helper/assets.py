@@ -52,6 +52,7 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1") -> str:
         The path to the i4h asset.
     """
     asset_root = _I4H_ASSET_ROOT.get(os.environ.get("ISAAC_ENV", "staging"))  # FIXME: Add production asset root
+    print(f"Asset root: {asset_root}")
     hash = _get_sha256_hash().get(version, None)
     if hash is None:
         raise ValueError(f"Invalid version: {version}")
