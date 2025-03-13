@@ -8,9 +8,9 @@ version = "0.1.0"
 description = "Utility for managing the I4H asset catalog"
 requires-python = ">=3.10"
 dependencies = [
-    "isaacsim>=4.1.0.0",
-    "isaacsim-extscache-kit>=4.1.0.0",
-    "isaacsim-extscache-kit-sdk>=4.1.0.0"
+    "isaacsim<=4.2.0.2",
+    "isaacsim-extscache-kit<=4.2.0.2",
+    "isaacsim-extscache-kit-sdk<=4.2.0.2"
 ]
 
 [tool.setuptools]

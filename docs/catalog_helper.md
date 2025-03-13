@@ -14,7 +14,6 @@ To download the asset to a local directory (default is `~/.cache/i4h-assets/<_SH
 
 #### CLI Usage
 
-- You must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run if you are using the dev settings (currently default, FIXME: change to production).
 
 ```bash
 i4h-asset-retrieve
@@ -30,7 +29,9 @@ i4h-asset-retrieve
   File "<path>/omni/extscore/omni.client/omni/client/__init__.py", line 610, in read_fil
 ```
 
-
+- There are three different asset server environments: `dev`, `staging`, and `production`. `staging` and `production` are publicly accessible and `dev` is only accessible by the internal team. You can set the `ISAAC_ENV` environment variable to `dev`, `staging`, or `production` to use the corresponding asset server.
+- The current default environment is `staging`. (FIXME: update this once we have a production release)
+- If you use the `dev` environment, i.e. `export ISAAC_ENV=dev`, you must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run.
 
 #### Python Usage
 

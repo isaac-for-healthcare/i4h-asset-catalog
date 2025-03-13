@@ -1,5 +1,4 @@
-# i4h-asset-catalog
-
+# Isaac for Healthcare - Asset Catalog
 
 The Isaac for Healthcare (i4h) asset catalog is a collection of assets that are used to create the i4h simulation environment.
 
