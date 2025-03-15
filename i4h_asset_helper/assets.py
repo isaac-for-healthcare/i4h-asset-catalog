@@ -37,6 +37,10 @@ _DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-ass
 
 def _get_sha256_hash() -> dict[str, str]:
     """Get the sha256 hash for the given version."""
+    # Get it from the environment variable if it exists
+    if os.environ.get("ISAAC_ASSET_SHA256_HASH"):
+        return os.environ.get("ISAAC_ASSET_SHA256_HASH")
+    # Otherwise, get it from the file
     with open(os.path.join(os.path.dirname(__file__), "assets_sha256.json"), "r") as f:
         return json.load(f)
 
@@ -47,6 +51,7 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None)
 
     Args:
         version: The version of the asset to get.
+        hash: The sha256 hash of the asset.
 
     Returns:
         The path to the i4h asset.
@@ -76,6 +81,7 @@ def get_i4h_local_asset_path(version: Literal["0.1"] = "0.1", download_dir: str 
     Args:
         version: The version of the asset to get.
         download_dir: The directory to download the asset to.
+        hash: The sha256 hash of the asset.
 
     Returns:
         The path to the local asset.

@@ -29,10 +29,6 @@ i4h-asset-retrieve
   File "<path>/omni/extscore/omni.client/omni/client/__init__.py", line 610, in read_fil
 ```
 
-- There are three different asset server environments: `dev`, `staging`, and `production`. `staging` and `production` are publicly accessible and `dev` is only accessible by the internal team. You can set the `ISAAC_ENV` environment variable to `dev`, `staging`, or `production` to use the corresponding asset server.
-- The current default environment is `staging`. (FIXME: update this once we have a production release)
-- If you use the `dev` environment, i.e. `export ISAAC_ENV=dev`, you must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run.
-
 #### Python Usage
 
 ```python
@@ -73,3 +69,18 @@ with open("i4h-assets-v0.1.zip", "wb") as f:
 
 simulation_app.close()
 ```
+
+### Environment Variables
+
+#### ISAAC_ENV
+
+- There are three different asset server environments: `dev`, `staging`, and `production`. `staging` and `production` are publicly accessible and `dev` is only accessible by the internal team. You can set the `ISAAC_ENV` environment variable to `dev`, `staging`, or `production` to use the corresponding asset server.
+- The current default environment is `staging`. (FIXME: update this once we have a production release)
+- If you use the `dev` environment, i.e. `export ISAAC_ENV=dev`, you must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run.
+
+#### SHA256_HASH
+
+- SHA256 hash of the asset zip package is used to version the asset in the development process.
+- You can set the `ISAAC_ASSET_SHA256_HASH` environment variable to the sha256 hash of the asset to retrieve.
+- When you use the CLI, you can use the `--hash` argument to specify the hash.
+  - Priority order: CLI argument > environment variable > `assets_sha256.json` file in the `i4h_asset_helper` package.
