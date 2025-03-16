@@ -56,7 +56,7 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None)
     Returns:
         The path to the i4h asset.
     """
-    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("ISAAC_ENV", "staging"))  # FIXME: Add production asset root
+    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("I4H_ASSET_ENV", "staging"))  # FIXME: Add production asset root
     print(f"Asset root: {asset_root}")
     if hash is None:
         hash = _get_sha256_hash().get(version, None)
@@ -74,7 +74,11 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None)
     return remote_path
 
 
-def get_i4h_local_asset_path(version: Literal["0.1"] = "0.1", download_dir: str | None = None, hash: str | None = None) -> str:
+def get_i4h_local_asset_path(
+        version: Literal["0.1"] = "0.1",
+        download_dir: str | None = None,
+        hash: str | None = None
+    ) -> str:
     """
     Get the path to the i4h asset for the given version.
 

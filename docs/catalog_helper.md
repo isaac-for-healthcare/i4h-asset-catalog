@@ -72,13 +72,13 @@ simulation_app.close()
 
 ### Environment Variables
 
-#### ISAAC_ENV
+#### I4H_ASSET_ENV
 
-- There are three different asset server environments: `dev`, `staging`, and `production`. `staging` and `production` are publicly accessible and `dev` is only accessible by the internal team. You can set the `ISAAC_ENV` environment variable to `dev`, `staging`, or `production` to use the corresponding asset server.
+- There are three different asset server environments: `dev`, `staging`, and `production`. `staging` and `production` are publicly accessible and `dev` is only accessible by the internal team. You can set the `I4H_ASSET_ENV` environment variable to `dev`, `staging`, or `production` to use the corresponding asset server.
 - The current default environment is `staging`. (FIXME: update this once we have a production release)
-- If you use the `dev` environment, i.e. `export ISAAC_ENV=dev`, you must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run.
+- If you use the `dev` environment, i.e. `export I4H_ASSET_ENV=dev`, you must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run.
 
-#### SHA256_HASH
+#### ISAAC_ASSET_SHA256_HASH
 
 - SHA256 hash of the asset zip package is used to version the asset in the development process.
 - You can set the `ISAAC_ASSET_SHA256_HASH` environment variable to the sha256 hash of the asset to retrieve.
