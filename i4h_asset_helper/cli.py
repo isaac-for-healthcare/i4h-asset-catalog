@@ -37,6 +37,12 @@ def retrieve_main():
         help="Directory to download assets to"
     )
     parser.add_argument(
+        "--hash",
+        type=str,
+        default=None,
+        help="Hash of the asset to retrieve"
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Force download even if assets already exist"
@@ -47,7 +53,8 @@ def retrieve_main():
     local_path = retrieve_asset(
         version=args.version,
         download_dir=args.download_dir,
-        force_download=args.force
+        force_download=args.force,
+        hash=args.hash
     )
     print(f"Assets downloaded to: {local_path}")
     return 0
