@@ -1,11 +1,9 @@
-## Asset Catalog for v0.1
-
-(To-be-finalized)
+## Asset Catalog for v0.1.0EA
 
 ### Assets
 
 ```
-i4h-assets-v0.1
+.
 ├── Policies
 │   └── LiverScan
 │       ├── assets
@@ -42,19 +40,37 @@ i4h-assets-v0.1
 ├── Props
 │   ├── ABDPhantom
 │   │   ├── Organs
+│   │   │   ├── Back_muscles.mtl
+│   │   │   ├── Back_muscles.obj
+│   │   │   ├── Bone.mtl
 │   │   │   ├── Bone.obj
+│   │   │   ├── Colon.mtl
 │   │   │   ├── Colon.obj
+│   │   │   ├── Gallbladder.mtl
 │   │   │   ├── Gallbladder.obj
+│   │   │   ├── Heart.mtl
 │   │   │   ├── Heart.obj
+│   │   │   ├── Kidney.mtl
 │   │   │   ├── Kidney.obj
+│   │   │   ├── Liver.mtl
 │   │   │   ├── Liver.obj
+│   │   │   ├── Lungs.mtl
+│   │   │   ├── Lungs.obj
+│   │   │   ├── Pancreas.mtl
 │   │   │   ├── Pancreas.obj
+│   │   │   ├── Skin.mtl
 │   │   │   ├── Skin.obj
+│   │   │   ├── Small_bowel.mtl
 │   │   │   ├── Small_bowel.obj
+│   │   │   ├── Spleen.mtl
 │   │   │   ├── Spleen.obj
+│   │   │   ├── Stomach.mtl
 │   │   │   ├── Stomach.obj
+│   │   │   ├── Tumor1.mtl
 │   │   │   ├── Tumor1.obj
+│   │   │   ├── Tumor2.mtl
 │   │   │   ├── Tumor2.obj
+│   │   │   ├── Vessels.mtl
 │   │   │   └── Vessels.obj
 │   │   ├── phantom.usda
 │   │   └── SubUSDs
@@ -93,7 +109,6 @@ i4h-assets-v0.1
 │   │   ├── ECM
 │   │   │   └── ecm.usd
 │   │   └── PSM
-│   │       ├── psm_col.usd
 │   │       └── psm.usd
 │   ├── Franka
 │   │   ├── Collected_fr3_assembly
