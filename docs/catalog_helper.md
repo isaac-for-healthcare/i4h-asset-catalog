@@ -10,7 +10,7 @@ pip install -e .
 
 ### Usage
 
-To download the asset to a local directory (default is `~/.cache/i4h-assets/<_SHA256_HASH>`):
+To download the asset to a local directory `~/.cache/i4h-assets/<SHA256_HASH>`:
 
 #### CLI Usage
 
