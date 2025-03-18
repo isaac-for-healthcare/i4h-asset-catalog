@@ -38,12 +38,7 @@ def retrieve_main():
 
     args = parser.parse_args()
     print(f"Retrieving assets for version: {args.version}")
-    local_path = retrieve_asset(
-        version=args.version,
-        download_dir=args.download_dir,
-        force_download=args.force,
-        hash=args.hash
-    )
+    local_path = retrieve_asset(version=args.version, force_download=args.force)
     print(f"Assets downloaded to: {local_path}")
     return 0
 
