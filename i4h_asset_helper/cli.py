@@ -31,18 +31,6 @@ def retrieve_main():
         help="Asset version to retrieve"
     )
     parser.add_argument(
-        "--download-dir",
-        type=str,
-        default=None,
-        help="Directory to download assets to"
-    )
-    parser.add_argument(
-        "--hash",
-        type=str,
-        default=None,
-        help="Hash of the asset to retrieve"
-    )
-    parser.add_argument(
         "--force",
         action="store_true",
         help="Force download even if assets already exist"
