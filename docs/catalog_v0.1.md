@@ -1,9 +1,9 @@
-## Asset Catalog for v0.1
+## Asset Catalog for v0.1.0EA
 
 ### Assets
 
 ```
-i4h-assets-v0.1
+.
 ├── Policies
 │   └── LiverScan
 │       ├── assets
