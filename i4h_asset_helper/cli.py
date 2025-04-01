@@ -16,13 +16,16 @@
 import argparse
 import sys
 
-from .assets import retrieve_asset
+from .assets import get_i4h_local_asset_path, retrieve_asset
 
 
 def retrieve_main():
     """Command line interface for i4h asset helper."""
 
-    parser = argparse.ArgumentParser(description="Isaac for Healthcare Asset Helper")
+    parser = argparse.ArgumentParser(
+        description="Isaac for Healthcare Asset Helper",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     parser.add_argument(
         "--version",
         type=str,
@@ -35,10 +38,19 @@ def retrieve_main():
         action="store_true",
         help="Force download even if assets already exist"
     )
-
+    parser.add_argument(
+        "--download-dir",
+        type=str,
+        default=get_i4h_local_asset_path(),
+        help="Directory to download assets to"
+    )
     args = parser.parse_args()
     print(f"Retrieving assets for version: {args.version}")
-    local_path = retrieve_asset(version=args.version, force_download=args.force)
+    local_path = retrieve_asset(
+        version=args.version,
+        download_dir=args.download_dir,
+        force_download=args.force,
+    )
     print(f"Assets downloaded to: {local_path}")
     return 0
 
