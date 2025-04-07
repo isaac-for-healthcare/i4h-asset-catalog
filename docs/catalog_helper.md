@@ -1,8 +1,17 @@
 ## I4H Assets Catalog Helper
 
+### Requirements
+
+- Ubuntu 22.04
+- Python 3.10
+
 ### Installation
 
+It is recommended to use a virtual environment like `conda` as described in the [IsaacSim Pip Installation Guide](https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/install_python.html#installation-using-pip).
+
 ```bash
+conda create -n i4h-assets python=3.10
+conda activate i4h-assets
 git clone git@github.com:isaac-for-healthcare/i4h-asset-catalog.git  # FIXME: change to HTTPS/Make a release
 cd i4h-asset-catalog
 pip install -e .
@@ -19,7 +28,12 @@ To download the asset to a local directory `~/.cache/i4h-assets/<SHA256_HASH>`:
 i4h-asset-retrieve
 ```
 
-- **NOTE**: This is a blocking function and may cause hitches or hangs in the UI. The following warning is expected:
+- **NOTE**: 
+The first time you run the command after a fresh install of the `issacsim` package, you would need to accept the EULA by manually typing `Yes` and pressing `Enter`.
+
+Also, it may hang for a while after `app ready` is printed. This is expected.
+
+Finally, the downloading process is a blocking function and may cause hitches or hangs in the UI. The following warning is expected:
 
 ```
 [108,322ms] [Warning] [omni.client.python] Detected a blocking function. This will cause hitches or hangs in the UI. Please switch to the async version:
