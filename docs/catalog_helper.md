@@ -29,7 +29,7 @@ i4h-asset-retrieve
 ```
 
 - **NOTE**:
-The first time you run the command after a fresh install of the `issacsim` package, you would need to accept the EULA by manually typing `Yes` and pressing `Enter`.
+The first time you run the command after a fresh install of the `isaacsim` package, you would need to accept the EULA by manually typing `Yes` and pressing `Enter`.
 
 Also, it may hang for a while after `app ready` is printed. This is expected.
 
