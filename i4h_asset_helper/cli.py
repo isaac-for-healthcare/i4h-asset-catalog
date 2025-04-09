@@ -16,7 +16,7 @@
 import argparse
 import sys
 
-from .assets import get_i4h_local_asset_path, retrieve_asset
+from .assets import _DEFAULT_DOWNLOAD_DIR, retrieve_asset
 
 
 def retrieve_main():
@@ -41,7 +41,7 @@ def retrieve_main():
     parser.add_argument(
         "--download-dir",
         type=str,
-        default=get_i4h_local_asset_path(),
+        default=_DEFAULT_DOWNLOAD_DIR,
         help="Directory to download assets to"
     )
     args = parser.parse_args()
