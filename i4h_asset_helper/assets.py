@@ -36,7 +36,7 @@ _I4H_ASSET_ROOT = {
 _DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
 
 
-def get_i4h_asset_hash(version: Literal["0.1"] = "0.1") -> dict[str, str]:
+def get_i4h_asset_hash(version: Literal["0.1"] = "0.1") -> str:
     """Get the sha256 hash for the given version."""
     # Get it from the environment variable if it exists
     if os.environ.get("ISAAC_ASSET_SHA256_HASH"):
