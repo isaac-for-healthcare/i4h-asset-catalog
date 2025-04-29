@@ -21,6 +21,7 @@ import zipfile
 from typing import Literal
 
 __all__ = [
+    "get_i4h_asset_hash",
     "get_i4h_asset_path",
     "get_i4h_local_asset_path",
     "retrieve_asset",
@@ -35,14 +36,14 @@ _I4H_ASSET_ROOT = {
 _DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
 
 
-def _get_sha256_hash() -> dict[str, str]:
+def get_i4h_asset_hash(version: Literal["0.1"] = "0.1") -> str:
     """Get the sha256 hash for the given version."""
     # Get it from the environment variable if it exists
     if os.environ.get("ISAAC_ASSET_SHA256_HASH"):
         return os.environ.get("ISAAC_ASSET_SHA256_HASH")
     # Otherwise, get it from the file
     with open(os.path.join(os.path.dirname(__file__), "assets_sha256.json"), "r") as f:
-        return json.load(f)
+        return json.load(f).get(version, None)
 
 
 def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None) -> str:
@@ -57,9 +58,8 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None)
         The path to the i4h asset.
     """
     asset_root = _I4H_ASSET_ROOT.get(os.environ.get("I4H_ASSET_ENV", "staging"))  # FIXME: Add production asset root
-    print(f"Asset root: {asset_root}")
     if hash is None:
-        hash = _get_sha256_hash().get(version, None)
+        hash = get_i4h_asset_hash(version=version)
     if hash is None:
         raise ValueError(f"Invalid version: {version}")
     remote_path = f"{asset_root}/{version}/i4h-assets-v{version}-{hash}.zip"
@@ -93,7 +93,7 @@ def get_i4h_local_asset_path(
     if download_dir is None:
         download_dir = _DEFAULT_DOWNLOAD_DIR
     if hash is None:
-        hash = _get_sha256_hash().get(version)
+        hash = get_i4h_asset_hash(version=version)
     return os.path.join(download_dir, hash)
 
 
