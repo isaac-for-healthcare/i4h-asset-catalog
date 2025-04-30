@@ -28,7 +28,8 @@ def test_get_i4h_asset_path_valid_version():
     expected_production_path = f"{_I4H_ASSET_ROOT['production']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
     expected_staging_path = f"{_I4H_ASSET_ROOT['staging']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
     expected_dev_path = f"{_I4H_ASSET_ROOT['dev']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
-    assert result == expected_staging_path or result == expected_dev_path or result == expected_production_path
+    expected_paths = {expected_staging_path, expected_dev_path, expected_production_path}
+    assert result in expected_paths
 
 def test_get_i4h_asset_path_invalid_version():
     # Test with invalid version
