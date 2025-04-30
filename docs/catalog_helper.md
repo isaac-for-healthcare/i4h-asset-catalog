@@ -78,7 +78,7 @@ from utils.assets import get_i4h_asset_path
 asset_path = get_i4h_asset_path()
 
 result, _, file_content = omni.client.read_file(asset_path)
-with open("i4h-assets-v0.1.zip", "wb") as f:
+with open("i4h-assets-v0.1.0.zip", "wb") as f:
     f.write(file_content)
 
 simulation_app.close()
