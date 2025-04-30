@@ -18,7 +18,6 @@ import os
 import shutil
 import tempfile
 import zipfile
-from typing import Literal
 
 __all__ = [
     "get_i4h_asset_hash",
@@ -30,13 +29,13 @@ __all__ = [
 _I4H_ASSET_ROOT = {
     "dev": "https://isaac-dev.ov.nvidia.com/omni/web3/omniverse://isaac-dev.ov.nvidia.com/Library/IsaacHealthcare",
     "staging": "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare",
-    "production": "",  # FIXME: Add production asset root
+    "production": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare"
 }
 
 _DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
 
 
-def get_i4h_asset_hash(version: Literal["0.1"] = "0.1") -> str:
+def get_i4h_asset_hash(version: str = "0.1.0") -> str:
     """Get the sha256 hash for the given version."""
     # Get it from the environment variable if it exists
     if os.environ.get("ISAAC_ASSET_SHA256_HASH"):
@@ -46,7 +45,7 @@ def get_i4h_asset_hash(version: Literal["0.1"] = "0.1") -> str:
         return json.load(f).get(version, None)
 
 
-def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None) -> str:
+def get_i4h_asset_path(version: str = "0.1.0", hash: str | None = None) -> str:
     """
     Get the path to the i4h asset for the given version.
 
@@ -57,7 +56,7 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None)
     Returns:
         The path to the i4h asset.
     """
-    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("I4H_ASSET_ENV", "staging"))  # FIXME: Add production asset root
+    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("I4H_ASSET_ENV", "production"))
     if hash is None:
         hash = get_i4h_asset_hash(version=version)
     if hash is None:
@@ -75,7 +74,7 @@ def get_i4h_asset_path(version: Literal["0.1"] = "0.1", hash: str | None = None)
 
 
 def get_i4h_local_asset_path(
-        version: Literal["0.1"] = "0.1",
+        version: str = "0.1.0",
         download_dir: str | None = None,
         hash: str | None = None
     ) -> str:
@@ -98,7 +97,7 @@ def get_i4h_local_asset_path(
 
 
 def retrieve_asset(
-    version: Literal["0.1"] = "0.1",
+    version: str = "0.1.0",
     download_dir: str | None = None,
     hash: str | None = None,
     force_download: bool = False

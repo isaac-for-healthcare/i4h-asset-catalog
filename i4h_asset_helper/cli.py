@@ -29,8 +29,8 @@ def retrieve_main():
     parser.add_argument(
         "--version",
         type=str,
-        default="0.1",
-        choices=["0.1"],
+        default="0.1.0",
+        choices=["0.1.0"],
         help="Asset version to retrieve"
     )
     parser.add_argument(
