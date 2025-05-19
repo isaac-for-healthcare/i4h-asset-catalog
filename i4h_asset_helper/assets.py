@@ -19,8 +19,8 @@ import json
 import os
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import List
 from pathlib import Path
+from typing import List
 
 from isaacsim import SimulationApp
 
@@ -29,6 +29,7 @@ __all__ = [
     "get_i4h_asset_path",
     "get_i4h_local_asset_path",
     "retrieve_asset",
+    "BaseI4HAssets",
 ]
 
 _I4H_ASSET_ROOT = {
@@ -57,10 +58,12 @@ def _get_asset_env() -> str:
     """Get the current configuration of the asset root."""
     return os.getenv("I4H_ASSET_ENV", "dev")
 
+
 def _get_download_dir() -> str:
     """Get the download directory for the current configuration."""
     default_dir = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
     return os.getenv("I4H_ASSET_DOWNLOAD_DIR", default_dir)
+
 
 def _unify_path(path: str) -> str:
     """
@@ -72,6 +75,7 @@ def _unify_path(path: str) -> str:
     if _get_asset_env() == "dev":
         return path.replace("https://isaac-dev.ov.nvidia.com/omni/web3/", "")
     return path
+
 
 def get_i4h_asset_hash(version: str = "0.2.0") -> str:
     """Get the sha256 hash for the given version."""
@@ -309,7 +313,6 @@ class BaseI4HAssets:
         self._remote_asset_path = get_i4h_asset_path()
         self._download_dir = _get_download_dir() if download_dir is None else download_dir
         self._skip_download_usd = skip_download_usd
-
 
     def __getattribute__(self, name):
         """Override to print a message when any attribute is accessed."""
