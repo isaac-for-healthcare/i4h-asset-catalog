@@ -20,6 +20,7 @@ import os
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List
+from pathlib import Path
 
 from isaacsim import SimulationApp
 
@@ -35,8 +36,6 @@ _I4H_ASSET_ROOT = {
     "staging": "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare",
     "production": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare",
 }
-
-_DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
 
 
 def _is_import_ready(package_name: str):
@@ -54,17 +53,25 @@ def _is_import_ready(package_name: str):
     return True
 
 
-def _get_configuration() -> str:
+def _get_asset_env() -> str:
     """Get the current configuration of the asset root."""
-    return os.environ.get("I4H_ASSET_ENV", "dev")
+    return os.getenv("I4H_ASSET_ENV", "dev")
 
+def _get_download_dir() -> str:
+    """Get the download directory for the current configuration."""
+    default_dir = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
+    return os.getenv("I4H_ASSET_DOWNLOAD_DIR", default_dir)
 
-def _set_configuration(config: str):
-    """Set the current configuration of the asset root for internal tests."""
-    if config not in _I4H_ASSET_ROOT:
-        raise ValueError(f"Invalid configuration: {config}")
-    os.environ["I4H_ASSET_ENV"] = config
+def _unify_path(path: str) -> str:
+    """
+    Unify the path in different configurations.
 
+    When the file is on a nucleus server, the _list_file function returns that path starting with "omniverse://".
+    So we need to unify the path to the same format, if the path is not returned by the _list_file function.
+    """
+    if _get_asset_env() == "dev":
+        return path.replace("https://isaac-dev.ov.nvidia.com/omni/web3/", "")
+    return path
 
 def get_i4h_asset_hash(version: str = "0.2.0") -> str:
     """Get the sha256 hash for the given version."""
@@ -87,7 +94,7 @@ def get_i4h_asset_path(version: str = "0.2.0", hash: str | None = None) -> str:
     Returns:
         The path to the i4h asset.
     """
-    asset_root = _I4H_ASSET_ROOT.get(_get_configuration())
+    asset_root = _I4H_ASSET_ROOT.get(_get_asset_env())
     if hash is None:
         hash = get_i4h_asset_hash(version=version)
     remote_path = f"{asset_root}/{version}/{hash}"
@@ -108,7 +115,7 @@ def get_i4h_local_asset_path(version: str = "0.2.0", download_dir: str | None = 
         The path to the local asset.
     """
     if download_dir is None:
-        download_dir = _DEFAULT_DOWNLOAD_DIR
+        download_dir = _get_download_dir()
     if hash is None:
         hash = get_i4h_asset_hash(version=version)
     return os.path.join(download_dir, hash)
@@ -127,8 +134,7 @@ def get_i4h_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | No
         The relative path of the item.
     """
     asset_root = get_i4h_asset_path(version, hash)
-    if _get_configuration() == "dev":
-        asset_root = asset_root.replace("https://isaac-dev.ov.nvidia.com/omni/web3/", "")
+    asset_root = _unify_path(asset_root)
 
     if not url_entry.startswith(asset_root):
         raise ValueError(f"URL entry {url_entry} expects to begin with {asset_root}")
@@ -160,7 +166,7 @@ def list_i4h_asset_url(url_entry: str) -> List[str]:
     from isaacsim.storage.native.nucleus import _list_files
 
     if not _is_url_folder(url_entry):
-        return [url_entry]
+        return [_unify_path(url_entry)]
 
     # _list_files is an async function
     _, entries = asyncio.run(_list_files(url_entry))
@@ -211,7 +217,7 @@ def _download_individual_asset(url_entry: str, download_dir: str):
     return local_path
 
 
-def download_assets_local(
+def download_i4h_assets(
     url_entries: List[str],
     download_dir: str,
     concurrency: int = 2,
@@ -242,21 +248,10 @@ def download_assets_local(
         for future in as_completed(futures_to_url, timeout=timeout):
             local_path = future.result()
             count += 1
-            print(f"Downloaded {count} of {total} assets to {local_path}")
-
-
-def check_local_assets(
-    version: str = "0.2.0",
-    download_dir: str | None = None,
-    directory: str | None = None,
-    hash: str | None = None,
-) -> bool:
-    """
-    Check if the assets are already downloaded.
-    """
-    local_dir = get_i4h_local_asset_path(version, download_dir, hash)
-    paths = list_i4h_asset_url(get_i4h_asset_path(version, hash, directory))
-    return len(_filter_downloaded_assets(paths, local_dir, version, hash)) == len(paths)
+            if total > 1:
+                print(f"Downloaded {count} of {total} assets to {local_path}")
+            else:
+                print(f"Downloaded asset to {local_path}")
 
 
 def retrieve_asset(
@@ -283,13 +278,57 @@ def retrieve_asset(
     remote_path = get_i4h_asset_path(version, hash)
 
     if child_path is not None:
-        remote_path = os.path.join(remote_path, child_path)
+        remote_path = remote_path + "/" + child_path
 
     paths = list_i4h_asset_url(remote_path)
+
     if force_download:
         url_entries = paths
     else:
         url_entries = _filter_downloaded_assets(paths, local_dir, version, hash)
 
-    download_assets_local(url_entries, local_dir)
+    if len(url_entries) > 0:
+        download_i4h_assets(url_entries, local_dir)
+
     return local_dir
+
+
+class BaseI4HAssets:
+    """
+    Base class for i4h assets with public attributes defining the relative paths to the assets.
+    """
+
+    def __init__(self, download_dir: str | None = None, skip_download_usd: bool = False):
+        """
+        Initialize the assets
+
+        Args:
+            download_dir: The directory to download the assets to
+            skip_download_usd: If True, it will always use the USD file from the remote asset path. Default is False.
+        """
+        self._remote_asset_path = get_i4h_asset_path()
+        self._download_dir = _get_download_dir() if download_dir is None else download_dir
+        self._skip_download_usd = skip_download_usd
+
+
+    def __getattribute__(self, name):
+        """Override to print a message when any attribute is accessed."""
+        if name.startswith("_"):
+            # skip the private attributes
+            return super().__getattribute__(name)
+
+        value = super().__getattribute__(name)
+        if Path(value).suffix in [".usd", ".usda", ".usdc"]:
+            if self._skip_download_usd:
+                # return the remote asset path and skip the download
+                return os.path.join(self._remote_asset_path, value)
+            else:
+                # A single USD file can depend on other files in the same directory.
+                # Need to download the directory instead.
+                _value = os.path.dirname(value)
+        else:
+            _value = value
+
+        # trigger download of the asset
+        local_path = retrieve_asset(download_dir=self._download_dir, child_path=_value)
+        return os.path.join(local_path, value)

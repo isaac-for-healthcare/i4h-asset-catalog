@@ -14,21 +14,25 @@
 # limitations under the License.
 
 from i4h_asset_helper.assets import (
+    download_i4h_assets,
     get_i4h_asset_hash,
     get_i4h_asset_path,
     get_i4h_asset_relpath,
     get_i4h_local_asset_path,
     list_i4h_asset_url,
     retrieve_asset,
+    BaseI4HAssets,
 )
 
 __all__ = [
+    "download_i4h_assets",
     "get_i4h_asset_hash",
     "get_i4h_asset_path",
     "get_i4h_asset_relpath",
     "get_i4h_local_asset_path",
     "list_i4h_asset_url",
     "retrieve_asset",
+    "BaseI4HAssets",
 ]
 
 __version__ = "0.2.0"
