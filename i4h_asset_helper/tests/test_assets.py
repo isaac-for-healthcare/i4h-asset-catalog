@@ -17,11 +17,15 @@ import os
 
 import pytest
 
-from i4h_asset_helper import get_i4h_asset_path, get_i4h_local_asset_path
-from i4h_asset_helper.assets import _I4H_ASSET_ROOT, get_i4h_asset_hash
-
+from i4h_asset_helper.assets import (
+    get_i4h_asset_hash,
+    get_i4h_asset_path,
+    get_i4h_local_asset_path,
+    _I4H_ASSET_ROOT,
+)
 
 VERSIONS = ["0.1.0", "0.2.0"]
+
 
 def test_get_i4h_asset_path_valid_version():
     # Test with valid version
@@ -34,20 +38,24 @@ def test_get_i4h_asset_path_valid_version():
     expected_paths = {expected_staging_path, expected_dev_path, expected_production_path}
     assert result in expected_paths
 
+
 def test_get_i4h_asset_path_invalid_version():
     # Test with invalid version
     with pytest.raises(ValueError, match="Invalid version"):
         get_i4h_asset_path(version="invalid")
+
 
 def test_get_i4h_local_asset_path():
     result = get_i4h_local_asset_path()
     expected_path = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets", get_i4h_asset_hash())
     assert result == expected_path
 
+
 def test_set_env_var_hash():
     os.environ["ISAAC_ASSET_SHA256_HASH"] = "test_hash"
     assert get_i4h_asset_hash() == "test_hash"
     os.environ.pop("ISAAC_ASSET_SHA256_HASH")
+
 
 def test_set_env_var_root():
     os.environ["I4H_ASSET_ENV"] = "dev"

@@ -14,9 +14,9 @@
 # limitations under the License.
 
 import asyncio
+import importlib
 import json
 import os
-import importlib
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List
@@ -33,7 +33,7 @@ __all__ = [
 _I4H_ASSET_ROOT = {
     "dev": "https://isaac-dev.ov.nvidia.com/omni/web3/omniverse://isaac-dev.ov.nvidia.com/Library/IsaacHealthcare",
     "staging": "https://omniverse-content-staging.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare",
-    "production": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare"
+    "production": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare",
 }
 
 _DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
@@ -95,11 +95,7 @@ def get_i4h_asset_path(version: str = "0.2.0", hash: str | None = None) -> str:
     return remote_path
 
 
-def get_i4h_local_asset_path(
-        version: str = "0.2.0",
-        download_dir: str | None = None,
-        hash: str | None = None
-    ) -> str:
+def get_i4h_local_asset_path(version: str = "0.2.0", download_dir: str | None = None, hash: str | None = None) -> str:
     """
     Get the path to the i4h asset for the given version.
 
@@ -147,6 +143,7 @@ def _is_url_folder(url_entry: str) -> bool:
     if not _is_import_ready("omni.client"):
         SimulationApp({"headless": True})
     import omni.client
+
     result, entries = omni.client.stat(url_entry)
     if result != omni.client.Result.OK:
         raise ValueError(f"The remote path {url_entry} is not valid")
@@ -161,6 +158,7 @@ def list_i4h_asset_url(url_entry: str) -> List[str]:
     if not _is_import_ready("isaacsim.storage.native.nucleus"):
         SimulationApp({"headless": True})
     from isaacsim.storage.native.nucleus import _list_files
+
     if not _is_url_folder(url_entry):
         return [url_entry]
 
@@ -170,10 +168,8 @@ def list_i4h_asset_url(url_entry: str) -> List[str]:
 
 
 def _filter_downloaded_assets(
-        url_entries: List[str],
-        local_dir: str, version: str | None = None,
-        hash: str | None = None
-    ) -> List[str]:
+    url_entries: List[str], local_dir: str, version: str | None = None, hash: str | None = None
+) -> List[str]:
     """
     Filter the url_entries to only include the ones that are not downloaded.
 
@@ -197,7 +193,6 @@ def _filter_downloaded_assets(
     return results
 
 
-
 def _download_individual_asset(url_entry: str, download_dir: str):
     local_path = os.path.join(download_dir, get_i4h_asset_relpath(url_entry))
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
@@ -214,6 +209,7 @@ def _download_individual_asset(url_entry: str, download_dir: str):
         f.write(file_content)
 
     return local_path
+
 
 def download_assets_local(
     url_entries: List[str],
@@ -240,8 +236,7 @@ def download_assets_local(
 
     with ThreadPoolExecutor(max_workers=concurrency) as executor:
         futures_to_url = {
-            executor.submit(_download_individual_asset, url_entry, download_dir): url_entry
-            for url_entry in url_entries
+            executor.submit(_download_individual_asset, url_entry, download_dir): url_entry for url_entry in url_entries
         }
 
         for future in as_completed(futures_to_url, timeout=timeout):
@@ -251,10 +246,10 @@ def download_assets_local(
 
 
 def check_local_assets(
-        version: str = "0.2.0",
-        download_dir: str | None = None,
-        directory: str | None = None,
-        hash: str | None = None,
+    version: str = "0.2.0",
+    download_dir: str | None = None,
+    directory: str | None = None,
+    hash: str | None = None,
 ) -> bool:
     """
     Check if the assets are already downloaded.
@@ -264,13 +259,12 @@ def check_local_assets(
     return len(_filter_downloaded_assets(paths, local_dir, version, hash)) == len(paths)
 
 
-
 def retrieve_asset(
     version: str = "0.2.0",
     download_dir: str | None = None,
     child_path: str | None = None,
     hash: str | None = None,
-    force_download: bool = False
+    force_download: bool = False,
 ) -> str:
     """
     Download the asset from the remote path to the download directory.

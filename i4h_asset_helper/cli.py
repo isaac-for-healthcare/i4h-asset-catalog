@@ -23,26 +23,12 @@ def retrieve_main():
     """Command line interface for i4h asset helper."""
 
     parser = argparse.ArgumentParser(
-        description="Isaac for Healthcare Asset Helper",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        description="Isaac for Healthcare Asset Helper", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
+    parser.add_argument("--version", type=str, default="0.2.0", choices=["0.2.0"], help="Asset version to retrieve")
+    parser.add_argument("--force", action="store_true", help="Force download even if assets already exist")
     parser.add_argument(
-        "--version",
-        type=str,
-        default="0.2.0",
-        choices=["0.2.0"],
-        help="Asset version to retrieve"
-    )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Force download even if assets already exist"
-    )
-    parser.add_argument(
-        "--download-dir",
-        type=str,
-        default=_DEFAULT_DOWNLOAD_DIR,
-        help="Directory to download assets to"
+        "--download-dir", type=str, default=_DEFAULT_DOWNLOAD_DIR, help="Directory to download assets to"
     )
     parser.add_argument(
         "--child-path",
@@ -51,14 +37,9 @@ def retrieve_main():
         help=(
             "Either a subfolder path or a subfile path under the asset catalog. "
             "Only support a single path, like `Robots`"
-        )
+        ),
     )
-    parser.add_argument(
-        "--hash",
-        type=str,
-        default=None,
-        help="Hash of the asset to retrieve"
-    )
+    parser.add_argument("--hash", type=str, default=None, help="Hash of the asset to retrieve")
     args = parser.parse_args()
     print(f"Retrieving assets for version: {args.version}")
     local_path = retrieve_asset(
