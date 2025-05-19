@@ -16,13 +16,11 @@
 import asyncio
 import json
 import os
-import shutil
-import tempfile
-import zipfile
 import importlib
 import sys
-
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List
+
 from isaacsim import SimulationApp
 
 __all__ = [
@@ -171,9 +169,106 @@ def list_i4h_asset_url(url_entry: str) -> List[str]:
     return entries
 
 
+def _filter_downloaded_assets(
+        url_entries: List[str],
+        local_dir: str, version: str | None = None,
+        hash: str | None = None
+    ) -> List[str]:
+    """
+    Filter the url_entries to only include the ones that are not downloaded.
+
+    Args:
+        url_entries: The url entries to filter.
+        local_dir: The local directory to check for downloaded assets.
+        version: The version of the asset.
+        hash: The sha256 hash of the asset.
+
+    Returns:
+        The filtered url entries.
+    """
+    results = []
+    # we will check if the asset is already downloaded
+    for entry_url in url_entries:
+        local_path = os.path.join(local_dir, get_i4h_asset_relpath(entry_url, version, hash))
+        if os.path.isfile(local_path):
+            print(f"Asset already downloaded to: {local_path}. Skipping download.")
+        else:
+            results.append(entry_url)
+    return results
+
+
+
+def _download_individual_asset(url_entry: str, download_dir: str):
+    local_path = os.path.join(download_dir, get_i4h_asset_relpath(url_entry))
+    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+
+    if not _is_import_ready("omni.client"):
+        SimulationApp({"headless": True})
+    import omni.client
+
+    result, _, file_content = omni.client.read_file(url_entry)
+    if result != omni.client.Result.OK:
+        raise ValueError(f"Failed to download asset: {url_entry}")
+    
+    with open(local_path, "wb") as f:
+        f.write(file_content)
+    
+    return local_path
+
+def download_assets_local(
+    url_entries: List[str],
+    download_dir: str,
+    concurrency: int = 2,
+    timeout: float = 3600.0,
+):
+    """
+    Download assets from url entry sources to local directory.
+
+    Args:
+        url_entries: The url entries to download.
+        download_dir: The directory to download the asset to. Default is the cache directory.
+        progress_callback: The callback function to call when the progress is updated.
+        concurrency: The number of concurrent downloads.
+        timeout: The timeout for the download.
+
+    Returns:
+        The path to the local asset.
+    """
+    
+    count = 0
+    total = len(url_entries)
+
+    with ThreadPoolExecutor(max_workers=concurrency) as executor:
+        futures_to_url = {
+            executor.submit(_download_individual_asset, url_entry, download_dir): url_entry
+            for url_entry in url_entries
+        }
+
+        for future in as_completed(futures_to_url, timeout=timeout):
+            local_path = future.result()
+            count += 1
+            print(f"Downloaded {count} of {total} assets to {local_path}")
+
+
+def check_local_assets(
+        version: str = "0.2.0",
+        download_dir: str | None = None,
+        directory: str | None = None,
+        hash: str | None = None,
+) -> bool:
+    """
+    Check if the assets are already downloaded.
+    """
+    local_dir = get_i4h_local_asset_path(version, download_dir, hash)
+    paths = list_i4h_asset_url(get_i4h_asset_path(version, hash, directory))
+    return len(_filter_downloaded_assets(paths, local_dir, version, hash)) == len(paths)
+
+
+
 def retrieve_asset(
     version: str = "0.2.0",
     download_dir: str | None = None,
+    subdirectory: str | None = None,
     hash: str | None = None,
     force_download: bool = False
 ) -> str:
@@ -189,36 +284,17 @@ def retrieve_asset(
     Returns:
         The path to the local asset.
     """
-    local_path = get_i4h_local_asset_path(version, download_dir, hash)
-
-    # If the asset hash is a folder in download_dir and is not empty, skip the download
-    if os.path.exists(local_path) and len(os.listdir(local_path)) > 0 and not force_download:
-        print(f"Assets already downloaded to: {local_path}")
-        return local_path
-
-    # Force download or the folder is empty
-    if os.path.isdir(local_path):
-        shutil.rmtree(local_path)
-
-    if not _is_import_ready("omni.client"):
-        SimulationApp({"headless": True})
-    import omni.client
-    
+    local_dir = get_i4h_local_asset_path(version, download_dir, hash)
     remote_path = get_i4h_asset_path(version, hash)
-    result, _, file_content = omni.client.read_file(remote_path)
 
-    if result != omni.client.Result.OK:
-        raise ValueError(f"Failed to download asset: {remote_path}")
-
-    try:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            with open(os.path.join(temp_dir, f"i4h-assets-v{version}.zip"), "wb") as f:
-                f.write(file_content)
-            # TODO: Check sha256 hash
-            with zipfile.ZipFile(os.path.join(temp_dir, f"i4h-assets-v{version}.zip"), "r") as zip_ref:
-                os.makedirs(local_path, exist_ok=True)
-                zip_ref.extractall(local_path)
-                print(f"Assets downloaded to: {local_path}")
-            return local_path
-    except Exception as e:
-        raise ValueError(f"Failed to extract asset: {remote_path}") from e
+    if subdirectory is not None:
+        remote_path = os.path.join(remote_path, subdirectory)
+    
+    paths = list_i4h_asset_url(remote_path)
+    if force_download:
+        url_entries = paths
+    else:
+        url_entries = _filter_downloaded_assets(paths, local_dir, version, hash)
+    
+    download_assets_local(url_entries, local_dir)
+    return local_dir

@@ -44,11 +44,25 @@ def retrieve_main():
         default=_DEFAULT_DOWNLOAD_DIR,
         help="Directory to download assets to"
     )
+    parser.add_argument(
+        "--subdirectory",
+        type=str,
+        default=None,
+        help="Subdirectory in the asset catalog to retrieve. Only support a single path, like `Robots`"
+    )
+    parser.add_argument(
+        "--hash",
+        type=str,
+        default=None,
+        help="Hash of the asset to retrieve"
+    )
     args = parser.parse_args()
     print(f"Retrieving assets for version: {args.version}")
     local_path = retrieve_asset(
         version=args.version,
         download_dir=args.download_dir,
+        subdirectory=args.subdirectory,
+        hash=args.hash,
         force_download=args.force,
     )
     print(f"Assets downloaded to: {local_path}")

@@ -20,6 +20,7 @@ from i4h_asset_helper.assets import (
     retrieve_asset,
     get_i4h_asset_relpath,
     list_i4h_asset_url,
+    download_assets_local,
 )
 
 __all__ = [
@@ -29,6 +30,7 @@ __all__ = [
     "retrieve_asset",
     "get_i4h_asset_relpath",
     "list_i4h_asset_url",
+    "download_assets_local",
 ]
 
 __version__ = "0.2.0"
