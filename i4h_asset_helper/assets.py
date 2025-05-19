@@ -121,7 +121,7 @@ def get_i4h_local_asset_path(version: str = "0.2.0", download_dir: str | None = 
     return os.path.join(download_dir, hash)
 
 
-def get_i4h_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | None = None) -> str:
+def _get_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | None = None) -> str:
     """
     Get relative path of the item specified by the url_entry should be located in the local asset directory.
 
@@ -156,7 +156,7 @@ def _is_url_folder(url_entry: str) -> bool:
     return entries.size == 0
 
 
-def list_i4h_asset_url(url_entry: str) -> List[str]:
+def _list_asset_url(url_entry: str) -> List[str]:
     """
     List all the items in the url_entry. When it is a folder, it will return all the items in the folder.
     When it is a file, it will return a list with the file itself.
@@ -191,7 +191,7 @@ def _filter_downloaded_assets(
     results = []
     # we will check if the asset is already downloaded
     for entry_url in url_entries:
-        local_path = os.path.join(local_dir, get_i4h_asset_relpath(entry_url, version, hash))
+        local_path = os.path.join(local_dir, _get_asset_relpath(entry_url, version, hash))
         if os.path.isfile(local_path):
             print(f"Asset already downloaded to: {local_path}. Skipping download.")
         else:
@@ -200,7 +200,7 @@ def _filter_downloaded_assets(
 
 
 def _download_individual_asset(url_entry: str, download_dir: str):
-    local_path = os.path.join(download_dir, get_i4h_asset_relpath(url_entry))
+    local_path = os.path.join(download_dir, _get_asset_relpath(url_entry))
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
 
     if not _is_import_ready("omni.client"):
@@ -217,7 +217,7 @@ def _download_individual_asset(url_entry: str, download_dir: str):
     return local_path
 
 
-def download_i4h_assets(
+def _download_assets(
     url_entries: List[str],
     download_dir: str,
     concurrency: int = 2,
@@ -280,7 +280,7 @@ def retrieve_asset(
     if child_path is not None:
         remote_path = remote_path + "/" + child_path
 
-    paths = list_i4h_asset_url(remote_path)
+    paths = _list_asset_url(remote_path)
 
     if force_download:
         url_entries = paths
@@ -288,7 +288,7 @@ def retrieve_asset(
         url_entries = _filter_downloaded_assets(paths, local_dir, version, hash)
 
     if len(url_entries) > 0:
-        download_i4h_assets(url_entries, local_dir)
+        _download_assets(url_entries, local_dir)
 
     return local_dir
 
