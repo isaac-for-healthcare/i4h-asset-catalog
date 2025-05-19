@@ -45,10 +45,10 @@ def retrieve_main():
         help="Directory to download assets to"
     )
     parser.add_argument(
-        "--subdirectory",
+        "--child-path",
         type=str,
         default=None,
-        help="Subdirectory in the asset catalog to retrieve. Only support a single path, like `Robots`"
+        help="Either a subfolder path or a subfile path under the asset catalog. Only support a single path, like `Robots`"
     )
     parser.add_argument(
         "--hash",
@@ -61,7 +61,7 @@ def retrieve_main():
     local_path = retrieve_asset(
         version=args.version,
         download_dir=args.download_dir,
-        subdirectory=args.subdirectory,
+        child_path=args.child_path,
         hash=args.hash,
         force_download=args.force,
     )

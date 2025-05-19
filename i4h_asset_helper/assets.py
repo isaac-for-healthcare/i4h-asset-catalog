@@ -149,7 +149,7 @@ def _is_url_folder(url_entry: str) -> bool:
     import omni.client
     result, entries = omni.client.stat(url_entry)
     if result != omni.client.Result.OK:
-        raise ValueError(f"Failed to check if {url_entry} is a folder")
+        raise ValueError(f"The remote path {url_entry} is not valid")
     return entries.size == 0
 
 
@@ -268,7 +268,7 @@ def check_local_assets(
 def retrieve_asset(
     version: str = "0.2.0",
     download_dir: str | None = None,
-    subdirectory: str | None = None,
+    child_path: str | None = None,
     hash: str | None = None,
     force_download: bool = False
 ) -> str:
@@ -278,6 +278,7 @@ def retrieve_asset(
     Args:
         version: The version of the asset to download.
         download_dir: The directory to download the asset to.
+        child_path: The child path of the asset to download.
         hash: The sha256 hash of the asset.
         force_download: If True, the asset will be downloaded even if it already exists.
 
@@ -287,8 +288,8 @@ def retrieve_asset(
     local_dir = get_i4h_local_asset_path(version, download_dir, hash)
     remote_path = get_i4h_asset_path(version, hash)
 
-    if subdirectory is not None:
-        remote_path = os.path.join(remote_path, subdirectory)
+    if child_path is not None:
+        remote_path = os.path.join(remote_path, child_path)
     
     paths = list_i4h_asset_url(remote_path)
     if force_download:
