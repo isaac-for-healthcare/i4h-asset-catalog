@@ -17,12 +17,8 @@ import os
 
 import pytest
 
-from i4h_asset_helper.assets import (
-    get_i4h_asset_hash,
-    get_i4h_asset_path,
-    get_i4h_local_asset_path,
-    _I4H_ASSET_ROOT,
-)
+from i4h_asset_helper import get_i4h_asset_hash, get_i4h_asset_path, get_i4h_local_asset_path
+from i4h_asset_helper.assets import _I4H_ASSET_ROOT
 
 VERSIONS = ["0.1.0", "0.2.0"]
 
