@@ -48,7 +48,10 @@ def retrieve_main():
         "--child-path",
         type=str,
         default=None,
-        help="Either a subfolder path or a subfile path under the asset catalog. Only support a single path, like `Robots`"
+        help=(
+            "Either a subfolder path or a subfile path under the asset catalog. "
+            "Only support a single path, like `Robots`"
+        )
     )
     parser.add_argument(
         "--hash",

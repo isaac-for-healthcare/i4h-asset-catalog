@@ -53,7 +53,7 @@ def _is_import_ready(package_name: str):
         return False
     return True
 
-    
+
 def _get_configuration() -> str:
     """Get the current configuration of the asset root."""
     return os.environ.get("I4H_ASSET_ENV", "dev")
@@ -126,7 +126,7 @@ def get_i4h_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | No
         url_entry: The entry of the item
         version: The version of the asset
         hash: The sha256 hash of the asset
-    
+
     Returns:
         The relative path of the item.
     """
@@ -136,7 +136,7 @@ def get_i4h_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | No
 
     if not url_entry.startswith(asset_root):
         raise ValueError(f"URL entry {url_entry} expects to begin with {asset_root}")
-    
+
     return os.path.relpath(url_entry, asset_root)
 
 
@@ -209,10 +209,10 @@ def _download_individual_asset(url_entry: str, download_dir: str):
     result, _, file_content = omni.client.read_file(url_entry)
     if result != omni.client.Result.OK:
         raise ValueError(f"Failed to download asset: {url_entry}")
-    
+
     with open(local_path, "wb") as f:
         f.write(file_content)
-    
+
     return local_path
 
 def download_assets_local(
@@ -234,7 +234,7 @@ def download_assets_local(
     Returns:
         The path to the local asset.
     """
-    
+
     count = 0
     total = len(url_entries)
 
@@ -290,12 +290,12 @@ def retrieve_asset(
 
     if child_path is not None:
         remote_path = os.path.join(remote_path, child_path)
-    
+
     paths = list_i4h_asset_url(remote_path)
     if force_download:
         url_entries = paths
     else:
         url_entries = _filter_downloaded_assets(paths, local_dir, version, hash)
-    
+
     download_assets_local(url_entries, local_dir)
     return local_dir
