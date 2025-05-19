@@ -120,7 +120,7 @@ def get_i4h_local_asset_path(
     return os.path.join(download_dir, hash)
 
 
-def get_local_rel_path(url_entry: str, version: str = "0.2.0", hash: str | None = None) -> str:
+def get_i4h_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | None = None) -> str:
     """
     Get relative path of the item specified by the url_entry should be located in the local asset directory.
 

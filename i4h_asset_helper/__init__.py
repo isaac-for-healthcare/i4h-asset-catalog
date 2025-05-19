@@ -18,7 +18,7 @@ from i4h_asset_helper.assets import (
     get_i4h_asset_path,
     get_i4h_local_asset_path,
     retrieve_asset,
-    get_local_rel_path,
+    get_i4h_asset_relpath,
     list_i4h_asset_url,
 )
 
@@ -27,7 +27,7 @@ __all__ = [
     "get_i4h_asset_path",
     "get_i4h_local_asset_path",
     "retrieve_asset",
-    "get_local_rel_path",
+    "get_i4h_asset_relpath",
     "list_i4h_asset_url",
 ]
 
