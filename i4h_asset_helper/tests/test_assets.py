@@ -21,13 +21,16 @@ from i4h_asset_helper import get_i4h_asset_path, get_i4h_local_asset_path
 from i4h_asset_helper.assets import _I4H_ASSET_ROOT, get_i4h_asset_hash
 
 
+VERSIONS = ["0.1.0", "0.2.0"]
+
 def test_get_i4h_asset_path_valid_version():
     # Test with valid version
     result = get_i4h_asset_path()
     hash = get_i4h_asset_hash()
-    expected_production_path = f"{_I4H_ASSET_ROOT['production']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
-    expected_staging_path = f"{_I4H_ASSET_ROOT['staging']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
-    expected_dev_path = f"{_I4H_ASSET_ROOT['dev']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
+    version = VERSIONS[1]
+    expected_production_path = f"{_I4H_ASSET_ROOT['production']}/{version}/i4h-assets-v{version}-{hash}.zip"
+    expected_staging_path = f"{_I4H_ASSET_ROOT['staging']}/{version}/i4h-assets-v{version}-{hash}.zip"
+    expected_dev_path = f"{_I4H_ASSET_ROOT['dev']}/{version}/i4h-assets-v{version}-{hash}.zip"
     expected_paths = {expected_staging_path, expected_dev_path, expected_production_path}
     assert result in expected_paths
 

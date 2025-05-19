@@ -13,11 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import asyncio
 import json
 import os
 import shutil
 import tempfile
 import zipfile
+import importlib
+import sys
+
+from typing import List
+from isaacsim import SimulationApp
 
 __all__ = [
     "get_i4h_asset_hash",
@@ -35,7 +41,34 @@ _I4H_ASSET_ROOT = {
 _DEFAULT_DOWNLOAD_DIR = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets")
 
 
-def get_i4h_asset_hash(version: str = "0.1.0") -> str:
+def _is_import_ready(package_name: str):
+    """
+    Check if we need to start the simulation app to import the package. If it does, it will return True.
+    """
+    # try if the package is already imported
+    if package_name in sys.modules:
+        return True
+
+    try:
+        importlib.import_module(package_name)
+    except ImportError:
+        return False
+    return True
+
+    
+def _get_configuration() -> str:
+    """Get the current configuration of the asset root."""
+    return os.environ.get("I4H_ASSET_ENV", "dev")
+
+
+def _set_configuration(config: str):
+    """Set the current configuration of the asset root for internal tests."""
+    if config not in _I4H_ASSET_ROOT:
+        raise ValueError(f"Invalid configuration: {config}")
+    os.environ["I4H_ASSET_ENV"] = config
+
+
+def get_i4h_asset_hash(version: str = "0.2.0") -> str:
     """Get the sha256 hash for the given version."""
     # Get it from the environment variable if it exists
     if os.environ.get("ISAAC_ASSET_SHA256_HASH"):
@@ -45,7 +78,7 @@ def get_i4h_asset_hash(version: str = "0.1.0") -> str:
         return json.load(f).get(version, None)
 
 
-def get_i4h_asset_path(version: str = "0.1.0", hash: str | None = None) -> str:
+def get_i4h_asset_path(version: str = "0.2.0", hash: str | None = None) -> str:
     """
     Get the path to the i4h asset for the given version.
 
@@ -56,25 +89,16 @@ def get_i4h_asset_path(version: str = "0.1.0", hash: str | None = None) -> str:
     Returns:
         The path to the i4h asset.
     """
-    asset_root = _I4H_ASSET_ROOT.get(os.environ.get("I4H_ASSET_ENV", "production"))
+    asset_root = _I4H_ASSET_ROOT.get(_get_configuration())
     if hash is None:
         hash = get_i4h_asset_hash(version=version)
-    if hash is None:
-        raise ValueError(f"Invalid version: {version}")
-    remote_path = f"{asset_root}/{version}/i4h-assets-v{version}-{hash}.zip"
-    try:
-        # Try to check if the asset exists if isaacsim simulation is started
-        import omni.client
-        if not omni.client.stat(remote_path)[0] == omni.client.Result.OK:
-            raise ValueError(f"Asset not found: {remote_path}")
-    except ImportError:
-        pass
+    remote_path = f"{asset_root}/{version}/{hash}"
 
     return remote_path
 
 
 def get_i4h_local_asset_path(
-        version: str = "0.1.0",
+        version: str = "0.2.0",
         download_dir: str | None = None,
         hash: str | None = None
     ) -> str:
@@ -96,8 +120,59 @@ def get_i4h_local_asset_path(
     return os.path.join(download_dir, hash)
 
 
+def get_local_rel_path(url_entry: str, version: str = "0.2.0", hash: str | None = None) -> str:
+    """
+    Get relative path of the item specified by the url_entry should be located in the local asset directory.
+
+    Args:
+        url_entry: The entry of the item
+        version: The version of the asset
+        hash: The sha256 hash of the asset
+    
+    Returns:
+        The relative path of the item.
+    """
+    asset_root = get_i4h_asset_path(version, hash)
+    if _get_configuration() == "dev":
+        asset_root = asset_root.replace("https://isaac-dev.ov.nvidia.com/omni/web3/", "")
+
+    if not url_entry.startswith(asset_root):
+        raise ValueError(f"URL entry {url_entry} expects to begin with {asset_root}")
+    
+    return os.path.relpath(url_entry, asset_root)
+
+
+def _is_url_folder(url_entry: str) -> bool:
+    """Check if the url_entry is a folder."""
+    # This is an internal function
+    # So we don't expect users to call this without the simulation app
+    if not _is_import_ready("omni.client"):
+        SimulationApp({"headless": True})
+    import omni.client
+    result, entries = omni.client.stat(url_entry)
+    if result != omni.client.Result.OK:
+        raise ValueError(f"Failed to check if {url_entry} is a folder")
+    return entries.size == 0
+
+
+def list_i4h_asset_url(url_entry: str) -> List[str]:
+    """
+    List all the items in the url_entry. When it is a folder, it will return all the items in the folder.
+    When it is a file, it will return a list with the file itself.
+    """
+    if not _is_import_ready("isaacsim.storage.native.nucleus"):
+        SimulationApp({"headless": True})
+    from isaacsim.storage.native.nucleus import _list_files
+    if not _is_url_folder(url_entry):
+        return [url_entry]
+
+    # _list_files is an async function
+    _, entries = asyncio.run(_list_files(url_entry))
+    return entries
+
+
 def retrieve_asset(
-    version: str = "0.1.0",
+    version: str = "0.2.0",
     download_dir: str | None = None,
     hash: str | None = None,
     force_download: bool = False
@@ -125,14 +200,10 @@ def retrieve_asset(
     if os.path.isdir(local_path):
         shutil.rmtree(local_path)
 
-    try:
-        import omni.client
-        app = None
-    except ImportError:
-        from isaacsim import SimulationApp
-        app = SimulationApp({"headless": True})
-        import omni.client
-
+    if not _is_import_ready("omni.client"):
+        SimulationApp({"headless": True})
+    import omni.client
+    
     remote_path = get_i4h_asset_path(version, hash)
     result, _, file_content = omni.client.read_file(remote_path)
 
@@ -151,6 +222,3 @@ def retrieve_asset(
             return local_path
     except Exception as e:
         raise ValueError(f"Failed to extract asset: {remote_path}") from e
-    finally:
-        if app is not None:
-            app.close()

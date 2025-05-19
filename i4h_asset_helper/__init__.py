@@ -13,13 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from i4h_asset_helper.assets import get_i4h_asset_hash, get_i4h_asset_path, get_i4h_local_asset_path, retrieve_asset
+from i4h_asset_helper.assets import (
+    get_i4h_asset_hash,
+    get_i4h_asset_path,
+    get_i4h_local_asset_path,
+    retrieve_asset,
+    get_local_rel_path,
+    list_i4h_asset_url,
+)
 
 __all__ = [
     "get_i4h_asset_hash",
     "get_i4h_asset_path",
     "get_i4h_local_asset_path",
     "retrieve_asset",
+    "get_local_rel_path",
+    "list_i4h_asset_url",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
