@@ -15,11 +15,18 @@
 
 import os
 import tempfile
-import pytest
 
-from i4h_asset_helper import BaseI4HAssets, get_i4h_asset_hash, get_i4h_asset_path, get_i4h_local_asset_path, retrieve_asset
-from i4h_asset_helper.assets import _I4H_ASSET_ROOT
+import pytest
 from isaacsim import SimulationApp
+
+from i4h_asset_helper import (
+    BaseI4HAssets,
+    get_i4h_asset_hash,
+    get_i4h_asset_path,
+    get_i4h_local_asset_path,
+    retrieve_asset,
+)
+from i4h_asset_helper.assets import _I4H_ASSET_ROOT
 
 VERSIONS = ["0.1.0", "0.2.0"]
 SimulationApp({"headless": True})
@@ -88,4 +95,3 @@ def test_class_inheritance():
         hash = get_i4h_asset_hash()
         assert os.path.exists(local_usda)
         assert hash in local_usda
-
