@@ -84,6 +84,26 @@ def test_retrieve_asset():
         assert os.path.exists(os.path.join(local_dir, "Test"))
 
 
+def test_retrieve_asset_force_download():
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # First download
+        local_dir = retrieve_asset(download_dir=temp_dir, child_path="Test")
+        hash = get_i4h_asset_hash()
+        assert hash in local_dir
+        assert os.path.exists(os.path.join(local_dir, "Test"))
+
+        # Get the modification time of the downloaded file
+        test_file = os.path.join(local_dir, "Test")
+        first_download_time = os.path.getmtime(test_file)
+
+        # Force download again
+        local_dir = retrieve_asset(download_dir=temp_dir, child_path="Test", force_download=True)
+        second_download_time = os.path.getmtime(test_file)
+
+        # Verify that the file was downloaded again (modification time should be different)
+        assert second_download_time > first_download_time
+
+
 def test_class_inheritance():
     class TestI4HAssets(BaseI4HAssets):
         test = "Test/basic.usda"

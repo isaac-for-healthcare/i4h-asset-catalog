@@ -217,6 +217,9 @@ def _download_individual_asset(url_entry: str, download_dir: str):
     if result != omni.client.Result.OK:
         raise ValueError(f"Failed to download asset: {url_entry}")
 
+    if os.path.exists(local_path):
+        os.remove(local_path)
+
     with open(local_path, "wb") as f:
         f.write(file_content)
 
