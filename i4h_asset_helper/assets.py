@@ -101,6 +101,8 @@ def get_i4h_asset_path(version: str = "0.2.0", hash: str | None = None) -> str:
     asset_root = _I4H_ASSET_ROOT.get(_get_asset_env())
     if hash is None:
         hash = get_i4h_asset_hash(version=version)
+    if hash is None:
+        raise ValueError("Invalid version")
     remote_path = f"{asset_root}/{version}/{hash}"
 
     return remote_path
