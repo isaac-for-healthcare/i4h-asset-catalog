@@ -305,6 +305,13 @@ def retrieve_asset(
 class BaseI4HAssets:
     """
     Base class for i4h assets with public attributes defining the relative paths to the assets.
+
+    When accessing any public attribute of this class, the corresponding asset will be automatically downloaded
+    if it doesn't exist locally. For USD files (with extensions .usd, .usda, or .usdc), the entire directory
+    containing the file will be downloaded to ensure all dependencies are available. If skip_download_usd is True,
+    USD files will use the remote path directly without downloading.
+
+    The downloaded assets will be stored in the specified download directory (defaults to ~/.cache/i4h-assets).
     """
 
     def __init__(self, download_dir: str | None = None, skip_download_usd: bool = False):
