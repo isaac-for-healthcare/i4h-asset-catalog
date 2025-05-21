@@ -16,8 +16,10 @@
 import argparse
 import sys
 
-from .assets import _get_download_dir, _is_s3_environment, retrieve_asset
 from isaacsim import SimulationApp
+
+from .assets import _get_download_dir, _is_s3_environment, retrieve_asset
+
 
 def retrieve_main():
     """Command line interface for i4h asset helper."""
@@ -27,9 +29,7 @@ def retrieve_main():
     )
     parser.add_argument("--version", type=str, default="0.2.0", choices=["0.2.0"], help="Asset version to retrieve")
     parser.add_argument("--force", action="store_true", help="Force download even if assets already exist")
-    parser.add_argument(
-        "--download-dir", type=str, default=_get_download_dir(), help="Directory to download assets to"
-    )
+    parser.add_argument("--download-dir", type=str, default=_get_download_dir(), help="Directory to download assets to")
     parser.add_argument(
         "--child-path",
         type=str,

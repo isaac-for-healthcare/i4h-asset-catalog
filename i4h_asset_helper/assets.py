@@ -27,7 +27,6 @@ from urllib.parse import urlparse
 from botocore.exceptions import ClientError
 from tqdm import tqdm
 
-
 __all__ = [
     "get_i4h_asset_hash",
     "get_i4h_asset_path",
@@ -55,23 +54,25 @@ _S3_REGIONS = {
     "production": "us-west-2",
 }
 
+
 def _is_s3_environment() -> bool:
     """Check if current environment uses S3 for asset storage."""
     env = _get_asset_env()
     return env in ["staging", "production"]
 
+
 def _parse_s3_url(url: str) -> Tuple[str, str]:
     """
     Parse S3 URL to extract bucket and key.
-    
+
     Args:
         url: The S3 URL (https://bucket-name.s3-region.amazonaws.com/path/to/key)
-        
+
     Returns:
         Tuple of (bucket_name, key)
     """
     parsed = urlparse(url)
-    
+
     # Extract bucket name from hostname
     hostname = parsed.netloc
     if hostname.endswith(".amazonaws.com"):
@@ -80,38 +81,36 @@ def _parse_s3_url(url: str) -> Tuple[str, str]:
         # Use mapping if hostname doesn't match expected pattern
         env = _get_asset_env()
         bucket = _S3_BUCKETS.get(env)
-        
+
     # Extract key from path (remove leading slash)
     key = parsed.path
     if key.startswith("/"):
         key = key[1:]
-        
+
     return bucket, key
+
 
 def _get_s3_client():
     """Get boto3 S3 client with anonymous configuration for public buckets."""
     env = _get_asset_env()
-    
+
     try:
         import boto3
         import botocore.config
-        
+
         # Create an anonymous/unsigned config for public access
         config = botocore.config.Config(
             signature_version=botocore.UNSIGNED,
             retries={
-                'max_attempts': 5,
-                'mode': 'adaptive',  # Use adaptive mode for exponential backoff with jitter
-            }
+                "max_attempts": 5,
+                "mode": "adaptive",  # Use adaptive mode for exponential backoff with jitter
+            },
         )
-        
-        return boto3.client(
-            's3', 
-            region_name=_S3_REGIONS.get(env),
-            config=config
-        )
+
+        return boto3.client("s3", region_name=_S3_REGIONS.get(env), config=config)
     except ImportError:
         raise ImportError("boto3 is required for S3 access. Install with 'pip install boto3'")
+
 
 def _is_import_ready(package_name: str):
     """
@@ -229,35 +228,30 @@ def _is_url_folder(url_entry: str) -> bool:
         if not _is_s3_environment():
             raise ValueError("Please start the isaac simulation app before the asset helper.")
         # Fallback for S3 environments: boto3
-        try:            
+        try:
             bucket, key = _parse_s3_url(url_entry)
             s3_client = _get_s3_client()
-            
+
             # For S3, a folder is indicated by a key that ends with a '/'
             # If key doesn't end with '/', check if objects exist with this prefix
-            if not key.endswith('/'):
+            if not key.endswith("/"):
                 # List objects with this prefix to see if it's a folder
                 max_retries = 5
                 retry_count = 0
                 backoff_time = 1  # Start with 1 second
-                
+
                 while True:
                     try:
-                        response = s3_client.list_objects_v2(
-                            Bucket=bucket,
-                            Prefix=key,
-                            Delimiter='/',
-                            MaxKeys=1
-                        )
+                        response = s3_client.list_objects_v2(Bucket=bucket, Prefix=key, Delimiter="/", MaxKeys=1)
                         # If CommonPrefixes exist, it's a folder
-                        return 'CommonPrefixes' in response or response.get('KeyCount', 0) > 0
+                        return "CommonPrefixes" in response or response.get("KeyCount", 0) > 0
                     except ClientError as e:
-                        error_code = e.response.get('Error', {}).get('Code', '')
-                        if error_code == 'SlowDown' and retry_count < max_retries:
+                        error_code = e.response.get("Error", {}).get("Code", "")
+                        if error_code == "SlowDown" and retry_count < max_retries:
                             # If we hit a rate limit, wait with exponential backoff
                             retry_count += 1
-                            sleep_time = backoff_time * (1 + 0.5 * (2.0 ** retry_count))
-                            print(f"Rate limit hit. Retrying in {sleep_time:.2f} seconds... (attempt {retry_count}/{max_retries})")
+                            sleep_time = backoff_time * (1 + 0.5 * (2.0**retry_count))
+                            print(f"Rate limit hit. Retrying... (attempt {retry_count}/{max_retries})")
                             time.sleep(sleep_time)
                         else:
                             # If error is not rate limiting or we're out of retries, raise the exception
@@ -267,6 +261,7 @@ def _is_url_folder(url_entry: str) -> bool:
             raise ValueError(f"The remote path {url_entry} is not valid: {str(e)}")
 
     import omni.client
+
     result, entries = omni.client.stat(url_entry)
     if result != omni.client.Result.OK:
         raise ValueError(f"The remote path {url_entry} is not valid")
@@ -289,47 +284,47 @@ def _list_asset_url(url_entry: str) -> List[str]:
         try:
             bucket, key = _parse_s3_url(url_entry)
             s3_client = _get_s3_client()
-            
+
             # Ensure key ends with '/'
-            if key and not key.endswith('/'):
-                key = key + '/'
-                
+            if key and not key.endswith("/"):
+                key = key + "/"
+
             # List all objects with this prefix
             entries = []
-            paginator = s3_client.get_paginator('list_objects_v2')
-            
+            paginator = s3_client.get_paginator("list_objects_v2")
+
             # Get files with retry logic for rate limiting
             max_retries = 5
             retry_count = 0
             backoff_time = 1  # Start with 1 second
-            
+
             while True:
                 try:
                     # Get files
                     for page in paginator.paginate(Bucket=bucket, Prefix=key):
-                        if 'Contents' in page:
-                            for obj in page['Contents']:
+                        if "Contents" in page:
+                            for obj in page["Contents"]:
                                 # Skip the folder itself
-                                if obj['Key'] != key:
+                                if obj["Key"] != key:
                                     obj_url = f"https://{bucket}.s3-{_S3_REGIONS.get(_get_asset_env())}.amazonaws.com/{obj['Key']}"
                                     entries.append(obj_url)
                     break  # Success - exit the retry loop
                 except ClientError as e:
-                    error_code = e.response.get('Error', {}).get('Code', '')
-                    if error_code == 'SlowDown' and retry_count < max_retries:
+                    error_code = e.response.get("Error", {}).get("Code", "")
+                    if error_code == "SlowDown" and retry_count < max_retries:
                         # If we hit a rate limit, wait with exponential backoff
                         retry_count += 1
-                        sleep_time = backoff_time * (1 + 0.5 * (2.0 ** retry_count))
-                        print(f"Rate limit hit. Retrying in {sleep_time:.2f} seconds... (attempt {retry_count}/{max_retries})")
+                        sleep_time = backoff_time * (1 + 0.5 * (2.0**retry_count))
+                        print(f"Rate limit hit. Retrying... (attempt {retry_count}/{max_retries})")
                         time.sleep(sleep_time)
                     else:
                         # If error is not rate limiting or we're out of retries, raise the exception
                         raise ValueError(f"Failed to list S3 objects at {url_entry}: {str(e)}")
-            
+
             return entries
         except Exception as e:
             raise ValueError(f"Failed to list S3 objects at {url_entry}: {str(e)}")
-    
+
     from isaacsim.storage.native.nucleus import _list_files
 
     # _list_files is an async function
@@ -375,11 +370,11 @@ def _download_individual_asset(url_entry: str, download_dir: str):
         try:
             bucket, key = _parse_s3_url(url_entry)
             s3_client = _get_s3_client()
-            
+
             # Download file directly to local path
             if os.path.exists(local_path):
                 os.remove(local_path)
-                
+
             s3_client.download_file(bucket, key, local_path)
             return local_path
         except Exception as e:
@@ -430,7 +425,7 @@ def _download_assets(
         # Use tqdm to show progress
         with tqdm(total=total, desc=f"Downloading assets to {download_dir}", unit="files") as pbar:
             for future in as_completed(futures_to_url, timeout=timeout):
-                local_path = future.result()
+                future.result()
                 pbar.update(1)
 
 
