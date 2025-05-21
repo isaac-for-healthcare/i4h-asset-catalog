@@ -2,7 +2,6 @@
 
 ### Requirements
 
-- Ubuntu 22.04
 - Python 3.10
 
 ### Installation
