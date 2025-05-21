@@ -18,10 +18,13 @@ import importlib
 import json
 import os
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import List
+from typing import List, Tuple
+from urllib.parse import urlparse
 
+from botocore.exceptions import ClientError
 from isaacsim import SimulationApp
 
 __all__ = [
@@ -38,6 +41,76 @@ _I4H_ASSET_ROOT = {
     "production": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Healthcare",
 }
 
+
+# S3 bucket mapping
+_S3_BUCKETS = {
+    "staging": "omniverse-content-staging",
+    "production": "omniverse-content-production",
+}
+
+# S3 region mapping
+_S3_REGIONS = {
+    "staging": "us-west-2",
+    "production": "us-west-2",
+}
+
+def _is_s3_environment() -> bool:
+    """Check if current environment uses S3 for asset storage."""
+    env = _get_asset_env()
+    return env in ["staging", "production"]
+
+def _parse_s3_url(url: str) -> Tuple[str, str]:
+    """
+    Parse S3 URL to extract bucket and key.
+    
+    Args:
+        url: The S3 URL (https://bucket-name.s3-region.amazonaws.com/path/to/key)
+        
+    Returns:
+        Tuple of (bucket_name, key)
+    """
+    parsed = urlparse(url)
+    
+    # Extract bucket name from hostname
+    hostname = parsed.netloc
+    if hostname.endswith(".amazonaws.com"):
+        bucket = hostname.split(".s3-")[0]
+    else:
+        # Use mapping if hostname doesn't match expected pattern
+        env = _get_asset_env()
+        bucket = _S3_BUCKETS.get(env)
+        
+    # Extract key from path (remove leading slash)
+    key = parsed.path
+    if key.startswith("/"):
+        key = key[1:]
+        
+    return bucket, key
+
+def _get_s3_client():
+    """Get boto3 S3 client with anonymous configuration for public buckets."""
+    env = _get_asset_env()
+    
+    try:
+        import boto3
+        import botocore.config
+        
+        # Create an anonymous/unsigned config for public access
+        config = botocore.config.Config(
+            signature_version=botocore.UNSIGNED,
+            retries={
+                'max_attempts': 5,
+                'mode': 'adaptive',  # Use adaptive mode for exponential backoff with jitter
+            }
+        )
+        
+        return boto3.client(
+            's3', 
+            region_name=_S3_REGIONS.get(env),
+            config=config
+        )
+    except ImportError:
+        raise ImportError("boto3 is required for S3 access. Install with 'pip install boto3'")
 
 def _is_import_ready(package_name: str):
     """
@@ -150,8 +223,46 @@ def _get_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | None 
 
 def _is_url_folder(url_entry: str) -> bool:
     """Check if the url_entry is a folder."""
-    # This is an internal function
-    # So we don't expect users to call this without the simulation app
+    # For S3 environments, use boto3
+    if _is_s3_environment():
+        try:            
+            bucket, key = _parse_s3_url(url_entry)
+            s3_client = _get_s3_client()
+            
+            # For S3, a folder is indicated by a key that ends with a '/'
+            # If key doesn't end with '/', check if objects exist with this prefix
+            if not key.endswith('/'):
+                # List objects with this prefix to see if it's a folder
+                max_retries = 5
+                retry_count = 0
+                backoff_time = 1  # Start with 1 second
+                
+                while True:
+                    try:
+                        response = s3_client.list_objects_v2(
+                            Bucket=bucket,
+                            Prefix=key,
+                            Delimiter='/',
+                            MaxKeys=1
+                        )
+                        # If CommonPrefixes exist, it's a folder
+                        return 'CommonPrefixes' in response or response.get('KeyCount', 0) > 0
+                    except ClientError as e:
+                        error_code = e.response.get('Error', {}).get('Code', '')
+                        if error_code == 'SlowDown' and retry_count < max_retries:
+                            # If we hit a rate limit, wait with exponential backoff
+                            retry_count += 1
+                            sleep_time = backoff_time * (1 + 0.5 * (2.0 ** retry_count))
+                            print(f"Rate limit hit. Retrying in {sleep_time:.2f} seconds... (attempt {retry_count}/{max_retries})")
+                            time.sleep(sleep_time)
+                        else:
+                            # If error is not rate limiting or we're out of retries, raise the exception
+                            raise ValueError(f"The remote path {url_entry} returned an error: {str(e)}")
+            return True
+        except Exception as e:
+            raise ValueError(f"The remote path {url_entry} is not valid: {str(e)}")
+    
+    # For other environments, use omni.client
     if not _is_import_ready("omni.client"):
         SimulationApp({"headless": True})
     import omni.client
@@ -167,12 +278,60 @@ def _list_asset_url(url_entry: str) -> List[str]:
     List all the items in the url_entry. When it is a folder, it will return all the items in the folder.
     When it is a file, it will return a list with the file itself.
     """
+    # If not a folder, just return the url as a list with one entry
+    if not _is_url_folder(url_entry):
+        return [_unify_path(url_entry)]
+    
+    # For S3 environments, use boto3
+    if _is_s3_environment():
+        try:
+            bucket, key = _parse_s3_url(url_entry)
+            s3_client = _get_s3_client()
+            
+            # Ensure key ends with '/'
+            if key and not key.endswith('/'):
+                key = key + '/'
+                
+            # List all objects with this prefix
+            entries = []
+            paginator = s3_client.get_paginator('list_objects_v2')
+            
+            # Get files with retry logic for rate limiting
+            max_retries = 5
+            retry_count = 0
+            backoff_time = 1  # Start with 1 second
+            
+            while True:
+                try:
+                    # Get files
+                    for page in paginator.paginate(Bucket=bucket, Prefix=key):
+                        if 'Contents' in page:
+                            for obj in page['Contents']:
+                                # Skip the folder itself
+                                if obj['Key'] != key:
+                                    obj_url = f"https://{bucket}.s3-{_S3_REGIONS.get(_get_asset_env())}.amazonaws.com/{obj['Key']}"
+                                    entries.append(obj_url)
+                    break  # Success - exit the retry loop
+                except ClientError as e:
+                    error_code = e.response.get('Error', {}).get('Code', '')
+                    if error_code == 'SlowDown' and retry_count < max_retries:
+                        # If we hit a rate limit, wait with exponential backoff
+                        retry_count += 1
+                        sleep_time = backoff_time * (1 + 0.5 * (2.0 ** retry_count))
+                        print(f"Rate limit hit. Retrying in {sleep_time:.2f} seconds... (attempt {retry_count}/{max_retries})")
+                        time.sleep(sleep_time)
+                    else:
+                        # If error is not rate limiting or we're out of retries, raise the exception
+                        raise ValueError(f"Failed to list S3 objects at {url_entry}: {str(e)}")
+            
+            return entries
+        except Exception as e:
+            raise ValueError(f"Failed to list S3 objects at {url_entry}: {str(e)}")
+    
+    # For dev/nucleus environments, use _list_files
     if not _is_import_ready("isaacsim.storage.native.nucleus"):
         SimulationApp({"headless": True})
     from isaacsim.storage.native.nucleus import _list_files
-
-    if not _is_url_folder(url_entry):
-        return [_unify_path(url_entry)]
 
     # _list_files is an async function
     _, entries = asyncio.run(_list_files(url_entry))
@@ -209,6 +368,22 @@ def _download_individual_asset(url_entry: str, download_dir: str):
     local_path = os.path.join(download_dir, _get_asset_relpath(url_entry))
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
 
+    # For S3 environments, use boto3
+    if _is_s3_environment():
+        try:
+            bucket, key = _parse_s3_url(url_entry)
+            s3_client = _get_s3_client()
+            
+            # Download file directly to local path
+            if os.path.exists(local_path):
+                os.remove(local_path)
+                
+            s3_client.download_file(bucket, key, local_path)
+            return local_path
+        except Exception as e:
+            raise ValueError(f"Failed to download asset from S3: {url_entry}: {str(e)}")
+
+    # For dev/nucleus environments, use omni.client
     if not _is_import_ready("omni.client"):
         SimulationApp({"headless": True})
     import omni.client
