@@ -25,7 +25,8 @@ from typing import List, Tuple
 from urllib.parse import urlparse
 
 from botocore.exceptions import ClientError
-from isaacsim import SimulationApp
+from tqdm import tqdm
+
 
 __all__ = [
     "get_i4h_asset_hash",
@@ -223,8 +224,11 @@ def _get_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | None 
 
 def _is_url_folder(url_entry: str) -> bool:
     """Check if the url_entry is a folder."""
-    # For S3 environments, use boto3
-    if _is_s3_environment():
+
+    if not _is_import_ready("omni.client"):
+        if not _is_s3_environment():
+            raise ValueError("Please start the isaac simulation app before the asset helper.")
+        # Fallback for S3 environments: boto3
         try:            
             bucket, key = _parse_s3_url(url_entry)
             s3_client = _get_s3_client()
@@ -261,12 +265,8 @@ def _is_url_folder(url_entry: str) -> bool:
             return True
         except Exception as e:
             raise ValueError(f"The remote path {url_entry} is not valid: {str(e)}")
-    
-    # For other environments, use omni.client
-    if not _is_import_ready("omni.client"):
-        SimulationApp({"headless": True})
-    import omni.client
 
+    import omni.client
     result, entries = omni.client.stat(url_entry)
     if result != omni.client.Result.OK:
         raise ValueError(f"The remote path {url_entry} is not valid")
@@ -281,9 +281,11 @@ def _list_asset_url(url_entry: str) -> List[str]:
     # If not a folder, just return the url as a list with one entry
     if not _is_url_folder(url_entry):
         return [_unify_path(url_entry)]
-    
-    # For S3 environments, use boto3
-    if _is_s3_environment():
+
+    if not _is_import_ready("isaacsim.storage.native.nucleus"):
+        if not _is_s3_environment():
+            raise ValueError("Please start the isaac simulation app before the asset helper.")
+        # Fallback for S3 environments: boto3
         try:
             bucket, key = _parse_s3_url(url_entry)
             s3_client = _get_s3_client()
@@ -328,9 +330,6 @@ def _list_asset_url(url_entry: str) -> List[str]:
         except Exception as e:
             raise ValueError(f"Failed to list S3 objects at {url_entry}: {str(e)}")
     
-    # For dev/nucleus environments, use _list_files
-    if not _is_import_ready("isaacsim.storage.native.nucleus"):
-        SimulationApp({"headless": True})
     from isaacsim.storage.native.nucleus import _list_files
 
     # _list_files is an async function
@@ -339,7 +338,7 @@ def _list_asset_url(url_entry: str) -> List[str]:
 
 
 def _filter_downloaded_assets(
-    url_entries: List[str], local_dir: str, version: str | None = None, hash: str | None = None
+    url_entries: List[str], local_dir: str, version: str | None = None, hash: str | None = None, verbose: bool = False
 ) -> List[str]:
     """
     Filter the url_entries to only include the ones that are not downloaded.
@@ -358,7 +357,8 @@ def _filter_downloaded_assets(
     for entry_url in url_entries:
         local_path = os.path.join(local_dir, _get_asset_relpath(entry_url, version, hash))
         if os.path.isfile(local_path):
-            print(f"Asset already downloaded to: {local_path}. Skipping download.")
+            if verbose:
+                print(f"Asset already downloaded to: {local_path}. Skipping download.")
         else:
             results.append(entry_url)
     return results
@@ -368,8 +368,10 @@ def _download_individual_asset(url_entry: str, download_dir: str):
     local_path = os.path.join(download_dir, _get_asset_relpath(url_entry))
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
 
-    # For S3 environments, use boto3
-    if _is_s3_environment():
+    if not _is_import_ready("omni.client"):
+        if not _is_s3_environment():
+            raise ValueError("Please start the isaac simulation app before the asset helper.")
+        # Fallback for S3 environments: boto3
         try:
             bucket, key = _parse_s3_url(url_entry)
             s3_client = _get_s3_client()
@@ -383,9 +385,6 @@ def _download_individual_asset(url_entry: str, download_dir: str):
         except Exception as e:
             raise ValueError(f"Failed to download asset from S3: {url_entry}: {str(e)}")
 
-    # For dev/nucleus environments, use omni.client
-    if not _is_import_ready("omni.client"):
-        SimulationApp({"headless": True})
     import omni.client
 
     result, _, file_content = omni.client.read_file(url_entry)
@@ -421,7 +420,6 @@ def _download_assets(
         The path to the local asset.
     """
 
-    count = 0
     total = len(url_entries)
 
     with ThreadPoolExecutor(max_workers=concurrency) as executor:
@@ -429,13 +427,11 @@ def _download_assets(
             executor.submit(_download_individual_asset, url_entry, download_dir): url_entry for url_entry in url_entries
         }
 
-        for future in as_completed(futures_to_url, timeout=timeout):
-            local_path = future.result()
-            count += 1
-            if total > 1:
-                print(f"Downloaded {count} of {total} assets to {local_path}")
-            else:
-                print(f"Downloaded asset to {local_path}")
+        # Use tqdm to show progress
+        with tqdm(total=total, desc=f"Downloading assets to {download_dir}", unit="files") as pbar:
+            for future in as_completed(futures_to_url, timeout=timeout):
+                local_path = future.result()
+                pbar.update(1)
 
 
 def retrieve_asset(
@@ -444,6 +440,7 @@ def retrieve_asset(
     child_path: str | None = None,
     hash: str | None = None,
     force_download: bool = False,
+    verbose: bool = False,
 ) -> str:
     """
     Download the asset from the remote path to the download directory.
@@ -454,7 +451,7 @@ def retrieve_asset(
         child_path: The child path of the asset to download.
         hash: The sha256 hash of the asset.
         force_download: If True, the asset will be downloaded even if it already exists.
-
+        verbose: If True, it will print more information.
     Returns:
         The path to the local asset.
     """
@@ -469,7 +466,7 @@ def retrieve_asset(
     if force_download:
         url_entries = paths
     else:
-        url_entries = _filter_downloaded_assets(paths, local_dir, version, hash)
+        url_entries = _filter_downloaded_assets(paths, local_dir, version, hash, verbose)
 
     if len(url_entries) > 0:
         _download_assets(url_entries, local_dir)
