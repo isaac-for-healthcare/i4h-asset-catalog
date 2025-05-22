@@ -26,7 +26,6 @@ with open("tools/apache_2_0.txt", "r", encoding="utf-8") as license_file:
 file_extensions = [".py", ".sh", ".ipynb", ".slurm", ".h", ".hpp", ".cu", ".cpp", ".txt"]
 
 
-
 def check_license_in_file(file_path):
     """Check if the file contains all lines of the license header"""
     with open(file_path, "r", encoding="utf-8") as file:
@@ -51,20 +50,20 @@ def check_license_in_directory(directory):
     git_ignore_patterns = []
     with open(".gitignore", "r", encoding="utf-8") as git_ignore_file:
         git_ignore_patterns = [
-            line.strip() for line in git_ignore_file.readlines() if line.strip() and not line.startswith('#')
+            line.strip() for line in git_ignore_file.readlines() if line.strip() and not line.startswith("#")
         ]
 
     # Convert gitignore patterns to regex patterns
     regex_patterns = []
     for pattern in git_ignore_patterns:
         # Handle directory patterns (ending with /)
-        if pattern.endswith('/'):
-            pattern = pattern[:-1] + '.*'
+        if pattern.endswith("/"):
+            pattern = pattern[:-1] + ".*"
         # Convert glob patterns to regex
-        pattern = pattern.replace('.', '\\.').replace('*', '.*').replace('?', '.')
+        pattern = pattern.replace(".", "\\.").replace("*", ".*").replace("?", ".")
         # Add start/end anchors if needed
-        if not pattern.startswith('^'):
-            pattern = '^' + pattern
+        if not pattern.startswith("^"):
+            pattern = "^" + pattern
         regex_patterns.append(re.compile(pattern))
 
     for root, _, files in os.walk(directory):

@@ -13,20 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from i4h_asset_helper.assets import (
-    BaseI4HAssets,
-    get_i4h_asset_hash,
-    get_i4h_asset_path,
-    get_i4h_local_asset_path,
-    retrieve_asset,
-)
 
-__all__ = [
-    "BaseI4HAssets",
-    "get_i4h_asset_hash",
-    "get_i4h_asset_path",
-    "get_i4h_local_asset_path",
-    "retrieve_asset",
-]
+"""Test the cli i4h-asset-retrieve."""
 
-__version__ = "0.2.0"
+import subprocess
+import tempfile
+
+
+def test_cli_retrieve():
+    """Test the cli i4h-asset-retrieve."""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        subprocess.run(["i4h-asset-retrieve", "--download-dir", temp_dir, "sub-path", "Test"])
+
+
+def test_force_omni_client():
+    """Test the cli i4h-asset-retrieve with force_omni_client."""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        subprocess.run(["i4h-asset-retrieve", "--download-dir", temp_dir, "sub-path", "Test", "--force_omni_client"])

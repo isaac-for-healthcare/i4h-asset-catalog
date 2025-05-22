@@ -2,7 +2,6 @@
 
 ### Requirements
 
-- Ubuntu 22.04
 - Python 3.10
 
 ### Installation
@@ -21,70 +20,58 @@ pip install -e .
 
 To download the asset to a local directory `~/.cache/i4h-assets/<SHA256_HASH>`:
 
+### Python Usage
+
+```python
+from i4h_asset_helper import BaseI4HAssets
+
+class MyAssets(BaseI4HAssets):
+    """Assets manager for the your workflow."""
+    dVRK_ECM = "Robots/dVRK/ECM/ecm.usd"
+
+
+my_assets = MyAssets()
+
+# When you use the asset, it will check if the asset is downloaded.
+# If not, it will download the asset to the default download directory.
+print(my_assets.dVRK_ECM)
+```
+
 #### CLI Usage
 
-
 ```bash
-i4h-asset-retrieve
+i4h-asset-retrieve [-h] [--version {0.2.0}] [--force] [--download-dir DOWNLOAD_DIR] [--sub-path SUB_PATH] [--hash HASH] [--force_omni_client]
 ```
 
-- **NOTE**:
-The first time you run the command after a fresh install of the `isaacsim` package, you would need to accept the EULA by manually typing `Yes` and pressing `Enter`.
+##### Options:
+- `-h, --help`: Show help message and exit
+- `--version {0.2.0}`: Asset version to retrieve (default: 0.2.0)
+- `--force`: Force download even if assets already exist (default: False)
+- `--download-dir DOWNLOAD_DIR`: Directory to download assets to (default: ~/.cache/i4h-assets)
+- `--sub-path SUB_PATH`: Either a subfolder path or a subfile path under the asset catalog. Only support a single path, like `Robots` or `Robots/Franka` (default: None)
+- `--hash HASH`: Hash of the asset to retrieve (default: None)
+- `--force_omni_client`: Force use of omni.client. (default: False)
 
-Also, it may hang for a while after `app ready` is printed. This is expected.
+##### Example:
+```bash
+# Download a specific subfolder of assets
+i4h-asset-retrieve --sub-path Robots
 
-Finally, the downloading process is a blocking function and may cause hitches or hangs in the UI. The following warning is expected:
+# Download assets with a specific hash
+i4h-asset-retrieve --hash abc123def456
 
-```
-[108,322ms] [Warning] [omni.client.python] Detected a blocking function. This will cause hitches or hangs in the UI. Please switch to the async version:
-  File "<path>/bin/i4h-asset-retrieve", line 8, in <module>
-  File "<path>/i4h_asset_helper/cli.py", line 47, in retrieve_main
-  File "<path>/i4h_asset_helper/assets.py", line 120, in retrieve_asset
-  File "<path>/omni/extscore/omni.client/omni/client/__init__.py", line 610, in read_fil
-```
-
-#### Python Usage
-
-```python
-from isaacsim import SimulationApp
-from i4h_asset_helper import get_i4h_asset_path, retrieve_asset
-
-simulation_app = SimulationApp({"headless": True})
-
-local_asset_path = retrieve_asset()
-print(f"Asset downloaded to: {local_asset_path} from {get_i4h_asset_path()}")
-
-simulation_app.close()
-```
-
-You can pass the `download_dir` argument to the `retrieve_asset` function to download the asset to a specific directory.
-
-```python
-local_asset_path = retrieve_asset(download_dir="~/Downloads")
-```
-
-It needs to be noted that the user needs to configure the asset path in applications accordingly if they want to use the local asset path other than the default one.
-
-
-If you want to use the native API to read or download the asset, you can use the `omni.client.read_file` or `omni.isaac.lab.utils.assets.retrieve_file_path` API.
-
-```python
-from isaacsim import SimulationApp
-simulation_app = SimulationApp({"headless": True})
-
-import omni.client
-from utils.assets import get_i4h_asset_path
-
-asset_path = get_i4h_asset_path()
-
-result, _, file_content = omni.client.read_file(asset_path)
-with open("i4h-assets-v0.1.0.zip", "wb") as f:
-    f.write(file_content)
-
-simulation_app.close()
+# Force re-download of assets to a custom directory
+i4h-asset-retrieve --force --download-dir ~/my-assets
 ```
 
 ### Environment Variables
+
+
+#### I4H_ASSET_DOWNLOAD_DIR
+
+- You can set the `I4H_ASSET_DOWNLOAD_DIR` environment variable to the directory to download assets to.
+- The default directory is `~/.cache/i4h-assets`.
+- A subfolder with the hash of the asset will be created in this directory.
 
 #### I4H_ASSET_ENV
 
