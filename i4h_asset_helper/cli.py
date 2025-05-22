@@ -31,7 +31,7 @@ def retrieve_main():
     parser.add_argument("--force", action="store_true", help="Force download even if assets already exist")
     parser.add_argument("--download-dir", type=str, default=_get_download_dir(), help="Directory to download assets to")
     parser.add_argument(
-        "--child-path",
+        "--sub-path",
         type=str,
         default=None,
         help=(
@@ -49,7 +49,7 @@ def retrieve_main():
     local_path = retrieve_asset(
         version=args.version,
         download_dir=args.download_dir,
-        child_path=args.child_path,
+        sub_path=args.sub_path,
         hash=args.hash,
         force_download=args.force,
         verbose=True,

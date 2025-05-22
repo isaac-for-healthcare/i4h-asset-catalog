@@ -432,7 +432,7 @@ def _download_assets(
 def retrieve_asset(
     version: str = "0.2.0",
     download_dir: str | None = None,
-    child_path: str | None = None,
+    sub_path: str | None = None,
     hash: str | None = None,
     force_download: bool = False,
     verbose: bool = False,
@@ -443,7 +443,7 @@ def retrieve_asset(
     Args:
         version: The version of the asset to download.
         download_dir: The directory to download the asset to.
-        child_path: The child path of the asset to download.
+        sub_path: The sub path of the asset to download.
         hash: The sha256 hash of the asset.
         force_download: If True, the asset will be downloaded even if it already exists.
         verbose: If True, it will print more information.
@@ -453,8 +453,8 @@ def retrieve_asset(
     local_dir = get_i4h_local_asset_path(version, download_dir, hash)
     remote_path = get_i4h_asset_path(version, hash)
 
-    if child_path is not None:
-        remote_path = remote_path + "/" + child_path
+    if sub_path is not None:
+        remote_path = remote_path + "/" + sub_path
 
     paths = _list_asset_url(remote_path)
 
@@ -512,5 +512,5 @@ class BaseI4HAssets:
             _value = value
 
         # trigger download of the asset
-        local_path = retrieve_asset(download_dir=self._download_dir, child_path=_value)
+        local_path = retrieve_asset(download_dir=self._download_dir, sub_path=_value)
         return os.path.join(local_path, value)

@@ -78,7 +78,7 @@ def test_set_env_var_root():
 
 def test_retrieve_asset():
     with tempfile.TemporaryDirectory() as temp_dir:
-        local_dir = retrieve_asset(download_dir=temp_dir, child_path="Test")
+        local_dir = retrieve_asset(download_dir=temp_dir, sub_path="Test")
         hash = get_i4h_asset_hash()
         assert hash in local_dir
         assert os.path.exists(os.path.join(local_dir, "Test"))
@@ -87,7 +87,7 @@ def test_retrieve_asset():
 def test_retrieve_asset_force_download():
     with tempfile.TemporaryDirectory() as temp_dir:
         # First download
-        local_dir = retrieve_asset(download_dir=temp_dir, child_path="Test")
+        local_dir = retrieve_asset(download_dir=temp_dir, sub_path="Test")
         hash = get_i4h_asset_hash()
         assert hash in local_dir
         assert os.path.exists(os.path.join(local_dir, "Test"))
@@ -97,7 +97,7 @@ def test_retrieve_asset_force_download():
         first_download_time = os.path.getmtime(test_file)
 
         # Force download again
-        local_dir = retrieve_asset(download_dir=temp_dir, child_path="Test", force_download=True)
+        local_dir = retrieve_asset(download_dir=temp_dir, sub_path="Test", force_download=True)
         second_download_time = os.path.getmtime(test_file)
 
         # Verify that the file was downloaded again (modification time should be different)

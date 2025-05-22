@@ -23,10 +23,10 @@ import tempfile
 def test_cli_retrieve():
     """Test the cli i4h-asset-retrieve."""
     with tempfile.TemporaryDirectory() as temp_dir:
-        subprocess.run(["i4h-asset-retrieve", "--download-dir", temp_dir, "child-path", "Test"])
+        subprocess.run(["i4h-asset-retrieve", "--download-dir", temp_dir, "sub-path", "Test"])
 
 
 def test_force_omni_client():
     """Test the cli i4h-asset-retrieve with force_omni_client."""
     with tempfile.TemporaryDirectory() as temp_dir:
-        subprocess.run(["i4h-asset-retrieve", "--download-dir", temp_dir, "child-path", "Test", "--force_omni_client"])
+        subprocess.run(["i4h-asset-retrieve", "--download-dir", temp_dir, "sub-path", "Test", "--force_omni_client"])

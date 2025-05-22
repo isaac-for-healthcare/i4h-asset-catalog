@@ -40,7 +40,7 @@ print(my_assets.dVRK_ECM)
 #### CLI Usage
 
 ```bash
-i4h-asset-retrieve [-h] [--version {0.2.0}] [--force] [--download-dir DOWNLOAD_DIR] [--child-path CHILD_PATH] [--hash HASH] [--force_omni_client]
+i4h-asset-retrieve [-h] [--version {0.2.0}] [--force] [--download-dir DOWNLOAD_DIR] [--sub-path SUB_PATH] [--hash HASH] [--force_omni_client]
 ```
 
 ##### Options:
@@ -48,14 +48,14 @@ i4h-asset-retrieve [-h] [--version {0.2.0}] [--force] [--download-dir DOWNLOAD_D
 - `--version {0.2.0}`: Asset version to retrieve (default: 0.2.0)
 - `--force`: Force download even if assets already exist (default: False)
 - `--download-dir DOWNLOAD_DIR`: Directory to download assets to (default: ~/.cache/i4h-assets)
-- `--child-path CHILD_PATH`: Either a subfolder path or a subfile path under the asset catalog. Only support a single path, like `Robots` (default: None)
+- `--sub-path SUB_PATH`: Either a subfolder path or a subfile path under the asset catalog. Only support a single path, like `Robots` or `Robots/Franka` (default: None)
 - `--hash HASH`: Hash of the asset to retrieve (default: None)
 - `--force_omni_client`: Force use of omni.client. (default: False)
 
 ##### Example:
 ```bash
 # Download a specific subfolder of assets
-i4h-asset-retrieve --child-path Robots
+i4h-asset-retrieve --sub-path Robots
 
 # Download assets with a specific hash
 i4h-asset-retrieve --hash abc123def456
