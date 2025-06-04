@@ -65,9 +65,9 @@ def test_get_i4h_local_asset_path_override():
 
 
 def test_set_env_var_hash():
-    os.environ["ISAAC_ASSET_SHA256_HASH"] = "test_hash"
+    os.environ["I4H_ASSET_SHA256_HASH"] = "test_hash"
     assert get_i4h_asset_hash() == "test_hash"
-    os.environ.pop("ISAAC_ASSET_SHA256_HASH")
+    os.environ.pop("I4H_ASSET_SHA256_HASH")
 
 
 def test_set_env_var_root():

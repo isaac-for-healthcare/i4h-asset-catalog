@@ -79,9 +79,9 @@ i4h-asset-retrieve --force --download-dir ~/my-assets
 - The current default environment is `staging`. (FIXME: update this once we have a production release)
 - If you use the `dev` environment, i.e. `export I4H_ASSET_ENV=dev`, you must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run.
 
-#### ISAAC_ASSET_SHA256_HASH
+#### I4H_ASSET_SHA256_HASH
 
 - SHA256 hash of the asset zip package is used to version the asset in the development process.
-- You can set the `ISAAC_ASSET_SHA256_HASH` environment variable to the sha256 hash of the asset to retrieve.
+- You can set the `I4H_ASSET_SHA256_HASH` environment variable to the sha256 hash of the asset to retrieve.
 - When you use the CLI, you can use the `--hash` argument to specify the hash.
   - Priority order: CLI argument > environment variable > `assets_sha256.json` file in the `i4h_asset_helper` package.

@@ -153,8 +153,8 @@ def _unify_path(path: str) -> str:
 def get_i4h_asset_hash(version: str = "0.2.0") -> str:
     """Get the sha256 hash for the given version."""
     # Get it from the environment variable if it exists
-    if os.environ.get("ISAAC_ASSET_SHA256_HASH"):
-        return os.environ.get("ISAAC_ASSET_SHA256_HASH")
+    if os.environ.get("I4H_ASSET_SHA256_HASH"):
+        return os.environ.get("I4H_ASSET_SHA256_HASH")
     # Otherwise, get it from the file
     with open(os.path.join(os.path.dirname(__file__), "assets_sha256.json"), "r") as f:
         return json.load(f).get(version, None)
