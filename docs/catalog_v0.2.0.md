@@ -1,4 +1,4 @@
-## Asset Catalog for v0.1.0
+## Asset Catalog for v0.2.0
 
 ### Assets
 
