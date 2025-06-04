@@ -519,11 +519,9 @@ class BaseI4HAssets:
         else:
             _value = value
 
-        print(f"Checking if the asset {_value} is already downloaded, {self._recursive_file_check}")
         if not self._recursive_file_check:
             local_path = get_i4h_local_asset_path(download_dir=self._download_dir)
             local_sub_path = os.path.join(local_path, value)
-            print(f"Local sub path: {local_sub_path}")
             if os.path.isdir(local_sub_path) or os.path.isfile(local_sub_path):
                 return local_sub_path
 
