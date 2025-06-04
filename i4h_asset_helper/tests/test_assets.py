@@ -14,39 +14,104 @@
 # limitations under the License.
 
 import os
+import tempfile
 
 import pytest
+from isaacsim import SimulationApp
 
-from i4h_asset_helper import get_i4h_asset_path, get_i4h_local_asset_path
-from i4h_asset_helper.assets import _I4H_ASSET_ROOT, get_i4h_asset_hash
+from i4h_asset_helper import (
+    BaseI4HAssets,
+    get_i4h_asset_hash,
+    get_i4h_asset_path,
+    get_i4h_local_asset_path,
+    retrieve_asset,
+)
+from i4h_asset_helper.assets import _I4H_ASSET_ROOT
+
+VERSIONS = ["0.1.0", "0.2.0"]
+SimulationApp({"headless": True})
 
 
 def test_get_i4h_asset_path_valid_version():
     # Test with valid version
     result = get_i4h_asset_path()
     hash = get_i4h_asset_hash()
-    expected_production_path = f"{_I4H_ASSET_ROOT['production']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
-    expected_staging_path = f"{_I4H_ASSET_ROOT['staging']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
-    expected_dev_path = f"{_I4H_ASSET_ROOT['dev']}/0.1.0/i4h-assets-v0.1.0-{hash}.zip"
+    version = VERSIONS[1]
+    expected_production_path = f"{_I4H_ASSET_ROOT['production']}/{version}/{hash}"
+    expected_staging_path = f"{_I4H_ASSET_ROOT['staging']}/{version}/{hash}"
+    expected_dev_path = f"{_I4H_ASSET_ROOT['dev']}/{version}/{hash}"
     expected_paths = {expected_staging_path, expected_dev_path, expected_production_path}
     assert result in expected_paths
+
 
 def test_get_i4h_asset_path_invalid_version():
     # Test with invalid version
     with pytest.raises(ValueError, match="Invalid version"):
         get_i4h_asset_path(version="invalid")
 
+
 def test_get_i4h_local_asset_path():
     result = get_i4h_local_asset_path()
     expected_path = os.path.join(os.path.expanduser("~"), ".cache", "i4h-assets", get_i4h_asset_hash())
     assert result == expected_path
 
+
+def test_get_i4h_local_asset_path_override():
+    os.environ["I4H_ASSET_DOWNLOAD_DIR"] = "/tmp/i4h-assets"
+    result = get_i4h_local_asset_path()
+    expected_path = os.path.join("/tmp/i4h-assets", get_i4h_asset_hash())
+    assert result == expected_path
+    os.environ.pop("I4H_ASSET_DOWNLOAD_DIR")
+
+
 def test_set_env_var_hash():
-    os.environ["ISAAC_ASSET_SHA256_HASH"] = "test_hash"
+    os.environ["I4H_ASSET_SHA256_HASH"] = "test_hash"
     assert get_i4h_asset_hash() == "test_hash"
-    os.environ.pop("ISAAC_ASSET_SHA256_HASH")
+    os.environ.pop("I4H_ASSET_SHA256_HASH")
+
 
 def test_set_env_var_root():
     os.environ["I4H_ASSET_ENV"] = "dev"
     assert get_i4h_asset_path().startswith(_I4H_ASSET_ROOT["dev"])
     os.environ.pop("I4H_ASSET_ENV")
+
+
+def test_retrieve_asset():
+    with tempfile.TemporaryDirectory() as temp_dir:
+        local_dir = retrieve_asset(download_dir=temp_dir, sub_path="Test")
+        hash = get_i4h_asset_hash()
+        assert hash in local_dir
+        assert os.path.exists(os.path.join(local_dir, "Test"))
+
+
+def test_retrieve_asset_force_download():
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # First download
+        local_dir = retrieve_asset(download_dir=temp_dir, sub_path="Test")
+        hash = get_i4h_asset_hash()
+        assert hash in local_dir
+        assert os.path.exists(os.path.join(local_dir, "Test"))
+
+        # Get the modification time of the downloaded file
+        test_file = os.path.join(local_dir, "Test")
+        first_download_time = os.path.getmtime(test_file)
+
+        # Force download again
+        local_dir = retrieve_asset(download_dir=temp_dir, sub_path="Test", force_download=True)
+        second_download_time = os.path.getmtime(test_file)
+
+        # Verify that the file was downloaded again (modification time should be different)
+        assert second_download_time > first_download_time
+
+
+def test_class_inheritance():
+    class TestI4HAssets(BaseI4HAssets):
+        test = "Test/basic.usda"
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        test_assets = TestI4HAssets(download_dir=temp_dir)
+        # resource will be downloaded automatically
+        local_usda = test_assets.test
+        hash = get_i4h_asset_hash()
+        assert os.path.exists(local_usda)
+        assert hash in local_usda

@@ -16,42 +16,47 @@
 import argparse
 import sys
 
-from .assets import _DEFAULT_DOWNLOAD_DIR, retrieve_asset
+from isaacsim import SimulationApp
+
+from .assets import _get_download_dir, _is_s3_environment, retrieve_asset
 
 
 def retrieve_main():
     """Command line interface for i4h asset helper."""
 
     parser = argparse.ArgumentParser(
-        description="Isaac for Healthcare Asset Helper",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        description="Isaac for Healthcare Asset Helper", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
+    parser.add_argument("--version", type=str, default="0.2.0", choices=["0.2.0"], help="Asset version to retrieve")
+    parser.add_argument("--force", action="store_true", help="Force download even if assets already exist")
+    parser.add_argument("--download-dir", type=str, default=_get_download_dir(), help="Directory to download assets to")
     parser.add_argument(
-        "--version",
+        "--sub-path",
         type=str,
-        default="0.1.0",
-        choices=["0.1.0"],
-        help="Asset version to retrieve"
+        default=None,
+        help=(
+            "Either a subfolder path or a subfile path under the asset catalog. "
+            "Only support a single path, like `Robots`"
+        ),
     )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Force download even if assets already exist"
-    )
-    parser.add_argument(
-        "--download-dir",
-        type=str,
-        default=_DEFAULT_DOWNLOAD_DIR,
-        help="Directory to download assets to"
-    )
+    parser.add_argument("--hash", type=str, default=None, help="Hash of the asset to retrieve")
+    parser.add_argument("--force_omni_client", action="store_true", help="Force use of omni.client.")
     args = parser.parse_args()
+    # To enable the omniverse plugins
+    if args.force_omni_client or not _is_s3_environment():
+        app = SimulationApp({"headless": True})
     print(f"Retrieving assets for version: {args.version}")
     local_path = retrieve_asset(
         version=args.version,
         download_dir=args.download_dir,
+        sub_path=args.sub_path,
+        hash=args.hash,
         force_download=args.force,
+        verbose=True,
     )
     print(f"Assets downloaded to: {local_path}")
+    if args.force_omni_client or not _is_s3_environment():
+        app.close()
     return 0
 
 
