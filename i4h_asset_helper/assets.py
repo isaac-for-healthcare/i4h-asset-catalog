@@ -481,17 +481,25 @@ class BaseI4HAssets:
     The downloaded assets will be stored in the specified download directory (defaults to ~/.cache/i4h-assets).
     """
 
-    def __init__(self, download_dir: str | None = None, skip_download_usd: bool = False):
+    def __init__(
+        self, download_dir: str | None = None, skip_download_usd: bool = False, recursive_file_check: bool | None = None
+    ):
         """
         Initialize the assets
 
         Args:
             download_dir: The directory to download the assets to
             skip_download_usd: If True, it will always use the USD file from the remote asset path. Default is False.
+            recursive_file_check: If True, it will check recursively into the folder and see if every file is ready.
+                When the environment is not S3, it will be set to False automatically, otherwise it will be set to True.
         """
         self._remote_asset_path = get_i4h_asset_path()
         self._download_dir = _get_download_dir() if download_dir is None else download_dir
         self._skip_download_usd = skip_download_usd
+        if recursive_file_check is None:
+            self._recursive_file_check = _is_s3_environment()
+        else:
+            self._recursive_file_check = recursive_file_check
 
     def __getattribute__(self, name):
         """Override to print a message when any attribute is accessed."""
@@ -510,6 +518,12 @@ class BaseI4HAssets:
                 _value = os.path.dirname(value)
         else:
             _value = value
+
+        if not self._recursive_file_check:
+            local_path = get_i4h_local_asset_path(download_dir=self._download_dir)
+            local_sub_path = os.path.join(local_path, value)
+            if os.path.isdir(local_sub_path) or os.path.isfile(local_sub_path):
+                return local_sub_path
 
         # trigger download of the asset
         local_path = retrieve_asset(download_dir=self._download_dir, sub_path=_value)
