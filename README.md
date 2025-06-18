@@ -39,19 +39,24 @@ The asset catalog follows the Isaac Lab asset structure. You can find the asset 
 
 ### Version 0.2.0
 Contains all assets from Version 0.1.0 plus:
-- Pre-trained models for liver scanning (GR00TN1 and GR00TN1_Cosmos)
-- Pi0 models including:
-  - Liver scan policies and configurations
-  - Model weights and training states
-  - Normalization statistics
-  - Parameter manifests and metadata
+- Pre-trained models for liver scanning (GR00TN1 and GR00TN1_Cosmos, Pi0 model with Cosmos)
+- Mira Surgical Robot
+
+Catalog: [v0.2.0](./docs/catalog_v0.2.0.md)
 
 ### Version 0.1.0
 Contains the initial release of the asset catalog with:
 - Basic anatomical models
 - Standard medical equipment
 - Hospital environment assets
-- Configuration templates
+- Franka Robot Assets
+- Pi0 models including:
+  - Liver scan policies and configurations
+  - Model weights and training states
+  - Normalization statistics
+  - Parameter manifests and metadata
+
+Catalog: [v0.1.0](./docs/catalog_v0.1.0.md)
 
 ## Asset Helper Tool
 You can also use the `i4h_asset_helper` package to get the download links for the assets. For more details, please refer to [I4H Assets Catalog Helper](./docs/catalog_helper.md).
