@@ -359,8 +359,8 @@ def _filter_downloaded_assets(
     return results
 
 
-def _download_individual_asset(url_entry: str, download_dir: str):
-    local_path = os.path.join(download_dir, _get_asset_relpath(url_entry))
+def _download_individual_asset(url_entry: str, download_dir: str, version: str = "0.2.0", hash: str | None = None):
+    local_path = os.path.join(download_dir, _get_asset_relpath(url_entry, version, hash))
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
 
     if not _is_import_ready("omni.client"):
@@ -398,6 +398,8 @@ def _download_individual_asset(url_entry: str, download_dir: str):
 def _download_assets(
     url_entries: List[str],
     download_dir: str,
+    version: str = "0.2.0",
+    hash: str | None = None,
     concurrency: int = 2,
     timeout: float = 3600.0,
 ):
@@ -407,7 +409,8 @@ def _download_assets(
     Args:
         url_entries: The url entries to download.
         download_dir: The directory to download the asset to. Default is the cache directory.
-        progress_callback: The callback function to call when the progress is updated.
+        version: The version of the asset.
+        hash: The sha256 hash of the asset.
         concurrency: The number of concurrent downloads.
         timeout: The timeout for the download.
 
@@ -419,7 +422,8 @@ def _download_assets(
 
     with ThreadPoolExecutor(max_workers=concurrency) as executor:
         futures_to_url = {
-            executor.submit(_download_individual_asset, url_entry, download_dir): url_entry for url_entry in url_entries
+            executor.submit(_download_individual_asset, url_entry, download_dir, version, hash): url_entry
+            for url_entry in url_entries
         }
 
         # Use tqdm to show progress
@@ -464,7 +468,7 @@ def retrieve_asset(
         url_entries = _filter_downloaded_assets(paths, local_dir, version, hash, verbose)
 
     if len(url_entries) > 0:
-        _download_assets(url_entries, local_dir)
+        _download_assets(url_entries, local_dir, version, hash)
 
     return local_dir
 

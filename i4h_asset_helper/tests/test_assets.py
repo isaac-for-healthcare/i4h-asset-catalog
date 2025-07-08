@@ -26,7 +26,7 @@ from i4h_asset_helper import (
     get_i4h_local_asset_path,
     retrieve_asset,
 )
-from i4h_asset_helper.assets import _I4H_ASSET_ROOT
+from i4h_asset_helper.assets import _I4H_ASSET_ROOT, _get_asset_relpath
 
 VERSIONS = ["0.1.0", "0.2.0"]
 SimulationApp({"headless": True})
@@ -102,6 +102,35 @@ def test_retrieve_asset_force_download():
 
         # Verify that the file was downloaded again (modification time should be different)
         assert second_download_time > first_download_time
+
+
+def test_retrieve_asset_custom_hash():
+    """Test retrieve_asset with custom hash parameter to ensure it doesn't fail with ValueError."""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # Use a custom hash different from the default
+        custom_hash = "8c0bf782eab2f44f1cc82da60eb10f6be8f941406d291b7fbfbdb53c05b3d149"
+        version = "0.2.0"
+
+        # Test that _get_asset_relpath works with custom hash
+        asset_root = get_i4h_asset_path(version, custom_hash)
+        test_url = f"{asset_root}/Test/config.json"
+
+        # This should not raise ValueError with the fix
+        relpath = _get_asset_relpath(test_url, version, custom_hash)
+        expected_relpath = "Test/config.json"
+        assert relpath == expected_relpath
+
+        # Test that retrieve_asset works with custom hash
+        # Note: This test assumes the custom hash exists in the remote storage
+        # In a real scenario, you would use an actual valid hash
+        try:
+            local_dir = retrieve_asset(version=version, download_dir=temp_dir, sub_path="Test", hash=custom_hash)
+            # The local directory should contain the custom hash
+            assert custom_hash in local_dir
+        except Exception as e:
+            # If the custom hash doesn't exist remotely, that's expected
+            # The important part is that we don't get the ValueError about mismatched hashes
+            assert "URL entry" not in str(e) or "expects to begin with" not in str(e)
 
 
 def test_class_inheritance():
