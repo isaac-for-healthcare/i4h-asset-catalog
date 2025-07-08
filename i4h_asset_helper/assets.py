@@ -422,7 +422,8 @@ def _download_assets(
 
     with ThreadPoolExecutor(max_workers=concurrency) as executor:
         futures_to_url = {
-            executor.submit(_download_individual_asset, url_entry, download_dir, version, hash): url_entry for url_entry in url_entries
+            executor.submit(_download_individual_asset, url_entry, download_dir, version, hash): url_entry
+            for url_entry in url_entries
         }
 
         # Use tqdm to show progress
