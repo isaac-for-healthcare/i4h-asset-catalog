@@ -6,7 +6,7 @@
 .
 ├── Policies
 │   └── LiverScan
-│       ├── GR00TN1
+│       ├── GR00TN1_Cosmos_Rel
 │       │   ├── config.json
 │       │   ├── experiment_cfg
 │       │   │   └── metadata.json
@@ -20,79 +20,38 @@
 │       │   ├── rng_state_3.pth
 │       │   ├── scheduler.pt
 │       │   └── trainer_state.json
-│       ├── GR00TN1_Cosmos
-│       │   ├── config.json
-│       │   ├── experiment_cfg
-│       │   │   └── metadata.json
-│       │   ├── model-00001-of-00002.safetensors
-│       │   ├── model-00002-of-00002.safetensors
-│       │   ├── model.safetensors.index.json
-│       │   ├── optimizer.pt
-│       │   ├── rng_state_0.pth
-│       │   ├── rng_state_1.pth
-│       │   ├── rng_state_2.pth
-│       │   ├── rng_state_3.pth
-│       │   ├── scheduler.pt
-│       │   └── trainer_state.json
-│       ├── Pi0
-│       │   ├── assets
-│       │   │   └── i4h
-│       │   │       └── sim_liver_scan
-│       │   │           └── norm_stats.json
-│       │   ├── _CHECKPOINT_METADATA
-│       │   └── params
-│       │       ├── d
-│       │       │   └── 98f0ba1d192f9801442ee165ce638c73
-│       │       ├── manifest.ocdbt
-│       │       ├── _METADATA
-│       │       ├── ocdbt.process_0
-│       │       │   ├── d
-│       │       │   │   ├── 02edd70ed5de4e3da092ab448cf63738
-│       │       │   │   ├── 0363f2010cc0fa3c9a123e25f0974374
-│       │       │   │   ├── 060aee066eebb26f12156bade8afc3de
-│       │       │   │   ├── 1dc4913f3069f603b6e139f2ae6482c0
-│       │       │   │   ├── 284d750d32eeb90315d1d08cd1039876
-│       │       │   │   ├── 7abd44e626a8fa81fc6f1039a5dea69c
-│       │       │   │   ├── 84bc8c57ff25640e106eafa42effba80
-│       │       │   │   ├── 9a2ac9465ec327663917b0fe13ddb934
-│       │       │   │   ├── c2c99a071ab6007bd3ef6a6248fe37ff
-│       │       │   │   ├── c50d47a815776765a4874c79721cd036
-│       │       │   │   ├── c7c35f7647c1e944023b8e51d58aa236
-│       │       │   │   ├── d43e370c08d70c136244bffac0e8b6d3
-│       │       │   │   ├── d662d0ebe84f911076c26d606ae62c30
-│       │       │   │   ├── f682ed0bda96383a6c427f28e1911bc1
-│       │       │   │   ├── f89abf5b88f9543edad3f2433f995d91
-│       │       │   │   └── fd385bc902385db8b027bca50aef03d7
-│       │       │   └── manifest.ocdbt
-│       │       └── _sharding
-│       └── Pi0_Cosmos
+│       └── Pi0_Cosmos_Rel
 │           ├── assets
 │           │   └── i4h
-│           │       └── us-pi0-train-wcosmos-800
+│           │       └── sim_liver_scan
 │           │           └── norm_stats.json
-│           ├── _CHECKPOINT_METADATA
 │           └── params
 │               ├── d
-│               │   └── 2ea5679767164ce28d2d1e88fdb2a462
+│               │   └── c3cdb11d58976c226289a88877d79df2
 │               ├── manifest.ocdbt
 │               ├── _METADATA
 │               ├── ocdbt.process_0
 │               │   ├── d
-│               │   │   ├── 00a4a040af23a9197ec3fbe72f63c722
-│               │   │   ├── 0d0e99c94f6497179ab6257562d9e914
-│               │   │   ├── 180da0b670e0260d5d3af16189f7a4a5
-│               │   │   ├── 1caa7189d63a65ab7545ff8a2c0f163f
-│               │   │   ├── 2bfa9e661cf982f49ea3d16534154032
-│               │   │   ├── 371009288143cc9cb1fb4481e6003a2d
-│               │   │   ├── 4812fc1c48b747fc07d4de7037a6b48d
-│               │   │   ├── 4decc16e736de5fec5b793b8444c5f96
-│               │   │   ├── 76175b5207db65156cf07add46f67944
-│               │   │   ├── 7be242565da872ff1993697daf6065d2
-│               │   │   ├── 8322540719e2a3947b83b063282f1af8
-│               │   │   ├── a8bb9d849d6c469d51e09c5337a30c55
-│               │   │   ├── c6be5ef008a29eb0f2a93531523041ed
-│               │   │   ├── e7494f738c0493dbdc2b602844fd3937
-│               │   │   └── f8e5e07f858d7e8ca5511e65ad4b7a5b
+│               │   │   ├── 03eabde80a89e810a0afc1abcf5c7848
+│               │   │   ├── 05fbcf2cfc03e3088c40e5cca64337ff
+│               │   │   ├── 1de4850609ecde45a12e8b7f6307d1c5
+│               │   │   ├── 205cfc13124e02e4a89c8b75434254f5
+│               │   │   ├── 2360a4fcd039e9b7c988e9371516e154
+│               │   │   ├── 41e47400759333602c0a03c2aac86fb8
+│               │   │   ├── 59bfe2f920dc04f52a558077604b989e
+│               │   │   ├── 764259551469e1207ecb84f0a97f2f13
+│               │   │   ├── 7c6cbfa3d7dde39b19632bc491d19aab
+│               │   │   ├── 7ec24389d31b243062bc76eaa35b8230
+│               │   │   ├── 819151e609606ddf26a1a44fd4ccf2f1
+│               │   │   ├── 8ae08870d657d1ffc465b832d2483d43
+│               │   │   ├── a1542eea92e381fe227482d6b39a896f
+│               │   │   ├── a97f9d625615b4db4de8d3ab3376190c
+│               │   │   ├── dd12d1bc476a51cd183ce995493a2342
+│               │   │   ├── df389e0a1e2615e5cdc0026d6ea348fa
+│               │   │   ├── e5098cbce201e826410f8e5c6738a801
+│               │   │   ├── eacbd5b61c081c47b986298b8a88902e
+│               │   │   ├── f5df773fd80cf44a1990ea53735ce9ab
+│               │   │   └── fed6f6f223ea75b1069502cd40028631
 │               │   └── manifest.ocdbt
 │               └── _sharding
 ├── Props
@@ -422,5 +381,5 @@
 └── Test
     └── basic.usda
 
-104 directories, 313 files
+94 directories, 282 files
 ```
