@@ -15,8 +15,10 @@
 
 from i4h_asset_helper.assets import (
     BaseI4HAssets,
+    _get_default_version,
     get_i4h_asset_hash,
     get_i4h_asset_path,
+    get_i4h_asset_version,
     get_i4h_local_asset_path,
     retrieve_asset,
 )
@@ -24,9 +26,10 @@ from i4h_asset_helper.assets import (
 __all__ = [
     "BaseI4HAssets",
     "get_i4h_asset_hash",
+    "get_i4h_asset_version",
     "get_i4h_asset_path",
     "get_i4h_local_asset_path",
     "retrieve_asset",
 ]
 
-__version__ = "0.2.0"
+__version__ = _get_default_version()
