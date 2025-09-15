@@ -16,7 +16,6 @@
 import os
 import tempfile
 
-import pytest
 from isaacsim import SimulationApp
 
 from i4h_asset_helper import (
@@ -26,9 +25,8 @@ from i4h_asset_helper import (
     get_i4h_local_asset_path,
     retrieve_asset,
 )
-from i4h_asset_helper.assets import _I4H_ASSET_ROOT, _get_asset_relpath
+from i4h_asset_helper.assets import _I4H_ASSET_ROOT, _get_asset_relpath, _get_default_version
 
-VERSIONS = ["0.1.0", "0.2.0"]
 SimulationApp({"headless": True})
 
 
@@ -36,18 +34,12 @@ def test_get_i4h_asset_path_valid_version():
     # Test with valid version
     result = get_i4h_asset_path()
     hash = get_i4h_asset_hash()
-    version = VERSIONS[1]
+    version = _get_default_version()
     expected_production_path = f"{_I4H_ASSET_ROOT['production']}/{version}/{hash}"
     expected_staging_path = f"{_I4H_ASSET_ROOT['staging']}/{version}/{hash}"
     expected_dev_path = f"{_I4H_ASSET_ROOT['dev']}/{version}/{hash}"
     expected_paths = {expected_staging_path, expected_dev_path, expected_production_path}
     assert result in expected_paths
-
-
-def test_get_i4h_asset_path_invalid_version():
-    # Test with invalid version
-    with pytest.raises(ValueError, match="Invalid version"):
-        get_i4h_asset_path(version="invalid")
 
 
 def test_get_i4h_local_asset_path():

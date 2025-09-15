@@ -150,8 +150,20 @@ def _unify_path(path: str) -> str:
     return path
 
 
-def get_i4h_asset_hash(version: str = "0.2.0") -> str:
+def _get_default_version() -> str:
+    """Get the default version of the i4h asset."""
+    with open(os.path.join(os.path.dirname(__file__), "assets_sha256.json"), "r") as f:
+        return list(json.load(f).keys())[-1]
+
+
+def get_i4h_asset_version() -> str:
+    """Get the version of the i4h asset."""
+    return os.getenv("I4H_ASSET_VERSION", _get_default_version())
+
+
+def get_i4h_asset_hash(version: str | None = None) -> str | None:
     """Get the sha256 hash for the given version."""
+    version = version if version is not None else get_i4h_asset_version()
     # Get it from the environment variable if it exists
     if os.environ.get("I4H_ASSET_SHA256_HASH"):
         return os.environ.get("I4H_ASSET_SHA256_HASH")
@@ -160,7 +172,7 @@ def get_i4h_asset_hash(version: str = "0.2.0") -> str:
         return json.load(f).get(version, None)
 
 
-def get_i4h_asset_path(version: str = "0.2.0", hash: str | None = None) -> str:
+def get_i4h_asset_path(version: str | None = None, hash: str | None = None) -> str:
     """
     Get the path to the i4h asset for the given version.
 
@@ -172,16 +184,22 @@ def get_i4h_asset_path(version: str = "0.2.0", hash: str | None = None) -> str:
         The path to the i4h asset.
     """
     asset_root = _I4H_ASSET_ROOT.get(_get_asset_env())
-    if hash is None:
-        hash = get_i4h_asset_hash(version=version)
-    if hash is None:
-        raise ValueError("Invalid version")
+    version = version if version is not None else get_i4h_asset_version()
+
+    # if the environment is not S3, the hash will be None
+    if not _is_s3_environment():
+        remote_path = f"{asset_root}/{version}"
+        return remote_path
+
+    hash = hash if hash is not None else get_i4h_asset_hash(version=version)
     remote_path = f"{asset_root}/{version}/{hash}"
 
     return remote_path
 
 
-def get_i4h_local_asset_path(version: str = "0.2.0", download_dir: str | None = None, hash: str | None = None) -> str:
+def get_i4h_local_asset_path(
+    version: str | None = None, download_dir: str | None = None, hash: str | None = None
+) -> str:
     """
     Get the path to the i4h asset for the given version.
 
@@ -193,14 +211,23 @@ def get_i4h_local_asset_path(version: str = "0.2.0", download_dir: str | None = 
     Returns:
         The path to the local asset.
     """
+    version = version if version is not None else get_i4h_asset_version()
     if download_dir is None:
         download_dir = _get_download_dir()
+
+    if not _is_s3_environment():
+        return os.path.join(download_dir, version)
+
+    hash = hash if hash is not None else get_i4h_asset_hash(version=version)
+
     if hash is None:
-        hash = get_i4h_asset_hash(version=version)
-    return os.path.join(download_dir, hash)
+        # If no hash is available for this version, use version as directory name
+        return os.path.join(download_dir, version)
+    else:
+        return os.path.join(download_dir, hash)
 
 
-def _get_asset_relpath(url_entry: str, version: str = "0.2.0", hash: str | None = None) -> str:
+def _get_asset_relpath(url_entry: str, version: str = get_i4h_asset_version(), hash: str | None = None) -> str:
     """
     Get relative path of the item specified by the url_entry should be located in the local asset directory.
 
@@ -262,9 +289,10 @@ def _is_url_folder(url_entry: str) -> bool:
 
     import omni.client
 
-    result, entries = omni.client.stat(url_entry)
+    url_entry_unified = _unify_path(url_entry)
+    result, entries = omni.client.stat(url_entry_unified)
     if result != omni.client.Result.OK:
-        raise ValueError(f"The remote path {url_entry} is not valid")
+        raise ValueError(f"The remote path {url_entry_unified} is not valid")
     return entries.size == 0
 
 
@@ -359,7 +387,8 @@ def _filter_downloaded_assets(
     return results
 
 
-def _download_individual_asset(url_entry: str, download_dir: str, version: str = "0.2.0", hash: str | None = None):
+def _download_individual_asset(url_entry: str, download_dir: str, version: str | None = None, hash: str | None = None):
+    version = version if version is not None else get_i4h_asset_version()
     local_path = os.path.join(download_dir, _get_asset_relpath(url_entry, version, hash))
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
 
@@ -398,7 +427,7 @@ def _download_individual_asset(url_entry: str, download_dir: str, version: str =
 def _download_assets(
     url_entries: List[str],
     download_dir: str,
-    version: str = "0.2.0",
+    version: str | None = None,
     hash: str | None = None,
     concurrency: int = 2,
     timeout: float = 3600.0,
@@ -417,7 +446,7 @@ def _download_assets(
     Returns:
         The path to the local asset.
     """
-
+    version = version if version is not None else get_i4h_asset_version()
     total = len(url_entries)
 
     with ThreadPoolExecutor(max_workers=concurrency) as executor:
@@ -434,7 +463,7 @@ def _download_assets(
 
 
 def retrieve_asset(
-    version: str = "0.2.0",
+    version: str | None = None,
     download_dir: str | None = None,
     sub_path: str | None = None,
     hash: str | None = None,
@@ -454,6 +483,7 @@ def retrieve_asset(
     Returns:
         The path to the local asset.
     """
+    version = version if version is not None else get_i4h_asset_version()
     local_dir = get_i4h_local_asset_path(version, download_dir, hash)
     remote_path = get_i4h_asset_path(version, hash)
 
