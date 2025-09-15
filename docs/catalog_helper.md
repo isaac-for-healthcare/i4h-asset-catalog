@@ -11,7 +11,7 @@ It is recommended to use a virtual environment like `conda` as described in the 
 ```bash
 conda create -n i4h-assets python=3.10
 conda activate i4h-assets
-git clone git@github.com:isaac-for-healthcare/i4h-asset-catalog.git  # FIXME: change to HTTPS/Make a release
+git clone https://github.com/isaac-for-healthcare/i4h-asset-catalog.git
 cd i4h-asset-catalog
 pip install -e .
 ```
@@ -40,12 +40,12 @@ print(my_assets.dVRK_ECM)
 #### CLI Usage
 
 ```bash
-i4h-asset-retrieve [-h] [--version {0.2.0}] [--force] [--download-dir DOWNLOAD_DIR] [--sub-path SUB_PATH] [--hash HASH] [--force_omni_client]
+i4h-asset-retrieve [-h] [--version ] [--force] [--download-dir DOWNLOAD_DIR] [--sub-path SUB_PATH] [--hash HASH] [--force_omni_client]
 ```
 
 ##### Options:
 - `-h, --help`: Show help message and exit
-- `--version {0.2.0}`: Asset version to retrieve (default: 0.2.0)
+- `--version`: Asset version to retrieve (default: the latest version)
 - `--force`: Force download even if assets already exist (default: False)
 - `--download-dir DOWNLOAD_DIR`: Directory to download assets to (default: ~/.cache/i4h-assets)
 - `--sub-path SUB_PATH`: Either a subfolder path or a subfile path under the asset catalog. Only support a single path, like `Robots` or `Robots/Franka` (default: None)
@@ -76,7 +76,7 @@ i4h-asset-retrieve --force --download-dir ~/my-assets
 #### I4H_ASSET_ENV
 
 - There are three different asset server environments: `dev`, `staging`, and `production`. `staging` and `production` are publicly accessible and `dev` is only accessible by the internal team. You can set the `I4H_ASSET_ENV` environment variable to `dev`, `staging`, or `production` to use the corresponding asset server.
-- The current default environment is `staging`. (FIXME: update this once we have a production release)
+- The current default environment is `production`.
 - If you use the `dev` environment, i.e. `export I4H_ASSET_ENV=dev`, you must have a display (either physical or virtual) and a web browser (e.g. Chrome) to authenticate in the first run.
 
 #### I4H_ASSET_SHA256_HASH

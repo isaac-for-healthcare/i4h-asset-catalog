@@ -4,12 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "i4h_asset_helper"
-version = "0.2.0"
+version = "0.3.0"
 description = "Utility for managing the I4H asset catalog"
 requires-python = ">=3.10"
 dependencies = [
     "boto3",
-    "isaacsim[all,extscache]<5.0",
+    "isaacsim[all,extscache]",
+    "tqdm",
     "requests"
 ]
 

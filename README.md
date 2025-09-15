@@ -37,6 +37,14 @@ Each asset category includes detailed documentation, usage guidelines, and compa
 ## Version Information
 The asset catalog follows the Isaac Lab asset structure. You can find the asset for each version in the corresponding folders.
 
+### Version 0.3.0
+
+- Added assets for the new SO-ARM starter workflow.
+- Added hospital environment assets.
+- Moved the policy models to Hugging Face `nvidia` organization.
+
+Catalog: [v0.3.0](./docs/catalog_v0.3.0.md)
+
 ### Version 0.2.0
 Contains all assets from Version 0.1.0 plus:
 - Pre-trained models for liver scanning:

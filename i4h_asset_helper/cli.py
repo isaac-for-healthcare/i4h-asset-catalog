@@ -18,7 +18,7 @@ import sys
 
 from isaacsim import SimulationApp
 
-from .assets import _get_download_dir, _is_s3_environment, retrieve_asset
+from .assets import _get_default_version, _get_download_dir, _is_s3_environment, retrieve_asset
 
 
 def retrieve_main():
@@ -27,7 +27,7 @@ def retrieve_main():
     parser = argparse.ArgumentParser(
         description="Isaac for Healthcare Asset Helper", formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("--version", type=str, default="0.2.0", choices=["0.2.0"], help="Asset version to retrieve")
+    parser.add_argument("--version", type=str, default=_get_default_version(), help="Asset version to retrieve")
     parser.add_argument("--force", action="store_true", help="Force download even if assets already exist")
     parser.add_argument("--download-dir", type=str, default=_get_download_dir(), help="Directory to download assets to")
     parser.add_argument(
