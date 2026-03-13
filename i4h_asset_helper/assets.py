@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import asyncio
+import hashlib
 import importlib
 import json
 import os
@@ -32,6 +33,8 @@ __all__ = [
     "get_i4h_asset_path",
     "get_i4h_local_asset_path",
     "retrieve_asset",
+    "sha256_of_folder",
+    "verify_asset",
     "BaseI4HAssets",
 ]
 
@@ -227,6 +230,92 @@ def get_i4h_local_asset_path(
         return os.path.join(download_dir, hash)
 
 
+_SHA256_SKIP_NAMES = {".gitattributes", ".gitignore"}
+_SHA256_SKIP_DIRS = {".git", "__pycache__"}
+
+
+def sha256_of_folder(folder_path: str, verbose: bool = False) -> str:
+    """
+    Compute a deterministic SHA-256 hash of a folder's contents.
+
+    The hash includes both relative file paths and file contents, sorted for
+    determinism. Skips .git/, __pycache__/, .gitattributes, and .gitignore.
+
+    Args:
+        folder_path: Path to the folder to hash.
+        verbose: If True, print each file being hashed.
+
+    Returns:
+        Hex-encoded SHA-256 digest.
+    """
+    sha256 = hashlib.sha256()
+    folder_path = Path(folder_path)
+
+    for root, dirs, files in sorted(os.walk(folder_path)):
+        dirs[:] = sorted(d for d in dirs if d not in _SHA256_SKIP_DIRS)
+        for fname in sorted(files):
+            if fname in _SHA256_SKIP_NAMES:
+                continue
+            file_path = Path(root) / fname
+            relative_path = file_path.relative_to(folder_path).as_posix()
+            sha256.update(relative_path.encode())
+            if verbose:
+                print(f"  Hashing: {relative_path}")
+            with open(file_path, "rb") as f:
+                while chunk := f.read(8192):
+                    sha256.update(chunk)
+
+    return sha256.hexdigest()
+
+
+def verify_asset(
+    version: str | None = None,
+    download_dir: str | None = None,
+    hash: str | None = None,
+    verbose: bool = False,
+) -> bool:
+    """
+    Verify the SHA-256 hash of a downloaded asset folder.
+
+    Args:
+        version: The version of the asset.
+        download_dir: The directory where the asset was downloaded.
+        hash: The expected sha256 hash. If None, looked up from assets_sha256.json.
+        verbose: If True, print detailed hashing progress.
+
+    Returns:
+        True if the computed hash matches the expected hash.
+
+    Raises:
+        ValueError: If no expected hash is available or the folder doesn't exist.
+    """
+    version = version if version is not None else get_i4h_asset_version()
+    expected_hash = hash if hash is not None else get_i4h_asset_hash(version=version)
+
+    if expected_hash is None:
+        raise ValueError(f"No expected SHA-256 hash found for version {version}")
+
+    local_dir = get_i4h_local_asset_path(version, download_dir, hash)
+    if not os.path.isdir(local_dir):
+        raise ValueError(f"Asset folder does not exist: {local_dir}")
+
+    print(f"Computing SHA-256 of {local_dir} ...")
+    computed_hash = sha256_of_folder(local_dir, verbose=verbose)
+
+    prefix_len = len(expected_hash)
+    computed_prefix = computed_hash[:prefix_len]
+    print(f"  Expected: {expected_hash}")
+    print(f"  Computed: {computed_prefix}")
+
+    if computed_prefix == expected_hash:
+        print("Verification PASSED")
+        return True
+    else:
+        print("Verification FAILED — hash mismatch!")
+        print(f"  Full computed hash: {computed_hash}")
+        return False
+
+
 def _get_asset_relpath(url_entry: str, version: str = get_i4h_asset_version(), hash: str | None = None) -> str:
     """
     Get relative path of the item specified by the url_entry should be located in the local asset directory.
@@ -332,10 +421,13 @@ def _list_asset_url(url_entry: str) -> List[str]:
                     for page in paginator.paginate(Bucket=bucket, Prefix=key):
                         if "Contents" in page:
                             for obj in page["Contents"]:
-                                # Skip the folder itself
-                                if obj["Key"] != key:
-                                    obj_url = f"https://{bucket}.s3-{_S3_REGIONS.get(_get_asset_env())}.amazonaws.com/{obj['Key']}"
-                                    entries.append(obj_url)
+                                obj_key = obj["Key"]
+                                if obj_key == key or obj_key.endswith("/"):
+                                    continue
+                                obj_url = (
+                                    f"https://{bucket}.s3-{_S3_REGIONS.get(_get_asset_env())}.amazonaws.com/{obj_key}"
+                                )
+                                entries.append(obj_url)
                     break  # Success - exit the retry loop
                 except ClientError as e:
                     error_code = e.response.get("Error", {}).get("Code", "")
@@ -389,6 +481,10 @@ def _filter_downloaded_assets(
 
 def _download_individual_asset(url_entry: str, download_dir: str, version: str | None = None, hash: str | None = None):
     version = version if version is not None else get_i4h_asset_version()
+
+    if url_entry.endswith("/"):
+        return None
+
     local_path = os.path.join(download_dir, _get_asset_relpath(url_entry, version, hash))
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
 

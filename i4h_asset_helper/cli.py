@@ -16,9 +16,7 @@
 import argparse
 import sys
 
-from isaacsim import SimulationApp
-
-from .assets import _get_default_version, _get_download_dir, _is_s3_environment, retrieve_asset
+from .assets import _get_default_version, _get_download_dir, _is_s3_environment, retrieve_asset, verify_asset
 
 
 def retrieve_main():
@@ -41,21 +39,44 @@ def retrieve_main():
     )
     parser.add_argument("--hash", type=str, default=None, help="Hash of the asset to retrieve")
     parser.add_argument("--force_omni_client", action="store_true", help="Force use of omni.client.")
-    args = parser.parse_args()
-    # To enable the omniverse plugins
-    if args.force_omni_client or not _is_s3_environment():
-        app = SimulationApp({"headless": True})
-    print(f"Retrieving assets for version: {args.version}")
-    local_path = retrieve_asset(
-        version=args.version,
-        download_dir=args.download_dir,
-        sub_path=args.sub_path,
-        hash=args.hash,
-        force_download=args.force,
-        verbose=True,
+    parser.add_argument("--skip-download", action="store_true", help="Skip downloading and only verify existing assets")
+    parser.add_argument(
+        "--verify", action="store_true", help="Verify the SHA-256 hash of downloaded assets after download"
     )
-    print(f"Assets downloaded to: {local_path}")
-    if args.force_omni_client or not _is_s3_environment():
+    args = parser.parse_args()
+
+    use_omni = args.force_omni_client or not _is_s3_environment()
+    if use_omni:
+        from isaacsim import SimulationApp
+
+        app = SimulationApp({"headless": True})
+
+    if not args.skip_download:
+        print(f"Retrieving assets for version: {args.version}")
+        local_path = retrieve_asset(
+            version=args.version,
+            download_dir=args.download_dir,
+            sub_path=args.sub_path,
+            hash=args.hash,
+            force_download=args.force,
+            verbose=True,
+        )
+        print(f"Assets downloaded to: {local_path}")
+    else:
+        print(f"Skipping download for version: {args.version}")
+
+    if args.verify:
+        passed = verify_asset(
+            version=args.version,
+            download_dir=args.download_dir,
+            hash=args.hash,
+        )
+        if not passed:
+            if use_omni:
+                app.close()
+            return 1
+
+    if use_omni:
         app.close()
     return 0
 

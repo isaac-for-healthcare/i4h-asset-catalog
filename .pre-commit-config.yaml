@@ -4,6 +4,7 @@ ci:
   autoupdate_schedule: quarterly
 
 repos:
+  # pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -12,6 +13,7 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: mixed-line-ending
+  # ruff
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.5.2
     hooks:
@@ -19,15 +21,24 @@ repos:
         entry: ruff check
         args: ["--fix"]
       - id: ruff-format
+  # isort
   - repo: https://github.com/pycqa/isort
     rev: 6.0.0
     hooks:
       - id: isort
         name: isort (python)
         args: [--check-only]
+  # codespell
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.6
     hooks:
       - id: codespell
         additional_dependencies:
         - tomli
+  # markdownlint
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.47.0
+    hooks:
+      - id: markdownlint
+        args: [--fix, --config, .markdownlint.yaml]
+        files: ^.*\.md$
