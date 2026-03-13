@@ -1,6 +1,6 @@
-## I4H Assets Catalog Helper
+# I4H Assets Catalog Helper
 
-### Requirements
+## Requirements
 
 - Python 3.10
 
@@ -43,7 +43,8 @@ print(my_assets.dVRK_ECM)
 i4h-asset-retrieve [-h] [--version ] [--force] [--download-dir DOWNLOAD_DIR] [--sub-path SUB_PATH] [--hash HASH] [--force_omni_client]
 ```
 
-##### Options:
+##### Options
+
 - `-h, --help`: Show help message and exit
 - `--version`: Asset version to retrieve (default: the latest version)
 - `--force`: Force download even if assets already exist (default: False)
@@ -52,7 +53,8 @@ i4h-asset-retrieve [-h] [--version ] [--force] [--download-dir DOWNLOAD_DIR] [--
 - `--hash HASH`: Hash of the asset to retrieve (default: None)
 - `--force_omni_client`: Force use of omni.client. (default: False)
 
-##### Example:
+##### Example
+
 ```bash
 # Download a specific subfolder of assets
 i4h-asset-retrieve --sub-path Robots
@@ -65,7 +67,6 @@ i4h-asset-retrieve --force --download-dir ~/my-assets
 ```
 
 ### Environment Variables
-
 
 #### I4H_ASSET_DOWNLOAD_DIR
 

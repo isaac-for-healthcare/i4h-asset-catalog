@@ -1,8 +1,8 @@
-## Asset Catalog for v0.3.0
+# Isaac for Healthcare - Asset Catalog
 
-### Assets
+## Assets
 
-```
+```text
 .
 ├── Props
 │   ├── ABDPhantom
@@ -54,6 +54,111 @@
 │   │   └── fixture.usda
 │   ├── D405
 │   │   └── D405_blend.usd
+│   ├── LightWheel
+│   │   ├── Assets
+│   │   │   ├── Box001
+│   │   │   │   ├── Box001.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Box001_BC001.png
+│   │   │   │       ├── T_Box001_N001.png
+│   │   │   │       └── T_Box001_ORM001.png
+│   │   │   ├── Cart001
+│   │   │   │   ├── Cart001.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Cart001_BC001.png
+│   │   │   │       ├── T_Cart001_N001.png
+│   │   │   │       └── T_Cart001_ORM001.png
+│   │   │   ├── Cart003
+│   │   │   │   ├── Cart003.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Cart001_BC001.png
+│   │   │   │       ├── T_Cart001_N001.png
+│   │   │   │       └── T_Cart001_ORM001.png
+│   │   │   ├── DisposableLaparoscopicPunctureDevice001
+│   │   │   │   ├── DisposableLaparoscopicPunctureDevice003.usd
+│   │   │   │   ├── DisposableLaparoscopicPunctureDevice004.usd
+│   │   │   │   ├── DisposableLaparoscopicPunctureDevice005.usd
+│   │   │   │   ├── DisposableLaparoscopicPunctureDevice005-xform.usd
+│   │   │   │   └── LICENSE.txt
+│   │   │   ├── DrainageTube002
+│   │   │   │   ├── DrainageTube003.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Tube001_OP001.png
+│   │   │   │       └── tubeOP.png
+│   │   │   ├── Grid
+│   │   │   │   ├── default_environment.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── Materials
+│   │   │   │       └── Textures
+│   │   │   │           ├── Wireframe_blue.png
+│   │   │   │           ├── WireframeBlur_basecolor.png
+│   │   │   │           └── WireframeBlur_blue.png
+│   │   │   ├── InstrumentTrolley001
+│   │   │   │   ├── InstrumentTrolley002.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── texture
+│   │   │   │       ├── T_InstrumentTrolley001_BC001.png
+│   │   │   │       ├── T_InstrumentTrolley001_N001.png
+│   │   │   │       └── T_InstrumentTrolley001_ORM001.png
+│   │   │   ├── Plate001
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── plate001.usd
+│   │   │   ├── PneumoperitoneumNeedle001
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   ├── PneumoperitoneumNeedle001.usd
+│   │   │   │   └── texture
+│   │   │   │       ├── T_PneumoperitoneumNeedle001_BC001.png
+│   │   │   │       ├── T_PneumoperitoneumNeedle001_N001.png
+│   │   │   │       ├── T_PneumoperitoneumNeedle001_OP001.png
+│   │   │   │       └── T_PneumoperitoneumNeedle001_ORM001.png
+│   │   │   ├── PunctureDevice002
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   ├── PunctureDevice002.usd
+│   │   │   │   └── texture
+│   │   │   │       ├── T_PunctureDevice002_BC001.png
+│   │   │   │       ├── T_PunctureDevice002_N001.png
+│   │   │   │       └── T_PunctureDevice002_ORM001.png
+│   │   │   ├── SurgicalTray001
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   ├── SurgicalTray001.usd
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Box001_BC001.png
+│   │   │   │       ├── T_Box001_N001.png
+│   │   │   │       └── T_Box001_ORM001.png
+│   │   │   ├── SurgicalTray006
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   ├── SurgicalTray006.usd
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Box001_BC001.png
+│   │   │   │       ├── T_Box001_N001.png
+│   │   │   │       └── T_Box001_ORM001.png
+│   │   │   ├── SurgicalTrayNoLid006
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   ├── SurgicalTrayNoLid006.usd
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Box001_BC001.png
+│   │   │   │       ├── T_Box001_N001.png
+│   │   │   │       └── T_Box001_ORM001.png
+│   │   │   ├── SurgicalTweezers
+│   │   │   │   ├── AngledTweezers001.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── texture
+│   │   │   │       ├── T_AngledTweezers001_BC001.png
+│   │   │   │       ├── T_AngledTweezers001_N001.png
+│   │   │   │       └── T_AngledTweezers001_ORM001.png
+│   │   │   └── Trocar002
+│   │   │       ├── LICENSE.txt
+│   │   │       ├── Trocar002.usd
+│   │   │       ├── Trocar002-xform.usd
+│   │   │       └── Trocar002-xform-wo.usd
+│   │   ├── LICENSE.txt
+│   │   └── scene03.usd
+│   ├── NuRec
+│   │   └── nurec_orca_bg.usdz
 │   ├── Organs
 │   │   ├── materials
 │   │   │   ├── human_skin_normal_detail.jpg
@@ -291,6 +396,345 @@
 │   │           └── organ_shaders.usd
 │   ├── PegBlock
 │   │   └── block.usd
+│   ├── Rheo
+│   │   ├── Isaac
+│   │   │   ├── Environments
+│   │   │   │   ├── Office
+│   │   │   │   │   └── Materials
+│   │   │   │   │       ├── MI_Clock.mdl
+│   │   │   │   │       ├── MI_DoorA.mdl
+│   │   │   │   │       ├── MI_PC_ON_02.mdl
+│   │   │   │   │       ├── MI_Props.mdl
+│   │   │   │   │       ├── OmniUe4Base.mdl
+│   │   │   │   │       ├── OmniUe4Function.mdl
+│   │   │   │   │       └── Textures
+│   │   │   │   │           ├── T_Bookcase_ao_r_m.png
+│   │   │   │   │           ├── T_Bookcase_bc.png
+│   │   │   │   │           ├── T_Bookcase_n.png
+│   │   │   │   │           ├── T_ChairOfficeA_ao_r_m.png
+│   │   │   │   │           ├── T_ChairOfficeA_bc.png
+│   │   │   │   │           ├── T_ChairOfficeA_mask.png
+│   │   │   │   │           ├── T_ChairOfficeA_n.png
+│   │   │   │   │           ├── T_PanicDoor_ao_r_m_e.png
+│   │   │   │   │           ├── T_PanicDoor_bc.png
+│   │   │   │   │           ├── T_PanicDoor_mask.png
+│   │   │   │   │           ├── T_PanicDoor_n.png
+│   │   │   │   │           ├── T_PC_02_e.png
+│   │   │   │   │           ├── T_PC1_ao_r_m_e.png
+│   │   │   │   │           ├── T_PC1_bc.png
+│   │   │   │   │           ├── T_PC1_n.png
+│   │   │   │   │           ├── T_PC_ao_r_m.png
+│   │   │   │   │           ├── T_PC_bc.png
+│   │   │   │   │           ├── T_PC_n.png
+│   │   │   │   │           ├── T_Props_ao_r_m.png
+│   │   │   │   │           ├── T_Props_bc.png
+│   │   │   │   │           ├── T_Props_n.png
+│   │   │   │   │           ├── T_RadioSet_ao_r_m.png
+│   │   │   │   │           ├── T_RadioSet_bc.png
+│   │   │   │   │           ├── T_RadioSet_e.png
+│   │   │   │   │           ├── T_RadioSet_n.png
+│   │   │   │   │           ├── T_ReceptionTable_ao_r_m.png
+│   │   │   │   │           ├── T_ReceptionTable_bc.png
+│   │   │   │   │           └── T_ReceptionTable_n.png
+│   │   │   │   └── Simple_Warehouse
+│   │   │   │       └── Materials
+│   │   │   │           ├── MaterialInstanceDynamic_1220.mdl
+│   │   │   │           ├── MI_CeilingA_06b.mdl
+│   │   │   │           ├── MI_LampCeilingA.mdl
+│   │   │   │           ├── M_TrafficCone.mdl
+│   │   │   │           ├── OmniUe4Base.mdl
+│   │   │   │           ├── OmniUe4Function.mdl
+│   │   │   │           └── Textures
+│   │   │   │               ├── Alum_Anodized_roughness.png
+│   │   │   │               ├── T_BeamsA_M.png
+│   │   │   │               ├── T_BeamsA_N.png
+│   │   │   │               ├── T_BeamsA_ORM.png
+│   │   │   │               ├── T_CardBoxA_D.png
+│   │   │   │               ├── T_CardBoxA_N.png
+│   │   │   │               ├── T_CardBoxA_ORM.png
+│   │   │   │               ├── T_CardBoxB_D.png
+│   │   │   │               ├── T_CardBoxB_N.png
+│   │   │   │               ├── T_CardBoxB_ORM.png
+│   │   │   │               ├── T_CardBoxC_D.png
+│   │   │   │               ├── T_CardBoxC_N.png
+│   │   │   │               ├── T_CardBoxC_ORM.png
+│   │   │   │               ├── T_CardBoxD_D.png
+│   │   │   │               ├── T_CardBoxD_N.png
+│   │   │   │               ├── T_CardBoxD_ORM.png
+│   │   │   │               ├── T_Floor_01_D.png
+│   │   │   │               ├── T_Floor_01_N.png
+│   │   │   │               ├── T_PlasticWrap_D.png
+│   │   │   │               ├── T_PlasticWrap_N.png
+│   │   │   │               ├── T_PlasticWrap_ORM.png
+│   │   │   │               ├── T_RackSetA_01_D.png
+│   │   │   │               ├── T_RackSetA_01_M.png
+│   │   │   │               ├── T_RackSetA_01_N.png
+│   │   │   │               ├── T_RackSetA_01_ORM.png
+│   │   │   │               ├── T_RackSetA_02_D.png
+│   │   │   │               ├── T_RackSetA_02_M.png
+│   │   │   │               ├── T_RackSetA_02_N.png
+│   │   │   │               ├── T_RackSetA_02_ORM.png
+│   │   │   │               ├── T_RackSetA_03_D.png
+│   │   │   │               ├── T_RackSetA_03_M.png
+│   │   │   │               ├── T_RackSetA_03_N.png
+│   │   │   │               ├── T_RackSetA_03_ORM.png
+│   │   │   │               ├── T_RackSetA_04_D.png
+│   │   │   │               ├── T_RackSetA_04_M.png
+│   │   │   │               ├── T_RackSetA_04_N.png
+│   │   │   │               ├── T_RackSetA_04_ORM.png
+│   │   │   │               ├── T_TrafficCone_D.png
+│   │   │   │               ├── T_TrafficCone_N.png
+│   │   │   │               ├── T_TrafficCone_ORM.png
+│   │   │   │               └── T_TrafficCone_Stripes.png
+│   │   │   └── Props
+│   │   │       ├── Dolly
+│   │   │       │   └── Materials
+│   │   │       │       └── Textures
+│   │   │       │           ├── fof_map_shelf_cart_a_base_d.png
+│   │   │       │           ├── fof_map_shelf_cart_a_base_n.png
+│   │   │       │           └── fof_map_shelf_cart_a_base_roughness.png
+│   │   │       ├── Forklift
+│   │   │       │   └── Materials
+│   │   │       │       └── Textures
+│   │   │       │           ├── T_Forklift_D.png
+│   │   │       │           ├── T_Forklift_N.png
+│   │   │       │           └── T_Forklift_ORM.png
+│   │   │       ├── KLT_Bin
+│   │   │       │   └── Materials
+│   │   │       │       └── Textures
+│   │   │       │           ├── FOF_Map_Labels_D.png
+│   │   │       │           ├── FOF_Map_Magenta_Box_D.png
+│   │   │       │           └── FOF_Mesh_Labels_D.png
+│   │   │       └── Pallet
+│   │   │           └── Materials
+│   │   │               └── Textures
+│   │   │                   ├── T_PalletWooden_A_Albedo.png
+│   │   │                   ├── T_PalletWooden_A_Normal.png
+│   │   │                   └── T_PalletWooden_A_ORM.png
+│   │   ├── main_new_light.usd
+│   │   ├── NVIDIA
+│   │   │   ├── Assets
+│   │   │   │   └── DigitalTwin
+│   │   │   │       ├── Assets
+│   │   │   │       │   └── Warehouse
+│   │   │   │       │       └── Shipping
+│   │   │   │       │           ├── Cardboard_Boxes
+│   │   │   │       │           │   ├── Flat_A
+│   │   │   │       │           │   │   └── materials
+│   │   │   │       │           │   │       ├── M_FlatBox_Cardboard_01.mdl
+│   │   │   │       │           │   │       └── textures
+│   │   │   │       │           │   │           ├── T_FlatBox_A01_Tile_Albedo.png
+│   │   │   │       │           │   │           ├── T_FlatBox_A01_Tile_Normal.png
+│   │   │   │       │           │   │           └── T_FlatBox_A01_Tile_ORM.png
+│   │   │   │       │           │   └── Multi-Depth_A
+│   │   │   │       │           │       └── materials
+│   │   │   │       │           │           ├── M_MultiDepthBox_Cardboard_01.mdl
+│   │   │   │       │           │           ├── M_MultiDepthBox_Decal_01.mdl
+│   │   │   │       │           │           └── textures
+│   │   │   │       │           │               ├── T_MultiDepthBox_A01_Tile_Albedo.png
+│   │   │   │       │           │               ├── T_MultiDepthBox_A01_Tile_Normal.png
+│   │   │   │       │           │               ├── T_MultiDepthBox_A01_Tile_ORM.png
+│   │   │   │       │           │               ├── T_MultiDepthBox_A01_Trim_Albedo.png
+│   │   │   │       │           │               ├── T_MultiDepthBox_A01_Trim_Normal.png
+│   │   │   │       │           │               ├── T_MultiDepthBox_A01_Trim_Opacity.png
+│   │   │   │       │           │               └── T_MultiDepthBox_A01_Trim_ORM.png
+│   │   │   │       │           └── Wood_Crates
+│   │   │   │       │               └── Plywood_B
+│   │   │   │       │                   └── materials
+│   │   │   │       │                       └── textures
+│   │   │   │       │                           ├── T_WoodenCrates_B1_Albedo.1001.png
+│   │   │   │       │                           ├── T_WoodenCrates_B1_Normal.1001.png
+│   │   │   │       │                           └── T_WoodenCrates_B1_ORM.1001.png
+│   │   │   │       └── Materials
+│   │   │   │           └── Base
+│   │   │   │               ├── Metals
+│   │   │   │               │   ├── Metal_Glossy_A.mdl
+│   │   │   │               │   └── Textures
+│   │   │   │               │       ├── T_Metal_Glossy_A_Albedo.png
+│   │   │   │               │       ├── T_Metal_Glossy_A_Normal.png
+│   │   │   │               │       └── T_Metal_Glossy_A_ORM.png
+│   │   │   │               ├── Plastics
+│   │   │   │               │   ├── Plastic_Rough_Black_A.mdl
+│   │   │   │               │   ├── Plastic_White_A.mdl
+│   │   │   │               │   └── Textures
+│   │   │   │               │       ├── T_Plastic_Rough_Black_A_Albedo.png
+│   │   │   │               │       ├── T_Plastic_Rough_Black_A_Normal.png
+│   │   │   │               │       ├── T_Plastic_Rough_Black_A_ORM.png
+│   │   │   │               │       ├── T_Plastic_White_A_Albedo.png
+│   │   │   │               │       ├── T_Plastic_White_A_Normal.png
+│   │   │   │               │       └── T_Plastic_White_A_ORM.png
+│   │   │   │               └── Wood
+│   │   │   │                   ├── Textures
+│   │   │   │                   │   ├── T_Wood_Recycled_A1_Albedo.png
+│   │   │   │                   │   ├── T_Wood_Recycled_A1_Normal.png
+│   │   │   │                   │   └── T_Wood_Recycled_A1_ORM.png
+│   │   │   │                   └── Wood_Recycled_A.mdl
+│   │   │   └── Materials
+│   │   │       └── Base
+│   │   │           ├── Glass
+│   │   │           │   ├── Clear_Glass.mdl
+│   │   │           │   └── Tinted_Glass.mdl
+│   │   │           ├── Masonry
+│   │   │           │   ├── Concrete_Polished
+│   │   │           │   │   ├── Concrete_Polished_BaseColor.png
+│   │   │           │   │   ├── Concrete_Polished_Normal.png
+│   │   │           │   │   └── Concrete_Polished_ORM.png
+│   │   │           │   └── Concrete_Polished.mdl
+│   │   │           ├── Metals
+│   │   │           │   ├── Aluminum_Anodized
+│   │   │           │   │   ├── Aluminum_Anodized_BaseColor.png
+│   │   │           │   │   ├── Aluminum_Anodized_Normal.png
+│   │   │           │   │   └── Aluminum_Anodized_ORM.png
+│   │   │           │   ├── Aluminum_Anodized_Black.mdl
+│   │   │           │   ├── Aluminum_Anodized.mdl
+│   │   │           │   ├── Aluminum_Polished
+│   │   │           │   │   ├── Aluminum_Polished_BaseColor.png
+│   │   │           │   │   ├── Aluminum_Polished_Normal.png
+│   │   │           │   │   └── Aluminum_Polished_ORM.png
+│   │   │           │   └── Aluminum_Polished.mdl
+│   │   │           ├── Miscellaneous
+│   │   │           │   ├── Chain_Link_Fence
+│   │   │           │   │   ├── Chain_Link_Fence_BaseColor.png
+│   │   │           │   │   ├── Chain_Link_Fence_Normal.png
+│   │   │           │   │   ├── Chain_Link_Fence_Opacity.png
+│   │   │           │   │   └── Chain_Link_Fence_ORM.png
+│   │   │           │   ├── Chain_Link_Fence.mdl
+│   │   │           │   ├── Paint_Gloss
+│   │   │           │   │   ├── Paint_Gloss_Finish_BaseColor.png
+│   │   │           │   │   ├── Paint_Gloss_Finish_N.png
+│   │   │           │   │   └── Paint_Gloss_Finish_ORM.png
+│   │   │           │   ├── Paint_Gloss.mdl
+│   │   │           │   ├── Paint_Satin
+│   │   │           │   │   ├── Paint_Satin_Finish_BaseColor.png
+│   │   │           │   │   ├── Paint_Satin_Finish_N.png
+│   │   │           │   │   └── Paint_Satin_Finish_ORM.png
+│   │   │           │   └── Paint_Satin.mdl
+│   │   │           ├── Plastics
+│   │   │           │   ├── Plastic_Acrylic.mdl
+│   │   │           │   └── Plastic.mdl
+│   │   │           ├── Templates
+│   │   │           │   ├── GlassUtils.mdl
+│   │   │           │   └── GlassWithVolume.mdl
+│   │   │           └── Wood
+│   │   │               ├── Oak_Planks
+│   │   │               │   ├── Oak_Planks_BaseColor.png
+│   │   │               │   ├── Oak_Planks_N.png
+│   │   │               │   └── Oak_Planks_ORM.png
+│   │   │               ├── Oak_Planks.mdl
+│   │   │               ├── Plywood
+│   │   │               │   ├── Plywood_BaseColor.png
+│   │   │               │   ├── Plywood_N.png
+│   │   │               │   └── Plywood_ORM.png
+│   │   │               └── Plywood.mdl
+│   │   ├── omniverse-content-staging.s3.us-west-2.amazonaws.com
+│   │   │   └── Assets
+│   │   │       └── simready_content
+│   │   │           ├── common_assets
+│   │   │           │   └── props
+│   │   │           │       ├── openindustrialsteelshelving_a03
+│   │   │           │       │   ├── materials
+│   │   │           │       │   │   ├── Metal_Glossy_A.mdl
+│   │   │           │       │   │   └── Metal_Painted_White_Rough_A.mdl
+│   │   │           │       │   └── textures
+│   │   │           │       │       ├── Metal_Glossy_A
+│   │   │           │       │       │   ├── T_Metal_Glossy_A_Albedo.png
+│   │   │           │       │       │   ├── T_Metal_Glossy_A_Normal.png
+│   │   │           │       │       │   └── T_Metal_Glossy_A_ORM.png
+│   │   │           │       │       └── Metal_Painted_White_Rough_A
+│   │   │           │       │           ├── T_Metal_Painted_White_Rough_A_Albedo.png
+│   │   │           │       │           ├── T_Metal_Painted_White_Rough_A_Normal.png
+│   │   │           │       │           └── T_Metal_Painted_White_Rough_A_ORM.png
+│   │   │           │       ├── pallet_a1
+│   │   │           │       │   └── Textures
+│   │   │           │       │       ├── T_Pallet_A1_Albedo.png
+│   │   │           │       │       ├── T_Pallet_A1_Normal.png
+│   │   │           │       │       └── T_Pallet_A1_ORM.png
+│   │   │           │       └── pallet_asm_a02_91x91x51cm_pr_v_nvd_01
+│   │   │           │           ├── materials
+│   │   │           │           │   ├── Metal_Glossy_A.mdl
+│   │   │           │           │   ├── Pallet_Assembly_A_Covering.mdl
+│   │   │           │           │   ├── Pallet_Assembly_Tile.mdl
+│   │   │           │           │   ├── Pallet_Assembly_Trim.mdl
+│   │   │           │           │   └── Wood_Recycled_A.mdl
+│   │   │           │           └── textures
+│   │   │           │               ├── T_Metal_Glossy_A_Albedo.png
+│   │   │           │               ├── T_Metal_Glossy_A_Normal.png
+│   │   │           │               ├── T_Metal_Glossy_A_ORM.png
+│   │   │           │               ├── T_Pallet_Assembly_Tile_Albedo.png
+│   │   │           │               ├── T_Pallet_Assembly_Tile_Normal.png
+│   │   │           │               ├── T_Pallet_Assembly_Tile_ORM.png
+│   │   │           │               ├── T_Pallet_Assembly_Tile_Rough.png
+│   │   │           │               ├── T_Pallet_Assembly_Trim_Albedo.png
+│   │   │           │               ├── T_Pallet_Assembly_Trim_Normal.png
+│   │   │           │               ├── T_Pallet_Assembly_Trim_Opacity.png
+│   │   │           │               ├── T_Pallet_Assembly_Trim_ORM.png
+│   │   │           │               ├── T_Wood_Recycled_A1_Albedo.png
+│   │   │           │               ├── T_Wood_Recycled_A1_Normal.png
+│   │   │           │               └── T_Wood_Recycled_A1_ORM.png
+│   │   │           └── materials
+│   │   │               ├── baking_annotations.mdl
+│   │   │               ├── SimPBR.mdl
+│   │   │               └── SimPBR_Model.mdl
+│   │   ├── SurgicalRoom
+│   │   │   └── Assets
+│   │   │       └── InstrumentTrolley001
+│   │   │           ├── InstrumentTrolley002.usd
+│   │   │           ├── LICENSE.txt
+│   │   │           └── texture
+│   │   │               ├── T_InstrumentTrolley001_BC001.png
+│   │   │               ├── T_InstrumentTrolley001_N001.png
+│   │   │               └── T_InstrumentTrolley001_ORM001.png
+│   │   └── Visuals
+│   │       ├── SurgicalLightCeilingMobile_A
+│   │       │   ├── Model
+│   │       │   │   └── sm_surgicallightceilingmobile_a01_01.usd
+│   │       │   ├── sm_surgicallightceilingmobile_a01_01.usd
+│   │       │   └── Textures
+│   │       │       ├── T_MetalPainted_Gray_Worn_Albedo.png
+│   │       │       ├── T_MetalPainted_Gray_Worn_Normal.png
+│   │       │       ├── T_MetalPainted_Gray_Worn_ORM.png
+│   │       │       ├── T_Plastic_Black_A_Albedo.png
+│   │       │       ├── T_Plastic_Black_A_Normal.png
+│   │       │       ├── T_Plastic_Black_A_ORM.png
+│   │       │       ├── T_Plastic_Black_B_Albedo.png
+│   │       │       ├── T_Plastic_Black_B_Normal.png
+│   │       │       ├── T_Plastic_Black_B_ORM.png
+│   │       │       ├── T_Plastic_Glossy_Black_A_Normal.png
+│   │       │       ├── T_Plastic_Glossy_Black_A_ORM.png
+│   │       │       ├── T_Plastic_Glossy_White_A_Albedo.png
+│   │       │       ├── T_Plastic_Glossy_White_A_Normal.png
+│   │       │       ├── T_Plastic_Glossy_White_A_ORM.png
+│   │       │       ├── T_Plastic_Gray_A_Albedo.png
+│   │       │       ├── T_Plastic_Gray_A_Normal.png
+│   │       │       ├── T_Plastic_Gray_A_ORM.png
+│   │       │       ├── T_Steel_A1_Albedo.png
+│   │       │       ├── T_Steel_A1_Normal.png
+│   │       │       └── T_Steel_A1_ORM.png
+│   │       └── SurgicalTable_A
+│   │           ├── Model
+│   │           │   └── sm_surgicaltable_a01_01.usd
+│   │           ├── sm_surgicaltable_a01_01.usd
+│   │           └── Textures
+│   │               ├── T_Leather_Black_Glossy_A_Albedo.png
+│   │               ├── T_Leather_Black_Glossy_A_Normal.png
+│   │               ├── T_Leather_Black_Glossy_A_ORM.png
+│   │               ├── T_metalpainted_gray_metallic_a_Albedo.png
+│   │               ├── T_metalpainted_gray_metallic_a_Normal.png
+│   │               ├── T_metalpainted_gray_metallic_a_ORM.png
+│   │               ├── T_opaque__paper_decal_a_Albedo.jpg
+│   │               ├── T_Plastic_Black_B_Albedo.png
+│   │               ├── T_Plastic_Black_B_Normal.png
+│   │               ├── T_Plastic_Black_B_ORM.png
+│   │               ├── T_Plastic_Glossy_White_A_Albedo.png
+│   │               ├── T_Plastic_Glossy_White_A_Normal.png
+│   │               ├── T_Plastic_Glossy_White_A_ORM.png
+│   │               ├── T_Plastic_Gray_A_Normal.png
+│   │               ├── T_Plastic_Gray_A_ORM.png
+│   │               ├── T_Rubber_New_A1_Albedo.png
+│   │               ├── T_Rubber_New_A1_Normal.png
+│   │               ├── T_Rubber_New_A1_ORM.png
+│   │               ├── T_Steel_StainlessClean_A1_Normal.png
+│   │               └── T_Steel_StainlessClean_A1_ORM.png
 │   ├── shared_OR_without_Mark
 │   │   ├── Collected_surgery_room_movie_with_heart_adjusted
 │   │   │   ├── Assets
@@ -2307,17 +2751,18 @@
 │   │   └── suture_pad.usd
 │   ├── Table
 │   │   └── table.usd
-│   ├── Tables
-│   │   └── Table.usd
 │   ├── UltrasoundCameraFixture
 │   │   ├── collect.mapping.json
 │   │   └── fixture.usda
-│   ├── VentionTable
-│   │   └── table.usda
-│   └── VentionTableWithBlackCover
-│       ├── table
-│       │   └── table_cover.usdc
-│       └── table_with_cover.usd
+│   └── VentionTable
+│       ├── Basic
+│       │   └── table.usda
+│       └── BlackCover
+│           ├── 256x256
+│           │   └── table_with_cover.usd.png
+│           ├── table
+│           │   └── table_cover.usdc
+│           └── table_with_cover.usd
 ├── Robots
 │   ├── dVRK
 │   │   ├── ECM
@@ -2340,11 +2785,19 @@
 │   ├── SO-ARM
 │   │   ├── README.md
 │   │   └── SO-ARMDualCamera.usd
-│   └── STAR
-│       └── star.usd
+│   ├── STAR
+│   │   └── star.usd
+│   └── UnitreeG1
+│       ├── g1_29dof_wholebody_dex3
+│       │   ├── configuration
+│       │   │   ├── g1_29dof_with_dex3_rev_1_0_base.usd
+│       │   │   ├── g1_29dof_with_dex3_rev_1_0_physics.usd
+│       │   │   └── g1_29dof_with_dex3_rev_1_0_sensor.usd
+│       │   ├── config.yaml
+│       │   └── g1_29dof_with_dex3_rev_1_0.usd
+│       └── g1_29dof_with_dex3_base_fix
+│           └── g1_29dof_with_dex3_base_fix.usd
 └── Test
     └── basic.usda
-
-377 directories, 1964 files
 
 ```
