@@ -54,7 +54,7 @@
 │   │   └── fixture.usda
 │   ├── D405
 │   │   └── D405_blend.usd
-│   ├── Lightwheel
+│   ├── LightWheel
 │   │   ├── Assets
 │   │   │   ├── Box001
 │   │   │   │   ├── Box001.usd
