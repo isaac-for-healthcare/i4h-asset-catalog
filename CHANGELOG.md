@@ -1,8 +1,12 @@
 # Isaac for Healthcare - Sim-Ready Assets - Change log
 
+## Version 0.6.0
+
+- Added KUKA LBR14Med robot.
+
 ## Version 0.5.0
 
-- Added Lightwheel SimReady Assets.
+- Added LightWheel SimReady Assets.
 - Added UnitreeG1 humanoid robot.
 - Added Scenes for the Rheo workflow and scene reconstructed by NuRec.
 - Restructured VentionTable into Basic and BlackCover variants.

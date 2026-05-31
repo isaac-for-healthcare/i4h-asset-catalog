@@ -26,7 +26,7 @@ This asset catalog contains several categories of assets that are essential for 
 
 - **Lightwheel SimReady Assets**: Simulation-ready deformable medical and surgical props powered by [Lightwheel AI](https://www.lightwheel.ai/), including instruments, devices, carts, trays, and scene layouts
 
-> **Note:** The Lightwheel SimReady assets included in this catalog are provided for **non-commercial, research and development use only**. These assets are not licensed for commercial usage. Please refer to the `LICENSE.txt` files included with each Lightwheel asset for full terms.
+> **Note:** The LightWheel SimReady assets included in this catalog are provided for **non-commercial, research and development use only**. These assets are not licensed for commercial usage. Please refer to the `LICENSE.txt` files included with each LightWheel asset for full terms.
 
 ### Configuration Files
 
