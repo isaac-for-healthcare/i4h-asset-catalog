@@ -6,7 +6,7 @@
 
 ## Version 0.5.0
 
-- Added LightWheel SimReady Assets.
+- Added Lightwheel SimReady Assets.
 - Added UnitreeG1 humanoid robot.
 - Added Scenes for the Rheo workflow and scene reconstructed by NuRec.
 - Restructured VentionTable into Basic and BlackCover variants.
