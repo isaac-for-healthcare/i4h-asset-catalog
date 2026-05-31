@@ -2777,6 +2777,66 @@
 │   │   └── End_effector
 │   │       ├── HD3C3 Endeffector.step
 │   │       └── LICENSE
+│   ├── KUKA_LBR
+│   │   └── LBR14
+│   │       ├── URDF
+│   │       │   └── LBR14_R820_Med
+│   │       │       ├── LBR14Med_parts
+│   │       │       │   ├── base_cover.part
+│   │       │       │   ├── base_cover.stl
+│   │       │       │   ├── base_structur.part
+│   │       │       │   ├── base_structur.stl
+│   │       │       │   ├── joint12_structur.part
+│   │       │       │   ├── joint12_structur.stl
+│   │       │       │   ├── joint23_cover.part
+│   │       │       │   ├── joint23_cover.stl
+│   │       │       │   ├── joint23_pds.part
+│   │       │       │   ├── joint23_pds.stl
+│   │       │       │   ├── joint23_structur.part
+│   │       │       │   ├── joint23_structur.stl
+│   │       │       │   ├── joint34_structur.part
+│   │       │       │   ├── joint34_structur.stl
+│   │       │       │   ├── joint45_cover.part
+│   │       │       │   ├── joint45_cover.stl
+│   │       │       │   ├── joint45_pds.part
+│   │       │       │   ├── joint45_pds.stl
+│   │       │       │   ├── joint45_structur.part
+│   │       │       │   ├── joint45_structur.stl
+│   │       │       │   ├── joint56_structur.part
+│   │       │       │   ├── joint56_structur.stl
+│   │       │       │   ├── joint67_pds.part
+│   │       │       │   ├── joint67_pds.stl
+│   │       │       │   ├── joint67_structur.part
+│   │       │       │   ├── joint67_structur.stl
+│   │       │       │   ├── mf_cover.part
+│   │       │       │   ├── mf_cover.stl
+│   │       │       │   ├── mf_structur.part
+│   │       │       │   └── mf_structur.stl
+│   │       │       ├── LBR14Med_stp
+│   │       │       │   ├── Base_cover.stp
+│   │       │       │   ├── Base_structur.stp
+│   │       │       │   ├── Joint12_structur.stp
+│   │       │       │   ├── Joint23_cover.stp
+│   │       │       │   ├── Joint23_pds.stp
+│   │       │       │   ├── Joint23_structur.stp
+│   │       │       │   ├── Joint34_structur.stp
+│   │       │       │   ├── Joint45_cover.stp
+│   │       │       │   ├── Joint45_pds.stp
+│   │       │       │   ├── Joint45_structur.stp
+│   │       │       │   ├── Joint56_structur.stp
+│   │       │       │   ├── Joint67_pds.stp
+│   │       │       │   ├── Joint67_structur.stp
+│   │       │       │   ├── MF_cover.stp
+│   │       │       │   └── MF_structur.stp
+│   │       │       └── LBR14Med.urdf
+│   │       └── USD
+│   │           └── LBR14Med
+│   │               ├── configuration
+│   │               │   ├── LBR14Med_base.usd
+│   │               │   ├── LBR14Med_physics.usd
+│   │               │   ├── LBR14Med_robot.usd
+│   │               │   └── LBR14Med_sensor.usd
+│   │               └── LBR14Med.usd
 │   ├── MIRA
 │   │   ├── mira-bipo-size-experiment-smoothing.usd
 │   │   ├── suture-needle.usd
