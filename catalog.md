@@ -2778,7 +2778,7 @@
 │   │       ├── HD3C3 Endeffector.step
 │   │       └── LICENSE
 │   ├── KUKA_LBR
-│   │   ├── LBR7_R800_Med/
+│   │   ├── LBR7_R800_Med
 │   │   │   ├── LBR7Med_parts
 │   │   │   │   ├── joint34.part
 │   │   │   │   ├── joint34.stl
