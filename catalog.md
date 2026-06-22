@@ -2778,6 +2778,57 @@
 │   │       ├── HD3C3 Endeffector.step
 │   │       └── LICENSE
 │   ├── KUKA_LBR
+│   │   ├── LBR7_R800_Med
+│   │   │   ├── LBR7Med_parts
+│   │   │   │   ├── joint34.part
+│   │   │   │   ├── joint34.stl
+│   │   │   │   ├── joint45_cover.part
+│   │   │   │   ├── joint45_cover.stl
+│   │   │   │   ├── joint45_pds.part
+│   │   │   │   ├── joint45_pds.stl
+│   │   │   │   ├── joint45_structur.part
+│   │   │   │   ├── joint45_structur.stl
+│   │   │   │   ├── joint56.part
+│   │   │   │   ├── joint56.stl
+│   │   │   │   ├── joint67_pds.part
+│   │   │   │   ├── joint67_pds.stl
+│   │   │   │   ├── joint67_structur.part
+│   │   │   │   ├── joint67_structur.stl
+│   │   │   │   ├── lbr7_med_base.part
+│   │   │   │   ├── lbr7_med_base.stl
+│   │   │   │   ├── lbr7_med_joint12_structure.part
+│   │   │   │   ├── lbr7_med_joint12_structure.stl
+│   │   │   │   ├── lbr7_med_joint23_cover.part
+│   │   │   │   ├── lbr7_med_joint23_cover.stl
+│   │   │   │   ├── lbr7_med_joint23_pds.part
+│   │   │   │   ├── lbr7_med_joint23_pds.stl
+│   │   │   │   ├── lbr7_med_joint23_structure.part
+│   │   │   │   ├── lbr7_med_joint23_structure.stl
+│   │   │   │   ├── mf_cover.part
+│   │   │   │   ├── mf_cover.stl
+│   │   │   │   ├── mf_structur.part
+│   │   │   │   └── mf_structur.stl
+│   │   │   ├── LBR7Med_stp
+│   │   │   │   ├── Base_structure.stp
+│   │   │   │   ├── Joint12_structure.stp
+│   │   │   │   ├── Joint23_cover.stp
+│   │   │   │   ├── Joint23_pds.stp
+│   │   │   │   ├── Joint23.stp
+│   │   │   │   ├── Joint23_structure.stp
+│   │   │   │   ├── Joint34_structur.stp
+│   │   │   │   ├── Joint45_cover1.stp
+│   │   │   │   ├── Joint45_pds.stp
+│   │   │   │   ├── Joint45.stp
+│   │   │   │   ├── Joint45_structur.stp
+│   │   │   │   ├── Joint56_structur.stp
+│   │   │   │   ├── Joint67_pds.stp
+│   │   │   │   ├── Joint67.stp
+│   │   │   │   ├── Joint67_structur.stp
+│   │   │   │   ├── LBR7_ROS_simplification.stp
+│   │   │   │   ├── MF_cover.stp
+│   │   │   │   ├── MF.stp
+│   │   │   │   └── MF_structur.stp
+│   │   │   └── robot.urdf
 │   │   └── LBR14
 │   │       ├── URDF
 │   │       │   └── LBR14_R820_Med
