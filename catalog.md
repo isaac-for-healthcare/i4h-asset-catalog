@@ -2828,7 +2828,7 @@
 │   │   │   │   ├── MF_cover.stp
 │   │   │   │   ├── MF.stp
 │   │   │   │   └── MF_structur.stp
-│   │   │   └── robot.urdf
+│   │   │   └── LBR7Med.urdf
 │   │   └── LBR14
 │   │       ├── URDF
 │   │       │   └── LBR14_R820_Med
