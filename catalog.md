@@ -3,7 +3,6 @@
 ## Assets
 
 ```text
-.
 ├── Props
 │   ├── ABDPhantom
 │   │   ├── Organs
@@ -54,7 +53,7 @@
 │   │   └── fixture.usda
 │   ├── D405
 │   │   └── D405_blend.usd
-│   ├── LightWheel
+│   ├── Lightwheel
 │   │   ├── Assets
 │   │   │   ├── Box001
 │   │   │   │   ├── Box001.usd
@@ -77,6 +76,18 @@
 │   │   │   │       ├── T_Cart001_BC001.png
 │   │   │   │       ├── T_Cart001_N001.png
 │   │   │   │       └── T_Cart001_ORM001.png
+│   │   │   ├── DeformableCloth
+│   │   │   │   ├── cloth_inner.usd
+│   │   │   │   ├── cloth.usd
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   └── textures
+│   │   │   │       ├── T_Cloth_In002_BC001.png
+│   │   │   │       ├── T_Cloth_In002_N001.png
+│   │   │   │       ├── T_Cloth_In002_ORM001.png
+│   │   │   │       ├── T_ProtectivePad001_BC001.png
+│   │   │   │       ├── T_ProtectivePad001_N001.png
+│   │   │   │       ├── T_ProtectivePad001_OP001.png
+│   │   │   │       └── T_ProtectivePad001_ORM001.png
 │   │   │   ├── DisposableLaparoscopicPunctureDevice001
 │   │   │   │   ├── DisposableLaparoscopicPunctureDevice003.usd
 │   │   │   │   ├── DisposableLaparoscopicPunctureDevice004.usd
@@ -150,6 +161,13 @@
 │   │   │   │       ├── T_AngledTweezers001_BC001.png
 │   │   │   │       ├── T_AngledTweezers001_N001.png
 │   │   │   │       └── T_AngledTweezers001_ORM001.png
+│   │   │   ├── Table256
+│   │   │   │   ├── LICENSE.txt
+│   │   │   │   ├── Table256.usd
+│   │   │   │   └── texture
+│   │   │   │       ├── T_Table256_BC001.png
+│   │   │   │       ├── T_Table256_N001.png
+│   │   │   │       └── T_Table256_ORM001.png
 │   │   │   └── Trocar002
 │   │   │       ├── LICENSE.txt
 │   │   │       ├── Trocar002.usd
@@ -2777,117 +2795,140 @@
 │   │   └── End_effector
 │   │       ├── HD3C3 Endeffector.step
 │   │       └── LICENSE
-│   ├── KUKA_LBR
-│   │   ├── LBR7_R800_Med
-│   │   │   ├── LBR7Med_parts
-│   │   │   │   ├── joint34.part
-│   │   │   │   ├── joint34.stl
-│   │   │   │   ├── joint45_cover.part
-│   │   │   │   ├── joint45_cover.stl
-│   │   │   │   ├── joint45_pds.part
-│   │   │   │   ├── joint45_pds.stl
-│   │   │   │   ├── joint45_structur.part
-│   │   │   │   ├── joint45_structur.stl
-│   │   │   │   ├── joint56.part
-│   │   │   │   ├── joint56.stl
-│   │   │   │   ├── joint67_pds.part
-│   │   │   │   ├── joint67_pds.stl
-│   │   │   │   ├── joint67_structur.part
-│   │   │   │   ├── joint67_structur.stl
-│   │   │   │   ├── lbr7_med_base.part
-│   │   │   │   ├── lbr7_med_base.stl
-│   │   │   │   ├── lbr7_med_joint12_structure.part
-│   │   │   │   ├── lbr7_med_joint12_structure.stl
-│   │   │   │   ├── lbr7_med_joint23_cover.part
-│   │   │   │   ├── lbr7_med_joint23_cover.stl
-│   │   │   │   ├── lbr7_med_joint23_pds.part
-│   │   │   │   ├── lbr7_med_joint23_pds.stl
-│   │   │   │   ├── lbr7_med_joint23_structure.part
-│   │   │   │   ├── lbr7_med_joint23_structure.stl
-│   │   │   │   ├── mf_cover.part
-│   │   │   │   ├── mf_cover.stl
-│   │   │   │   ├── mf_structur.part
-│   │   │   │   └── mf_structur.stl
-│   │   │   ├── LBR7Med_stp
-│   │   │   │   ├── Base_structure.stp
-│   │   │   │   ├── Joint12_structure.stp
-│   │   │   │   ├── Joint23_cover.stp
-│   │   │   │   ├── Joint23_pds.stp
-│   │   │   │   ├── Joint23.stp
-│   │   │   │   ├── Joint23_structure.stp
-│   │   │   │   ├── Joint34_structur.stp
-│   │   │   │   ├── Joint45_cover1.stp
-│   │   │   │   ├── Joint45_pds.stp
-│   │   │   │   ├── Joint45.stp
-│   │   │   │   ├── Joint45_structur.stp
-│   │   │   │   ├── Joint56_structur.stp
-│   │   │   │   ├── Joint67_pds.stp
-│   │   │   │   ├── Joint67.stp
-│   │   │   │   ├── Joint67_structur.stp
-│   │   │   │   ├── LBR7_ROS_simplification.stp
-│   │   │   │   ├── MF_cover.stp
-│   │   │   │   ├── MF.stp
-│   │   │   │   └── MF_structur.stp
-│   │   │   └── LBR7Med.urdf
-│   │   └── LBR14
-│   │       ├── URDF
-│   │       │   └── LBR14_R820_Med
-│   │       │       ├── LBR14Med_parts
-│   │       │       │   ├── base_cover.part
-│   │       │       │   ├── base_cover.stl
-│   │       │       │   ├── base_structur.part
-│   │       │       │   ├── base_structur.stl
-│   │       │       │   ├── joint12_structur.part
-│   │       │       │   ├── joint12_structur.stl
-│   │       │       │   ├── joint23_cover.part
-│   │       │       │   ├── joint23_cover.stl
-│   │       │       │   ├── joint23_pds.part
-│   │       │       │   ├── joint23_pds.stl
-│   │       │       │   ├── joint23_structur.part
-│   │       │       │   ├── joint23_structur.stl
-│   │       │       │   ├── joint34_structur.part
-│   │       │       │   ├── joint34_structur.stl
-│   │       │       │   ├── joint45_cover.part
-│   │       │       │   ├── joint45_cover.stl
-│   │       │       │   ├── joint45_pds.part
-│   │       │       │   ├── joint45_pds.stl
-│   │       │       │   ├── joint45_structur.part
-│   │       │       │   ├── joint45_structur.stl
-│   │       │       │   ├── joint56_structur.part
-│   │       │       │   ├── joint56_structur.stl
-│   │       │       │   ├── joint67_pds.part
-│   │       │       │   ├── joint67_pds.stl
-│   │       │       │   ├── joint67_structur.part
-│   │       │       │   ├── joint67_structur.stl
-│   │       │       │   ├── mf_cover.part
-│   │       │       │   ├── mf_cover.stl
-│   │       │       │   ├── mf_structur.part
-│   │       │       │   └── mf_structur.stl
-│   │       │       ├── LBR14Med_stp
-│   │       │       │   ├── Base_cover.stp
-│   │       │       │   ├── Base_structur.stp
-│   │       │       │   ├── Joint12_structur.stp
-│   │       │       │   ├── Joint23_cover.stp
-│   │       │       │   ├── Joint23_pds.stp
-│   │       │       │   ├── Joint23_structur.stp
-│   │       │       │   ├── Joint34_structur.stp
-│   │       │       │   ├── Joint45_cover.stp
-│   │       │       │   ├── Joint45_pds.stp
-│   │       │       │   ├── Joint45_structur.stp
-│   │       │       │   ├── Joint56_structur.stp
-│   │       │       │   ├── Joint67_pds.stp
-│   │       │       │   ├── Joint67_structur.stp
-│   │       │       │   ├── MF_cover.stp
-│   │       │       │   └── MF_structur.stp
-│   │       │       └── LBR14Med.urdf
-│   │       └── USD
-│   │           └── LBR14Med
-│   │               ├── configuration
-│   │               │   ├── LBR14Med_base.usd
-│   │               │   ├── LBR14Med_physics.usd
-│   │               │   ├── LBR14Med_robot.usd
-│   │               │   └── LBR14Med_sensor.usd
-│   │               └── LBR14Med.usd
+│   ├── KUKA_LBR
+│   │   ├── LBR14
+│   │   │   ├── URDF
+│   │   │   │   └── LBR14_R820_Med
+│   │   │   │       ├── LBR14Med_parts
+│   │   │   │       │   ├── base_cover.part
+│   │   │   │       │   ├── base_cover.stl
+│   │   │   │       │   ├── base_structur.part
+│   │   │   │       │   ├── base_structur.stl
+│   │   │   │       │   ├── joint12_structur.part
+│   │   │   │       │   ├── joint12_structur.stl
+│   │   │   │       │   ├── joint23_cover.part
+│   │   │   │       │   ├── joint23_cover.stl
+│   │   │   │       │   ├── joint23_pds.part
+│   │   │   │       │   ├── joint23_pds.stl
+│   │   │   │       │   ├── joint23_structur.part
+│   │   │   │       │   ├── joint23_structur.stl
+│   │   │   │       │   ├── joint34_structur.part
+│   │   │   │       │   ├── joint34_structur.stl
+│   │   │   │       │   ├── joint45_cover.part
+│   │   │   │       │   ├── joint45_cover.stl
+│   │   │   │       │   ├── joint45_pds.part
+│   │   │   │       │   ├── joint45_pds.stl
+│   │   │   │       │   ├── joint45_structur.part
+│   │   │   │       │   ├── joint45_structur.stl
+│   │   │   │       │   ├── joint56_structur.part
+│   │   │   │       │   ├── joint56_structur.stl
+│   │   │   │       │   ├── joint67_pds.part
+│   │   │   │       │   ├── joint67_pds.stl
+│   │   │   │       │   ├── joint67_structur.part
+│   │   │   │       │   ├── joint67_structur.stl
+│   │   │   │       │   ├── mf_cover.part
+│   │   │   │       │   ├── mf_cover.stl
+│   │   │   │       │   ├── mf_structur.part
+│   │   │   │       │   └── mf_structur.stl
+│   │   │   │       ├── LBR14Med_stp
+│   │   │   │       │   ├── Base_cover.stp
+│   │   │   │       │   ├── Base_structur.stp
+│   │   │   │       │   ├── Joint12_structur.stp
+│   │   │   │       │   ├── Joint23_cover.stp
+│   │   │   │       │   ├── Joint23_pds.stp
+│   │   │   │       │   ├── Joint23_structur.stp
+│   │   │   │       │   ├── Joint34_structur.stp
+│   │   │   │       │   ├── Joint45_cover.stp
+│   │   │   │       │   ├── Joint45_pds.stp
+│   │   │   │       │   ├── Joint45_structur.stp
+│   │   │   │       │   ├── Joint56_structur.stp
+│   │   │   │       │   ├── Joint67_pds.stp
+│   │   │   │       │   ├── Joint67_structur.stp
+│   │   │   │       │   ├── MF_cover.stp
+│   │   │   │       │   └── MF_structur.stp
+│   │   │   │       └── LBR14Med.urdf
+│   │   │   └── USD
+│   │   │       └── LBR14Med
+│   │   │           ├── configuration
+│   │   │           │   ├── LBR14Med_base.usd
+│   │   │           │   ├── LBR14Med_physics.usd
+│   │   │           │   ├── LBR14Med_robot.usd
+│   │   │           │   └── LBR14Med_sensor.usd
+│   │   │           └── LBR14Med.usd
+│   │   └── LBR7_R800_Med
+│   │       ├── LBR7Med_parts
+│   │       │   ├── joint34.part
+│   │       │   ├── joint34.stl
+│   │       │   ├── joint45_cover.part
+│   │       │   ├── joint45_cover.stl
+│   │       │   ├── joint45_pds.part
+│   │       │   ├── joint45_pds.stl
+│   │       │   ├── joint45_structur.part
+│   │       │   ├── joint45_structur.stl
+│   │       │   ├── joint56.part
+│   │       │   ├── joint56.stl
+│   │       │   ├── joint67_pds.part
+│   │       │   ├── joint67_pds.stl
+│   │       │   ├── joint67_structur.part
+│   │       │   ├── joint67_structur.stl
+│   │       │   ├── lbr7_med_base.part
+│   │       │   ├── lbr7_med_base.stl
+│   │       │   ├── lbr7_med_joint12_structure.part
+│   │       │   ├── lbr7_med_joint12_structure.stl
+│   │       │   ├── lbr7_med_joint23_cover.part
+│   │       │   ├── lbr7_med_joint23_cover.stl
+│   │       │   ├── lbr7_med_joint23_pds.part
+│   │       │   ├── lbr7_med_joint23_pds.stl
+│   │       │   ├── lbr7_med_joint23_structure.part
+│   │       │   ├── lbr7_med_joint23_structure.stl
+│   │       │   ├── mf_cover.part
+│   │       │   ├── mf_cover.stl
+│   │       │   ├── mf_structur.part
+│   │       │   └── mf_structur.stl
+│   │       ├── LBR7Med_stp
+│   │       │   ├── Base_structure.stp
+│   │       │   ├── Joint12_structure.stp
+│   │       │   ├── Joint23_cover.stp
+│   │       │   ├── Joint23_pds.stp
+│   │       │   ├── Joint23.stp
+│   │       │   ├── Joint23_structure.stp
+│   │       │   ├── Joint34_structur.stp
+│   │       │   ├── Joint45_cover1.stp
+│   │       │   ├── Joint45_pds.stp
+│   │       │   ├── Joint45.stp
+│   │       │   ├── Joint45_structur.stp
+│   │       │   ├── Joint56_structur.stp
+│   │       │   ├── Joint67_pds.stp
+│   │       │   ├── Joint67.stp
+│   │       │   ├── Joint67_structur.stp
+│   │       │   ├── LBR7_ROS_simplification.stp
+│   │       │   ├── MF_cover.stp
+│   │       │   ├── MF.stp
+│   │       │   └── MF_structur.stp
+│   │       └── LBR7Med.urdf
+│   ├── Kinova
+│   │   └── KIMA
+│   │       ├── config
+│   │       │   └── joint_names_L3M_URDF_P1.yaml
+│   │       ├── meshes
+│   │       │   ├── base_link.STL
+│   │       │   ├── link_J1_J2.STL
+│   │       │   ├── link_J2_J3.STL
+│   │       │   ├── link_J3_J4.STL
+│   │       │   ├── link_J4_J5.STL
+│   │       │   ├── link_J5_J6.STL
+│   │       │   ├── link_J6_J7.STL
+│   │       │   └── link_J7_TIF.STL
+│   │       ├── urdf
+│   │       │   └── L3M.urdf
+│   │       └── USD
+│   │           └── L3M
+│   │               ├── configuration
+│   │               │   ├── L3M_base.usd
+│   │               │   ├── L3M_physics.usd
+│   │               │   ├── L3M_robot.usd
+│   │               │   └── L3M_sensor.usd
+│   │               └── L3M.usd
 │   ├── MIRA
 │   │   ├── mira-bipo-size-experiment-smoothing.usd
 │   │   ├── suture-needle.usd
@@ -2898,17 +2939,245 @@
 │   │   └── SO-ARMDualCamera.usd
 │   ├── STAR
 │   │   └── star.usd
-│   └── UnitreeG1
-│       ├── g1_29dof_wholebody_dex3
-│       │   ├── configuration
-│       │   │   ├── g1_29dof_with_dex3_rev_1_0_base.usd
-│       │   │   ├── g1_29dof_with_dex3_rev_1_0_physics.usd
-│       │   │   └── g1_29dof_with_dex3_rev_1_0_sensor.usd
-│       │   ├── config.yaml
-│       │   └── g1_29dof_with_dex3_rev_1_0.usd
-│       └── g1_29dof_with_dex3_base_fix
-│           └── g1_29dof_with_dex3_base_fix.usd
+│   ├── UnitreeG1
+│   │   ├── g1_29dof_wholebody_dex3
+│   │   │   ├── configuration
+│   │   │   │   ├── g1_29dof_with_dex3_rev_1_0_base.usd
+│   │   │   │   ├── g1_29dof_with_dex3_rev_1_0_physics.usd
+│   │   │   │   └── g1_29dof_with_dex3_rev_1_0_sensor.usd
+│   │   │   ├── config.yaml
+│   │   │   └── g1_29dof_with_dex3_rev_1_0.usd
+│   │   ├── g1_29dof_with_dex3_base_fix
+│   │   │   └── g1_29dof_with_dex3_base_fix.usd
+│   │   └── g1_29dof_with_inspire_rev_1_0
+│   │       └── g1_29dof_with_inspire_rev_1_0.usd
+│   └── UnitreeH2
+│       └── h2_with_sharpa
+│           ├── H2_with_sharpa_flat.usd
+│           ├── teleop_configs
+│           │   ├── sharpa_wave_left_dexpilot.yml
+│           │   └── sharpa_wave_right_dexpilot.yml
+│           └── urdf
+│               ├── H2_with_sharpa_hands.urdf
+│               ├── meshes
+│               │   ├── head_pitch_link.stl
+│               │   ├── head_yaw_link.stl
+│               │   ├── left_ankle_pitch_link.stl
+│               │   ├── left_ankle_roll_link.stl
+│               │   ├── left_elbow_link.stl
+│               │   ├── left_hand_index_0_link.stl
+│               │   ├── left_hand_index_1_link.stl
+│               │   ├── left_hand_middle_0_link.stl
+│               │   ├── left_hand_middle_1_link.stl
+│               │   ├── left_hand_palm_link.stl
+│               │   ├── left_hand_thumb_0_link.stl
+│               │   ├── left_hand_thumb_1_link.stl
+│               │   ├── left_hand_thumb_2_link.stl
+│               │   ├── left_hip_pitch_link.stl
+│               │   ├── left_hip_roll_link.stl
+│               │   ├── left_hip_yaw_link.stl
+│               │   ├── left_knee_link.stl
+│               │   ├── left_shoulder_pitch_link.stl
+│               │   ├── left_shoulder_roll_link.stl
+│               │   ├── left_shoulder_yaw_link.stl
+│               │   ├── left_wrist_pitch_link.stl
+│               │   ├── left_wrist_roll_link.stl
+│               │   ├── left_wrist_yaw_link.stl
+│               │   ├── pelvis.stl
+│               │   ├── right_ankle_pitch_link.stl
+│               │   ├── right_ankle_roll_link.stl
+│               │   ├── right_elbow_link.stl
+│               │   ├── right_hand_index_0_link.stl
+│               │   ├── right_hand_index_1_link.stl
+│               │   ├── right_hand_middle_0_link.stl
+│               │   ├── right_hand_middle_1_link.stl
+│               │   ├── right_hand_palm_link.stl
+│               │   ├── right_hand_thumb_0_link.stl
+│               │   ├── right_hand_thumb_1_link.stl
+│               │   ├── right_hand_thumb_2_link.stl
+│               │   ├── right_hip_pitch_link.stl
+│               │   ├── right_hip_roll_link.stl
+│               │   ├── right_hip_yaw_link.stl
+│               │   ├── right_knee_link.stl
+│               │   ├── right_shoulder_pitch_link.stl
+│               │   ├── right_shoulder_roll_link.stl
+│               │   ├── right_shoulder_yaw_link.stl
+│               │   ├── right_wrist_pitch_link.stl
+│               │   ├── right_wrist_roll_link.stl
+│               │   ├── right_wrist_yaw_link.stl
+│               │   ├── sharpa_left
+│               │   │   ├── DP_elastomer_HB1_4F.STL
+│               │   │   ├── DP_elastomer_HB1_TH.STL
+│               │   │   ├── DP_elastomer.STL
+│               │   │   ├── DP_HB1_4F.STL
+│               │   │   ├── DP_HB1_TH.STL
+│               │   │   ├── DP_visual_HB1_4F.STL
+│               │   │   ├── DP_Visual_HB1_TH.STL
+│               │   │   ├── elastomer_HB1_4F.STL
+│               │   │   ├── elastomer_HB1_TH.STL
+│               │   │   ├── elastomer.STL
+│               │   │   ├── elastomer_surface.STL
+│               │   │   ├── flange_A.STL
+│               │   │   ├── flange_B.STL
+│               │   │   ├── left_DP.STL
+│               │   │   ├── left_DP_visual.STL
+│               │   │   ├── left_hand_C_MC.STL
+│               │   │   ├── left_hand_C_MC_visual.STL
+│               │   │   ├── left_hand_C_MC_visual_.STL
+│               │   │   ├── left_MCP_VL_visual.STL
+│               │   │   ├── left_MP.STL
+│               │   │   ├── left_MP_visual.STL
+│               │   │   ├── left_pinky_MC.STL
+│               │   │   ├── left_pinky_MC_visual.STL
+│               │   │   ├── left_PP.STL
+│               │   │   ├── left_PP_visual.STL
+│               │   │   ├── left_thumb_CMC_VL.STL
+│               │   │   ├── left_thumb_DP.STL
+│               │   │   ├── left_thumb_DP_visual.STL
+│               │   │   ├── left_thumb_MCP_VL_visual.STL
+│               │   │   ├── left_thumb_MC.STL
+│               │   │   ├── left_thumb_MC_visual.STL
+│               │   │   ├── left_thumb_PP.STL
+│               │   │   ├── left_thumb_PP_visual.STL
+│               │   │   ├── MCP_VL.STL
+│               │   │   ├── thumb_DP_elastomer.STL
+│               │   │   ├── thumb_elastomer.STL
+│               │   │   ├── thumb_elastomer_surface.STL
+│               │   │   ├── wrist_A.STL
+│               │   │   ├── wrist_B.STL
+│               │   │   └── wrist_collision.STL
+│               │   ├── sharpa_right
+│               │   │   ├── DP_elastomer_HB1_4F.STL
+│               │   │   ├── DP_elastomer_HB1_TH.STL
+│               │   │   ├── DP_elastomer.STL
+│               │   │   ├── DP_HB1_4F.STL
+│               │   │   ├── DP_HB1_TH.STL
+│               │   │   ├── DP_visual_HB1_4F.STL
+│               │   │   ├── DP_Visual_HB1_TH.STL
+│               │   │   ├── elastomer_HB1_4F.STL
+│               │   │   ├── elastomer_HB1_TH.STL
+│               │   │   ├── elastomer.STL
+│               │   │   ├── elastomer_surface.STL
+│               │   │   ├── flange_A.STL
+│               │   │   ├── flange_B.STL
+│               │   │   ├── MCP_VL.STL
+│               │   │   ├── right_DP.STL
+│               │   │   ├── right_DP_visual.STL
+│               │   │   ├── right_hand_C_MC.STL
+│               │   │   ├── right_hand_C_MC_visual.STL
+│               │   │   ├── right_hand_C_MC_visual_.STL
+│               │   │   ├── right_MCP_VL_visual.STL
+│               │   │   ├── right_MP.STL
+│               │   │   ├── right_MP_visual.STL
+│               │   │   ├── right_pinky_MC.STL
+│               │   │   ├── right_pinky_MC_visual.STL
+│               │   │   ├── right_PP.STL
+│               │   │   ├── right_PP_visual.STL
+│               │   │   ├── right_thumb_CMC_VL_visual.STL
+│               │   │   ├── right_thumb_DP.STL
+│               │   │   ├── right_thumb_DP_visual.STL
+│               │   │   ├── right_thumb_MCP_VL_visual.STL
+│               │   │   ├── right_thumb_MC.STL
+│               │   │   ├── right_thumb_MC_visual.STL
+│               │   │   ├── right_thumb_PP.STL
+│               │   │   ├── right_thumb_PP_visual.STL
+│               │   │   ├── thumb_DP_elastomer.STL
+│               │   │   ├── thumb_elastomer.STL
+│               │   │   ├── thumb_elastomer_surface.STL
+│               │   │   ├── wrist_A.STL
+│               │   │   ├── wrist_B.STL
+│               │   │   └── wrist_collision.STL
+│               │   ├── torso_link.stl
+│               │   ├── waist_roll_link.stl
+│               │   └── waist_yaw_link.stl
+│               └── sharpa_standalone
+│                   ├── left_sharpa_wave.urdf
+│                   ├── meshes_left
+│                   │   ├── DP_elastomer_HB1_4F.STL
+│                   │   ├── DP_elastomer_HB1_TH.STL
+│                   │   ├── DP_elastomer.STL
+│                   │   ├── DP_HB1_4F.STL
+│                   │   ├── DP_HB1_TH.STL
+│                   │   ├── DP_visual_HB1_4F.STL
+│                   │   ├── DP_Visual_HB1_TH.STL
+│                   │   ├── elastomer_HB1_4F.STL
+│                   │   ├── elastomer_HB1_TH.STL
+│                   │   ├── elastomer.STL
+│                   │   ├── elastomer_surface.STL
+│                   │   ├── flange_A.STL
+│                   │   ├── flange_B.STL
+│                   │   ├── left_DP.STL
+│                   │   ├── left_DP_visual.STL
+│                   │   ├── left_hand_C_MC.STL
+│                   │   ├── left_hand_C_MC_visual.STL
+│                   │   ├── left_hand_C_MC_visual_.STL
+│                   │   ├── left_MCP_VL_visual.STL
+│                   │   ├── left_MP.STL
+│                   │   ├── left_MP_visual.STL
+│                   │   ├── left_pinky_MC.STL
+│                   │   ├── left_pinky_MC_visual.STL
+│                   │   ├── left_PP.STL
+│                   │   ├── left_PP_visual.STL
+│                   │   ├── left_thumb_CMC_VL.STL
+│                   │   ├── left_thumb_DP.STL
+│                   │   ├── left_thumb_DP_visual.STL
+│                   │   ├── left_thumb_MCP_VL_visual.STL
+│                   │   ├── left_thumb_MC.STL
+│                   │   ├── left_thumb_MC_visual.STL
+│                   │   ├── left_thumb_PP.STL
+│                   │   ├── left_thumb_PP_visual.STL
+│                   │   ├── MCP_VL.STL
+│                   │   ├── thumb_DP_elastomer.STL
+│                   │   ├── thumb_elastomer.STL
+│                   │   ├── thumb_elastomer_surface.STL
+│                   │   ├── wrist_A.STL
+│                   │   ├── wrist_B.STL
+│                   │   └── wrist_collision.STL
+│                   ├── meshes_right
+│                   │   ├── DP_elastomer_HB1_4F.STL
+│                   │   ├── DP_elastomer_HB1_TH.STL
+│                   │   ├── DP_elastomer.STL
+│                   │   ├── DP_HB1_4F.STL
+│                   │   ├── DP_HB1_TH.STL
+│                   │   ├── DP_visual_HB1_4F.STL
+│                   │   ├── DP_Visual_HB1_TH.STL
+│                   │   ├── elastomer_HB1_4F.STL
+│                   │   ├── elastomer_HB1_TH.STL
+│                   │   ├── elastomer.STL
+│                   │   ├── elastomer_surface.STL
+│                   │   ├── flange_A.STL
+│                   │   ├── flange_B.STL
+│                   │   ├── MCP_VL.STL
+│                   │   ├── right_DP.STL
+│                   │   ├── right_DP_visual.STL
+│                   │   ├── right_hand_C_MC.STL
+│                   │   ├── right_hand_C_MC_visual.STL
+│                   │   ├── right_hand_C_MC_visual_.STL
+│                   │   ├── right_MCP_VL_visual.STL
+│                   │   ├── right_MP.STL
+│                   │   ├── right_MP_visual.STL
+│                   │   ├── right_pinky_MC.STL
+│                   │   ├── right_pinky_MC_visual.STL
+│                   │   ├── right_PP.STL
+│                   │   ├── right_PP_visual.STL
+│                   │   ├── right_thumb_CMC_VL_visual.STL
+│                   │   ├── right_thumb_DP.STL
+│                   │   ├── right_thumb_DP_visual.STL
+│                   │   ├── right_thumb_MCP_VL_visual.STL
+│                   │   ├── right_thumb_MC.STL
+│                   │   ├── right_thumb_MC_visual.STL
+│                   │   ├── right_thumb_PP.STL
+│                   │   ├── right_thumb_PP_visual.STL
+│                   │   ├── thumb_DP_elastomer.STL
+│                   │   ├── thumb_elastomer.STL
+│                   │   ├── thumb_elastomer_surface.STL
+│                   │   ├── wrist_A.STL
+│                   │   ├── wrist_B.STL
+│                   │   └── wrist_collision.STL
+│                   └── right_sharpa_wave.urdf
 └── Test
     └── basic.usda
+
+538 directories, 2636 files
 
 ```

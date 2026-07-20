@@ -1,5 +1,11 @@
 # Isaac for Healthcare - Sim-Ready Assets - Change log
 
+## Version 0.7.0
+
+- Added KUKA LBR7Med robot assets.
+- Added Lightwheel deformable cloth task assets.
+- Added Kinova KIMA robot assets.
+
 ## Version 0.6.0
 
 - Added KUKA LBR14Med robot.
