@@ -1,3 +1,6 @@
+> 💡 **IMPORTANT NOTE:** This repository has been archived. Content has been moved to the following repository
+> * https://github.com/isaac-for-healthcare/i4h-digital-twin
+
 # Isaac for Healthcare - Sim-Ready Assets
 
 The Isaac for Healthcare (i4h) Sim-Ready Assets is a collection of assets that are used to create the i4h simulation environment.
